@@ -7,7 +7,8 @@ usage: brew versions [--all] FORMULA...
 
 Overview:
   Print version and commit history of FORMULA. By default only the latest
-  commit for each FORMULA version is shown.
+  commit for each FORMULA version is shown. The history is only reported
+  from the first tap in which an instance of FORMULA is found.
 
 Options:
   --all        Show all commits that touched FORMULA
@@ -33,7 +34,8 @@ ARGV.formulae.each do |f|
   versions.rev_list("HEAD") do |rev|
     oldf = versions.formula_at_revision(rev) { |f| f }
     next if oldf.nil?
-    puts "#{oldf.name} #{Tty.white}#{oldf.pkg_version.to_s.ljust(8)}#{Tty.reset} #{rev} #{versions.entry_name}" if ARGV.include?('--all') or seen_versions.add?(oldf.pkg_version)
+
+    puts "#{oldf.name} #{Tty.white}#{oldf.pkg_version.to_s.ljust(8)}#{Tty.reset} #{rev} #{f.tap} #{versions.entry_name}" if ARGV.include?('--all') or seen_versions.add?(oldf.pkg_version)
   end
 end
 
