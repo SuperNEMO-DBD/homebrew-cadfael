@@ -6,6 +6,10 @@ class Cadfael < Formula
 
   keg_only "Requirement and version tracking formula only"
 
+  # Basic toolset
+  depends_on "pkg-config"
+  depends_on "python"
+
   depends_on "boost"
   depends_on "camp"
   depends_on "clhep"
