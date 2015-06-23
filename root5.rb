@@ -9,8 +9,9 @@ class Root5 < Formula
    patch :DATA
 
    depends_on "cmake" => :build
-   depends_on "gsl" => :recommended
+   depends_on "openssl"
 
+   depends_on "gsl" => :recommended
    option :cxx11
    depends_on :python => :optional
 
