@@ -42,28 +42,10 @@ class Root5 < Formula
 end
 __END__
 diff --git a/cmake/modules/RootBuildOptions.cmake b/cmake/modules/RootBuildOptions.cmake
-index a89bb53..a09967b 100644
+index 09ed495..298ebc0 100644
 --- a/cmake/modules/RootBuildOptions.cmake
 +++ b/cmake/modules/RootBuildOptions.cmake
-@@ -8,7 +8,7 @@ function(ROOT_BUILD_OPTION name defvalue)
-     set(description ${ARGN})
-   else()
-     set(description " ")
--  endif()    
-+  endif()
-   option(${name} "${description}" ${defvalue})
-   set(root_build_options ${root_build_options} ${name} PARENT_SCOPE )
- endfunction()
-@@ -184,7 +184,7 @@ ROOT_BUILD_OPTION(xft ON "Xft support (X11 antialiased fonts)")
- ROOT_BUILD_OPTION(xml ON "XML parser interface")
- ROOT_BUILD_OPTION(x11 ${x11_defvalue} "X11 support")
- ROOT_BUILD_OPTION(xrootd ON "Build xrootd file server and its client (if supported)")
--  
-+
- option(fail-on-missing "Fail the configure step if a required external package is missing" OFF)
- option(minimal "Do not automatically search for support libraries" OFF)
- option(gminimal "Do not automatically search for support libraries, but include X11" OFF)
-@@ -196,21 +196,6 @@ if(DEFINED c++11)   # For backward compatibility
+@@ -197,21 +197,6 @@ if(DEFINED c++11)   # For backward compatibility
    set(cxx11 ${c++11} CACHE BOOL "" FORCE)
  endif()
  
@@ -85,7 +67,7 @@ index a89bb53..a09967b 100644
  #---Avoid creating dependencies to 'non-statndard' header files -------------------------------
  include_regular_expression("^[^.]+$|[.]h$|[.]icc$|[.]hxx$|[.]hpp$")
  
-@@ -236,6 +221,21 @@ endif()
+@@ -229,6 +214,20 @@ endif()
  #---Add Installation Variables------------------------------------------------------------------
  include(RootInstallDirs)
  
@@ -93,7 +75,7 @@ index a89bb53..a09967b 100644
 +# use, i.e. don't skip the full RPATH for the build tree
 +set(CMAKE_SKIP_BUILD_RPATH  FALSE)
 +# when building, don't use the install RPATH already (but later on when installing)
-+set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
++set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) 
 +# add the automatically determined parts of the RPATH
 +# which point to directories outside the build tree to the install RPATH
 +set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
@@ -101,7 +83,62 @@ index a89bb53..a09967b 100644
 +# the RPATH to be used when installing---------------------------------------------------------
 +if(rpath)
 +  set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_FULL_LIBDIR}")
-+  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
++  set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
 +endif()
-+
+ 
+ 
+ 
+diff --git a/cmake/modules/SetUpLinux.cmake b/cmake/modules/SetUpLinux.cmake
+index 080f38a..b1d0a30 100644
+--- a/cmake/modules/SetUpLinux.cmake
++++ b/cmake/modules/SetUpLinux.cmake
+@@ -54,7 +54,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
+   set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS}")
+   set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS}")
+ 
+-  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
++  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+ 
+   # Select flags.
+   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DNDEBUG")
+@@ -89,7 +89,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+   set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS}")
+   set(CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_CXX_FLAGS}")
+ 
+-  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
++  set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+ 
+   # Select flags.
+   set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -DNDEBUG")
+@@ -145,25 +145,25 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL Intel)
+   if(ICC_MAJOR EQUAL 11)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279")
+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined")
++    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+   endif()
+ 
+   if(ICC_MAJOR EQUAL 12)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279")
+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined")
++    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+   endif()
+ 
+   if(ICC_MAJOR EQUAL 13)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279")
+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined")
++    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+   endif()
+ 
+   if(ICC_MAJOR EQUAL 14)
+     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279 -wd2536 -wd873")
+     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${BIT_ENVIRONMENT} -wd1572 -wd279 -wd2536 -wd873")
+-    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined")
++    set(CMAKE_SHARED_LINKER_FLAGS "${BIT_ENVIRONMENT} -Wl,--no-undefined ${CMAKE_SHARED_LINKER_FLAGS}")
+   endif()
+ 
+   set(CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS "${CMAKE_SHARED_LIBRARY_CREATE_C_FLAGS}")
+
 
