@@ -12,6 +12,7 @@ class Root5 < Formula
    option :cxx11
    
    depends_on "openssl"
+   depends_on "freetype"
    depends_on "gsl" => :recommended
    depends_on :python => :optional
 
@@ -31,6 +32,13 @@ class Root5 < Formula
        args << "-Dmathmore=OFF" unless build.with? "gsl"
        args << "-Drpath=ON"
        args << "-Dsoversion=ON"
+       # May need these, unless we dep on freetype
+       # Issue is that CMake will find system freetype, but
+       # then builtin_asimage uses pkg-config to build and that
+       # cannot find system freetype because it does it via pkg-config
+       # and Homebrew overrides that
+       #args << "-Dbuiltin_asimage=ON"
+       #args << "-Dbuiltin_freetype=ON" if OS.linux?
 
        # NB, need to patch RootBuildOptions to set INSTALL RPATH correctly
        # Then probably also need RPATH use link path to find HB libdir
