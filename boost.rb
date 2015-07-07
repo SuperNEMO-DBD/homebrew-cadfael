@@ -44,8 +44,8 @@ class Boost < Formula
 
   option :universal
   option 'with-icu', 'Build regexp engine with icu support'
-  option 'without-single', 'Disable building single-threading variant'
-  option 'without-static', 'Disable building static library variant'
+  option 'with-single', 'Enable building single-threading variant'
+  option 'with-static', 'Enable building static library variant'
   option 'with-mpi', 'Build with MPI support'
   option :cxx11
 
