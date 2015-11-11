@@ -11,6 +11,11 @@ class XercesC < Formula
     sha256 "78151ef964ad93024e36e53e48fb23fa338fdb1b1a347699ec56d8d18c30118c" => :mountain_lion
   end
 
+  depends_on "cmake" => :build
+  resource "XercesCCMakeSupport" do
+    url "https://github.com/SuperNEMO-DBD/XercesCCMakeSupport.git", :using => :git
+  end
+
   option :universal
 
   def install
@@ -22,6 +27,16 @@ class XercesC < Formula
     # Remove a sample program that conflicts with libmemcached
     # on case-insensitive file systems
     (bin/"MemParse").unlink
+
+    # Install cmake support files
+    resources.each do |r|
+      r.stage do
+        xercesc_support_args = std_cmake_args
+        xercesc_support_args << "-Dxercesc_VERSION=#{version}"
+        system "cmake", *xercesc_support_args
+        system "make install"
+      end
+    end
   end
 
   test do
