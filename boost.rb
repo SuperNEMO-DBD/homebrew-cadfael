@@ -40,6 +40,12 @@ class Boost < Formula
     sha1 "da4fb2a221fd83f50741f757eefe4bc38b5e910c" => :lion
   end
 
+  # CMake Support resource
+  depends_on "cmake" => :build
+  resource "BoostCMakeSupport" do
+    url "https://github.com/SuperNEMO-DBD/BoostCMakeSupport.git", :using => :git
+  end
+
   env :userpaths
 
   option :universal
@@ -219,6 +225,17 @@ class Boost < Formula
 
     system "./bootstrap.sh", *bargs
     system "./b2", *args
+
+    # Install cmake support files
+    resources.each do |r|
+      r.stage do
+        boost_support_args = std_cmake_args
+        boost_support_args << "-Dboost_VERSION=#{version}"
+        boost_support_args << "-Dboost_SINGLE=TRUE" if build.with? "single"
+        boost_support_args << "-Dboost_STATIC=TRUE" if build.with? "static"
+        system "cmake", *boost_support_args
+      end
+    end
   end
 
   def caveats
