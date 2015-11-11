@@ -13,6 +13,7 @@ class Cadfael < Formula
   depends_on "boost"
   depends_on "camp"
   depends_on "clhep"
+  depends_on "doxygen"
   depends_on "geant4"
   depends_on "gsl"
   depends_on "root5"
