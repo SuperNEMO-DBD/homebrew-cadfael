@@ -4,6 +4,7 @@ class Bayeux < Formula
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.0.1-Source.tar.bz2"
   version "2.0.1"
   sha256 "8a1db5cc6d032a034e79560248328c1bc45b5fda700a47e6fa3bcd1096fa2909"
+  revision 1
 
   depends_on "cmake" => :build
   depends_on "boost"
@@ -12,6 +13,7 @@ class Bayeux < Formula
   depends_on "gsl"
   depends_on "readline"
   depends_on "root5"
+  depends_on "geant4"
 
   def install
     mkdir "bayeux.build" do
