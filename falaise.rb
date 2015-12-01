@@ -11,6 +11,7 @@ class Falaise < Formula
   def install
     mkdir "falaise.build" do
       fl_cmake_args = std_cmake_args
+      fl_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"
       fl_cmake_args << "-DFalaise_USE_SYSTEM_BAYEUX=ON"
       system "cmake", "..", *fl_cmake_args
       system "make", "install"
