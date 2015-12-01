@@ -2,6 +2,32 @@
 Custom Formulae and Commands for SuperNEMO's cadfaelbrew fork of
 Linux/Homebrew.
 
+# Quickstart
+```
+$ brew install cadfael falaise
+```
+
+# Formulae
+CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory.
+The main formula is `cadfael`, which exists as a pure dependency formulae to install the
+base set of software packages:
+
+- Boost
+- ROOT
+- GSL
+- CAMP
+- CLHEP
+- XercesC
+- Geant4
+- Doxygen
+- Python
+
+In addition, formulae for the SuperNEMO-DBD specific software are provided:
+
+- Bayeux C++ Core Foundation Library
+- Falaise C++ Simulation/Reconstruction/Analysis Applications
+
+
 # Commands
 ## `brew-versions.rb`
 Cadfael-supplied implementation of the old `versions` subcommand. This
