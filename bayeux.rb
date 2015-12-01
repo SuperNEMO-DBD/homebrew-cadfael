@@ -17,7 +17,9 @@ class Bayeux < Formula
 
   def install
     mkdir "bayeux.build" do
-      system "cmake", "..", *std_cmake_args
+      bx_cmake_args = std_cmake_args
+      bx_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"
+      system "cmake", "..", *bx_cmake_args
       system "make", "install"
     end
   end
