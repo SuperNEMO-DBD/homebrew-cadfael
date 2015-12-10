@@ -22,6 +22,17 @@ base set of software packages:
 - Doxygen
 - Python
 
+On Linux systems, GNU GCC and binutils are also installed to support C++11/14.
+GCC is supplied as a versioned formula (plus its core dependencies) to allow 
+future upgrades in a (hopefully) seamless manner via use of `keg_only`.
+
+- Current compiler kit:
+  - GCC 4.9
+  - binutils [from upstream linuxbrew]
+- Future compiler kit:
+  - GCC 5/6
+  - Dependent on ABI changes and defaults
+
 In addition, formulae for the SuperNEMO-DBD specific software are provided:
 
 - Bayeux C++ Core Foundation Library
@@ -52,5 +63,5 @@ last commit to touch the formula at this version and the Formula filepath
 A complete history of the version/commits touching the formula may be
 viewed by passing the `--all` argument. This can be useful for resolving
 potential conflicts caused by version reverts or merges from Homebrew to
-Linuxbrew.
+Linuxbrew as the merge commit may not show as the one where the version changed.
 
