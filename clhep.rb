@@ -5,12 +5,15 @@ class Clhep < Formula
   url "http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-2.1.3.1.tgz"
   sha1 "3ef0b7410d71ca25bb2f5b5ba6d928a338e30e6e"
 
-  depends_on "cmake" => :build
-
   # Patch for clang compatibility, adapted from MacPorts
   patch :DATA
 
+  option :cxx11
+
+  depends_on "cmake" => :build
+
   def install
+    ENV.cxx11 if build.cxx11?
     mkdir "clhep-build" do
       system "cmake", "../CLHEP", *std_cmake_args
       system "make install"
