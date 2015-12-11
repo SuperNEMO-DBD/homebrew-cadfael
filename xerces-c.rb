@@ -17,9 +17,11 @@ class XercesC < Formula
   end
 
   option :universal
+  option :cxx11
 
   def install
     ENV.universal_binary if build.universal?
+    ENV.cxx11 if build.cxx11?
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}"
