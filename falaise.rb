@@ -5,8 +5,14 @@ class Falaise < Formula
   version "2.0.1"
   sha256 "01991eea64267585b4303b6e77a49b6113a0ea51815cf983d28dc73ae6ecd931"
 
+  option :cxx11
   depends_on "cmake" => :build
-  depends_on "bayeux"
+
+  if build.cxx11?
+    depends_on "bayeux" => "c++11"
+  else
+    depends_on "bayeux"
+  end
 
   def install
     mkdir "falaise.build" do
