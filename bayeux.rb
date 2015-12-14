@@ -4,7 +4,7 @@ class Bayeux < Formula
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.0.1-Source.tar.bz2"
   version "2.0.1"
   sha256 "8a1db5cc6d032a034e79560248328c1bc45b5fda700a47e6fa3bcd1096fa2909"
-  revision 1
+  revision 2
 
   option :cxx11
 
@@ -34,6 +34,7 @@ class Bayeux < Formula
     mkdir "bayeux.build" do
       bx_cmake_args = std_cmake_args
       bx_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"
+      bx_cmake_args << "-DGSL_DIR=#{Formula["gsl"].lib}/cmake/GSL-#{Formula["gsl"].version}"
       system "cmake", "..", *bx_cmake_args
       system "make", "install"
     end
