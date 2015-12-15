@@ -3,6 +3,7 @@ require 'formula'
 class Cadfael < Formula
   url File.dirname(__FILE__), :using => :git
   version "2015.12"
+  revision 1
 
   keg_only "Requirement and version tracking formula only"
 
@@ -12,6 +13,7 @@ class Cadfael < Formula
   # If it isn't, need to split this off into separate
   # "toolchain formulae"
   if OS.linux?
+    depends_on "patchelf"
     depends_on "binutils" => ["with-default-names"]
     depends_on "gcc49"
   end
