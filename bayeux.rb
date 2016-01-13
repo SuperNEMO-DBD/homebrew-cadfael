@@ -11,19 +11,19 @@ class Bayeux < Formula
   depends_on "cmake" => :build
   
   depends_on "doxygen"
-  depends_on "gsl"
+  depends_on "supernemo-dbd/cadfael/gsl"
   depends_on "readline"
 
   if build.cxx11?
-    depends_on "boost" => "c++11"
-    depends_on "camp" => "c++11"
-    depends_on "root5" => "c++11"
-    depends_on "geant4" => "c++11"
+    depends_on "supernemo-dbd/cadfael/boost" => "c++11"
+    depends_on "supernemo-dbd/cadfael/camp" => "c++11"
+    depends_on "supernemo-dbd/cadfael/root5" => "c++11"
+    depends_on "supernemo-dbd/cadfael/geant4" => "c++11"
   else
-    depends_on "boost"
-    depends_on "camp"
-    depends_on "root5"
-    depends_on "geant4"
+    depends_on "supernemo-dbd/cadfael/boost"
+    depends_on "supernemo-dbd/cadfael/camp"
+    depends_on "supernemo-dbd/cadfael/root5"
+    depends_on "supernemo-dbd/cadfael/geant4"
   end
 
   def install

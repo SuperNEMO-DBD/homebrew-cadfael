@@ -4,17 +4,10 @@ class Libmpc1 < Formula
   mirror "http://multiprecision.org/mpc/download/mpc-1.0.3.tar.gz"
   sha1 "b8be66396c726fdc36ebb0f692ed8a8cca3bcc66"
 
-  bottle do
-    cellar :any
-    sha1 "c96c76d63b166fb13e6818a0ae7094455002b420" => :yosemite
-    sha1 "b1a74b2c579600f12002a842bc8ddd82785277ce" => :mavericks
-    sha1 "5fe25b2992da6773db6fec8a72260272a6058782" => :mountain_lion
-  end
-
   keg_only "Conflicts with libmpc in main repository"
 
-  depends_on "gmp6"
-  depends_on "mpfr3"
+  depends_on "supernemo-dbd/cadfael/gmp6"
+  depends_on "supernemo-dbd/cadfael/mpfr3"
 
   def install
     ENV.append "LDFLAGS", "-Wl,-rpath,#{Formula["gmp6"].lib}"

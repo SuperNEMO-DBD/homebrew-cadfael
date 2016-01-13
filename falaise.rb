@@ -9,9 +9,9 @@ class Falaise < Formula
   depends_on "cmake" => :build
 
   if build.cxx11?
-    depends_on "bayeux" => "c++11"
+    depends_on "supernemo-dbd/cadfael/bayeux" => "c++11"
   else
-    depends_on "bayeux"
+    depends_on "supernemo-dbd/cadfael/bayeux"
   end
 
   def install

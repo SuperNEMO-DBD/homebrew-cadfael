@@ -23,11 +23,11 @@ class Geant4 < Formula
   depends_on "cmake" => :build
 
   if build.cxx11?
-    depends_on "clhep" => ["c++11"]
-    depends_on "xerces-c" => [:recommended, "c++11"]
+    depends_on "supernemo-dbd/cadfael/clhep" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/xerces-c" => [:recommended, "c++11"]
   else
-    depends_on "clhep"
-    depends_on "xerces-c" => :recommended
+    depends_on "supernemo-dbd/cadfael/clhep"
+    depends_on "supernemo-dbd/cadfael/xerces-c" => :recommended
   end
 
   def install

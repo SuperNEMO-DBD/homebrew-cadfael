@@ -25,12 +25,6 @@ class Gcc49 < Formula
   sha1 "79dbcb09f44232822460d80b033c962c0237c6d8"
   revision 1
 
-  bottle do
-    revision 1
-    sha256 "4e8d95ce716ec056ee6e29271aa9121f23e535678365e5e075aeda49249d76f0" => :yosemite
-    sha256 "710d0d5462900da808596940d81aee9ac14c4c25f38f6008051577497d70df44" => :mavericks
-    sha256 "c4d9704632d46fc1ec8e505185f95ce42b69fb12d9644dd894c420f72fb55c29" => :mountain_lion
-  end
 
   option "with-java", "Build the gcj compiler"
   option "with-all-languages", "Enable all compilers and languages, except Ada"
@@ -43,13 +37,15 @@ class Gcc49 < Formula
     option "with-multilib", "Build with multilib support"
   end
 
-  depends_on "binutils" if build.with? "glibc"
-  depends_on "glibc" => :optional
-  depends_on "gmp6"
-  depends_on "libmpc1"
-  depends_on "mpfr3"
-  depends_on "cloog018"
-  depends_on "isl012"
+  if OS.linux?
+    depends_on "binutils" if build.with? "glibc"
+    depends_on "glibc" => :optional
+  end
+  depends_on "supernemo-dbd/cadfael/gmp6"
+  depends_on "supernemo-dbd/cadfael/libmpc1"
+  depends_on "supernemo-dbd/cadfael/mpfr3"
+  depends_on "supernemo-dbd/cadfael/cloog018"
+  depends_on "supernemo-dbd/cadfael/isl012"
   depends_on "ecj" if build.with?("java") || build.with?("all-languages")
 
   if MacOS.version < :leopard && OS.mac?

@@ -2,8 +2,7 @@ require 'formula'
 
 class Cadfael < Formula
   url File.dirname(__FILE__), :using => :git
-  version "2015.12"
-  revision 1
+  version "2016.01"
 
   keg_only "Requirement and version tracking formula only"
 
@@ -18,25 +17,28 @@ class Cadfael < Formula
     depends_on "gcc49"
   end
 
+  # Picked up from core
   depends_on "pkg-config"
   depends_on "python"
   depends_on "doxygen"
-  depends_on "gsl"
+
+  # Our own deps
+  depends_on "supernemo-dbd/cadfael/gsl"
 
   if build.cxx11?
-    depends_on "boost" => ["c++11"]
-    depends_on "camp" => ["c++11"]
-    depends_on "clhep" => ["c++11"]
-    depends_on "geant4" => ["c++11"]
-    depends_on "root5" => ["c++11"]
-    depends_on "xerces-c" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/boost" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/camp" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/clhep" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/geant4" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/root5" => ["c++11"]
+    depends_on "supernemo-dbd/cadfael/xerces-c" => ["c++11"]
   else
-    depends_on "boost"
-    depends_on "camp"
-    depends_on "clhep"
-    depends_on "geant4"
-    depends_on "root5"
-    depends_on "xerces-c"
+    depends_on "supernemo-dbd/cadfael/boost"
+    depends_on "supernemo-dbd/cadfael/camp"
+    depends_on "supernemo-dbd/cadfael/clhep"
+    depends_on "supernemo-dbd/cadfael/geant4"
+    depends_on "supernemo-dbd/cadfael/root5"
+    depends_on "supernemo-dbd/cadfael/xerces-c"
   end
 
 

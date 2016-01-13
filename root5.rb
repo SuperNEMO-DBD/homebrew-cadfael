@@ -13,7 +13,7 @@ class Root5 < Formula
    
    depends_on "openssl"
    depends_on "freetype"
-   depends_on "gsl" => :recommended
+   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
    depends_on :python => :optional
 
 

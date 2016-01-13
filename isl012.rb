@@ -12,15 +12,6 @@ class Isl012 < Formula
   url "http://isl.gforge.inria.fr/isl-0.12.2.tar.bz2"
   sha1 "ca98a91e35fb3ded10d080342065919764d6f928"
 
-  bottle do
-    cellar :any
-    revision 2
-    sha1 "502db664090c83f36515b901e8a066d9ef4f0bb4" => :yosemite
-    sha1 "f669eadf21a26782f4700facbec71f8d3d1dff7d" => :mavericks
-    sha1 "808982b34df706187f041d7b21e644aa3d74b747" => :mountain_lion
-    sha1 "a21a2ce4f30409c62ef37a4ab8d6c0b04cbb932a" => :x86_64_linux
-  end
-
   head do
     url "http://repo.or.cz/r/isl.git"
 
@@ -31,7 +22,7 @@ class Isl012 < Formula
 
   keg_only "Conflicts with isl in main repository"
 
-  depends_on "gmp6"
+  depends_on "supernemo-dbd/cadfael/gmp6"
 
   def install
     ENV.append "LDFLAGS", "-Wl,-rpath,#{Formula["gmp6"].lib}"

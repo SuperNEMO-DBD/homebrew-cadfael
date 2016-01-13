@@ -6,15 +6,6 @@ class Cloog018 < Formula
   mirror 'http://gcc.cybermirror.org/infrastructure/cloog-0.18.1.tar.gz'
   sha1 '2dc70313e8e2c6610b856d627bce9c9c3f848077'
 
-  bottle do
-    cellar :any
-    revision 2
-    sha1 "65900e9655ab8f444ecf7edf4118caa01ca56ddb" => :yosemite
-    sha1 "851f64756bb082a5a354e0992976acd70cfdacbf" => :mavericks
-    sha1 "06252f0a9c453818c319b21647ebaa9a26c3f4ac" => :mountain_lion
-    sha1 "1a2edaabaceee7c5079d4142c90b972b0345902e" => :x86_64_linux
-  end
-
   head do
     url 'http://repo.or.cz/r/cloog.git'
     depends_on "autoconf" => :build
@@ -25,8 +16,9 @@ class Cloog018 < Formula
   keg_only "Conflicts with cloog in main repository"
 
   depends_on 'pkg-config' => :build
-  depends_on 'gmp6'
-  depends_on 'isl012'
+  
+  depends_on 'supernemo-dbd/cadfael/gmp6'
+  depends_on 'supernemo-dbd/cadfael/isl012'
 
   def install
     ENV.append "LDFLAGS", "-Wl,-rpath,#{Formula["gmp6"].lib}"
