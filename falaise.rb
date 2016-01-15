@@ -25,6 +25,6 @@ class Falaise < Formula
   end
 
   test do
-    system "false"
+    system "#{bin}/flsimulate", "-o", "test.txt"
   end
 end
