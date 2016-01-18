@@ -41,11 +41,15 @@ class Gcc49 < Formula
     depends_on "binutils" if build.with? "glibc"
     depends_on "glibc" => :optional
   end
-  depends_on "supernemo-dbd/cadfael/gmp6"
-  depends_on "supernemo-dbd/cadfael/libmpc1"
-  depends_on "supernemo-dbd/cadfael/mpfr3"
-  depends_on "supernemo-dbd/cadfael/cloog018"
-  depends_on "supernemo-dbd/cadfael/isl012"
+
+  #depends_on "supernemo-dbd/cadfael/gmp6"
+  #depends_on "supernemo-dbd/cadfael/libmpc1"
+  #depends_on "supernemo-dbd/cadfael/mpfr3"
+  #depends_on "supernemo-dbd/cadfael/cloog018"
+  #depends_on "supernemo-dbd/cadfael/isl012"
+  # Vendoring deps requires wget for downloads
+  depends_on "wget" => :build
+
   depends_on "ecj" if build.with?("java") || build.with?("all-languages")
 
   if MacOS.version < :leopard && OS.mac?
@@ -110,11 +114,11 @@ class Gcc49 < Formula
       "--enable-languages=#{languages.join(",")}",
       # Make most executables versioned to avoid conflicts.
       "--program-suffix=-#{version_suffix}",
-      "--with-gmp=#{Formula["gmp6"].opt_prefix}",
-      "--with-mpfr=#{Formula["mpfr3"].opt_prefix}",
-      "--with-mpc=#{Formula["libmpc1"].opt_prefix}",
-      "--with-cloog=#{Formula["cloog018"].opt_prefix}",
-      "--with-isl=#{Formula["isl012"].opt_prefix}",
+      #"--with-gmp=#{Formula["gmp6"].opt_prefix}",
+      #"--with-mpfr=#{Formula["mpfr3"].opt_prefix}",
+      #"--with-mpc=#{Formula["libmpc1"].opt_prefix}",
+      #"--with-cloog=#{Formula["cloog018"].opt_prefix}",
+      #"--with-isl=#{Formula["isl012"].opt_prefix}",
     ]
     args += [
       "--with-system-zlib",
@@ -155,6 +159,9 @@ class Gcc49 < Formula
     # Ensure correct install names when linking against libgcc_s;
     # see discussion in https://github.com/Homebrew/homebrew/pull/34303
     inreplace "libgcc/config/t-slibgcc-darwin", "@shlib_slibdir@", "#{HOMEBREW_PREFIX}/lib/gcc/#{version_suffix}"
+
+    # Vendor the core dependencies to avoid linking/rpath issues.
+    system "./contrib/download_prerequisites"
 
     mkdir "build" do
       if OS.mac? && !MacOS::CLT.installed?
