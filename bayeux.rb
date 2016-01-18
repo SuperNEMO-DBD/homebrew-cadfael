@@ -4,7 +4,12 @@ class Bayeux < Formula
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.0.1-Source.tar.bz2"
   version "2.0.1"
   sha256 "8a1db5cc6d032a034e79560248328c1bc45b5fda700a47e6fa3bcd1096fa2909"
-  revision 2
+  revision 3
+
+  patch do
+    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/bayeux-2.0.1-binreloc.patch"
+    sha256 "000ceb4313ab07a500847bcb274a93f686a7e225e1f550672d8d97f5bc3fb2b2"
+  end
 
   option :cxx11
 
