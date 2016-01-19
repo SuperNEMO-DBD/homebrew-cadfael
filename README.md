@@ -4,8 +4,10 @@ Linux/Homebrew.
 
 # Quickstart
 ```
-$ brew install cadfael falaise
+$ brew install cadfael falaise [--c++11]
 ```
+
+Supply the `--c++11` flag if you want packages compiled against the C++11 Standard.
 
 # Formulae
 CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory.
@@ -37,6 +39,17 @@ In addition, formulae for the SuperNEMO-DBD specific software are provided:
 
 - Bayeux C++ Core Foundation Library
 - Falaise C++ Simulation/Reconstruction/Analysis Applications
+
+All C++ based Formulae versions use the C++98 standard. However, they may be
+compiled against the C++11 standard by passing the `--c++11` flag when installing, e.g.
+
+```
+$ brew install cadfael --c++11
+```
+
+Note that this is only a convenience to permit testing against the newer
+standard - C++11 compatibile code is not allowed in SuperNEMO code until version 3
+of Bayeux/Falaise.
 
 
 # Commands
