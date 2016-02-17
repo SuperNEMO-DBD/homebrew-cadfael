@@ -3,7 +3,7 @@ class Geant4 < Formula
   url "http://geant4.cern.ch/support/source/geant4.9.6.p04.tar.gz"
   version "9.6.4"
   sha256 "997220a5386a43ac8f533fc7d5a8360aa1fd6338244d17deeaa583fb3a0f39fd"
-  revision 2
+  revision 3
 
   patch do
     url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-data-export.patch"
@@ -16,6 +16,10 @@ class Geant4 < Formula
   patch do
     url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-c11.patch"
     sha256 "c99f760125f185f436a9191c5cdbad7053e7c41aaac0f6ccbacab392787f39a9"
+  end
+  patch do
+    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-xercesc-include.patch"
+    sha256 "668d78b7c24efe9065a4e1aadd5441c129a454113eae96812c77a2c8861bfa64"
   end
 
   option :cxx11
