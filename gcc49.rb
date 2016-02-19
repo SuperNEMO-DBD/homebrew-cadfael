@@ -23,7 +23,7 @@ class Gcc49 < Formula
   url "http://ftpmirror.gnu.org/gcc/gcc-4.9.2/gcc-4.9.2.tar.bz2"
   mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2"
   sha1 "79dbcb09f44232822460d80b033c962c0237c6d8"
-  revision 1
+  revision 2
 
 
   option "with-java", "Build the gcj compiler"
@@ -47,8 +47,6 @@ class Gcc49 < Formula
   #depends_on "supernemo-dbd/cadfael/mpfr3"
   #depends_on "supernemo-dbd/cadfael/cloog018"
   #depends_on "supernemo-dbd/cadfael/isl012"
-  # Vendoring deps requires wget for downloads
-  depends_on "wget" => :build
 
   depends_on "ecj" if build.with?("java") || build.with?("all-languages")
 
@@ -79,6 +77,13 @@ class Gcc49 < Formula
   patch do
     url "https://gist.githubusercontent.com/sjackman/34fa1081982bda781862/raw/738349d49f4f094cced7cfe287cdcdfcd7207265/52fd2e1.diff"
     sha1 "c1dc9a0669eb48a427fbd0cb6a2c209ca9cbf765"
+  end
+
+  # Use curl instead of wget for downloads: wget on linux brews libuuid
+  # which may conflict with system as the API/ABI of libuuid is unstable
+  patch do
+    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/gcc49-use-curl-prerequisites.patch"
+    sha256 "97899007c4d92dfd4039ecd5f33b33f1edf6295937b4cf7131d4cc4fd8598fed"
   end
 
   def install
