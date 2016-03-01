@@ -6,7 +6,9 @@ class Root5 < Formula
    mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
    head "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
 
-   patch :DATA
+   if not build.head?
+     patch :DATA
+   end
 
    depends_on "cmake" => :build
    option :cxx11
@@ -18,13 +20,20 @@ class Root5 < Formula
 
 
    def install
+     # When building the head, temp patch for ROOT-8032
+     if build.head?
+       inreplace "cmake/modules/RootBuildOptions.cmake", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|gnuinstall|rpath|soversion"
+     end
+
      mkdir "hb-build-root" do
        ENV.cxx11 if build.cxx11?
 
        args = std_cmake_args
        args << "-Dgnuinstall=ON"
        args << "-DCMAKE_INSTALL_SYSCONFDIR=etc/root"
-       args << "-Dgminimal=ON"
+       args << "-Dminimal=ON"
+       args << "-Dx11=OFF" if OS.mac?
+       args << "-Dcocoa=ON" if OS.mac?
        args << "-Dcxx11=OFF" unless build.cxx11?
        args << "-Dlibcxx=ON" if OS.mac?
        args << "-Dfortran=OFF"
