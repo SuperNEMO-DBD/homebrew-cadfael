@@ -12,11 +12,10 @@ class Root5 < Formula
 
    depends_on "cmake" => :build
    option :cxx11
-   
+
    depends_on "openssl"
    depends_on "supernemo-dbd/cadfael/gsl" => :recommended
    depends_on :python => :optional
-
 
    def install
      # When building the head, temp patch for ROOT-8032
@@ -40,6 +39,7 @@ class Root5 < Formula
        args << "-Dmathmore=OFF" unless build.with? "gsl"
        args << "-Drpath=ON"
        args << "-Dsoversion=ON"
+       args << "-Dasimage=ON"
        args << "-Dbuiltin_asimage=ON"
        args << "-Dbuiltin_freetype=ON"
 
