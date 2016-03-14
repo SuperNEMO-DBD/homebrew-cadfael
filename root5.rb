@@ -1,13 +1,23 @@
 class Root5 < Formula
    homepage "http://root.cern.ch"
-   version "5.34.30"
-   sha1 "28fce7f2adc775f7327ee54dcca11199f605b22c"
-   url "ftp://root.cern.ch/root/root_v#{version}.source.tar.gz"
-   mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
-   head "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
 
-   if not build.head?
+   stable do
+     version "5.34.30"
+     sha1 "28fce7f2adc775f7327ee54dcca11199f605b22c"
+     url "ftp://root.cern.ch/root/root_v#{version}.source.tar.gz"
+     mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
      patch :DATA
+   end
+
+   devel do
+     version "5.34.34"
+     sha256 "8c1faf893ed3b279f3500368b3dcd2087352020a69d3055c4d36726e7f6acd58"
+     url "ftp://root.cern.ch/root/root_v#{version}.source.tar.gz"
+     mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
+   end
+
+   head do
+     url "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
    end
 
    depends_on "cmake" => :build
@@ -19,29 +29,32 @@ class Root5 < Formula
 
    def install
      # When building the head, temp patch for ROOT-8032
-     if build.head?
-       inreplace "cmake/modules/RootBuildOptions.cmake", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|gnuinstall|rpath|soversion"
+     if build.head? || build.devel?
+       inreplace "cmake/modules/RootBuildOptions.cmake", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|python|mathmore|asimage|gnuinstall|rpath|soversion"
      end
 
      mkdir "hb-build-root" do
        ENV.cxx11 if build.cxx11?
 
+       # Defaults
        args = std_cmake_args
        args << "-Dgnuinstall=ON"
        args << "-DCMAKE_INSTALL_SYSCONFDIR=etc/root"
        args << "-Dgminimal=ON"
        args << "-Dx11=OFF" if OS.mac?
        args << "-Dcocoa=ON" if OS.mac?
-       args << "-Dcxx11=OFF" unless build.cxx11?
        args << "-Dlibcxx=ON" if OS.mac?
        args << "-Dfortran=OFF"
-       args << "-Dpython=OFF" unless build.with? "python"
-       args << "-Dmathmore=OFF" unless build.with? "gsl"
        args << "-Drpath=ON"
        args << "-Dsoversion=ON"
        args << "-Dasimage=ON"
        args << "-Dbuiltin_asimage=ON"
        args << "-Dbuiltin_freetype=ON"
+
+       # Options
+       args << "-Dcxx11=ON" if build.cxx11?
+       args << "-Dpython=".concat((build.with? "python") ? "ON" : "OFF")
+       args << "-Dmathmore=".concat((build.with? "gsl") ? "ON" : "OFF")
 
        system "cmake", "../", *args
        system "make"
