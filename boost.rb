@@ -26,19 +26,54 @@ end
 
 class Boost < Formula
   homepage 'http://www.boost.org'
-  url 'https://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.tar.bz2'
-  sha1 'cef9a0cc7084b1d639e06cd3bc34e4251524c840'
-  revision 2
+  stable do
+    url 'https://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.tar.bz2'
+    sha1 'cef9a0cc7084b1d639e06cd3bc34e4251524c840'
+    #revision 2
+
+    # Patches boost::atomic for LLVM 3.4 as it is used on OS X 10.9 with Xcode 5.1
+    # https://github.com/Homebrew/homebrew/issues/27396
+    # https://github.com/Homebrew/homebrew/pull/27436
+    patch :p2 do
+      url "https://github.com/boostorg/atomic/commit/6bb71fdd.diff"
+      sha1 "ca8679011d5293a7fd02cb3b97dde3515b8b2b03"
+    end
+
+    patch :p2 do
+      url "https://github.com/boostorg/atomic/commit/e4bde20f.diff"
+      sha1 "b68f5536474c9f543879698299bd4975538a89eb"
+    end
+
+    # Patch fixes upstream issue reported here (https://svn.boost.org/trac/boost/ticket/9698).
+    # Will be fixed in Boost 1.56 and can be removed once that release is available.
+    # See this issue (https://github.com/Homebrew/homebrew/issues/30592) for more details.
+
+    patch :p2 do
+      url "https://github.com/boostorg/chrono/commit/143260d.diff"
+      sha1 "2600214608e7706116831d6ffc302d099ba09950"
+    end
+
+    # Patch boost::serialization for Clang
+    # https://svn.boost.org/trac/boost/ticket/8757
+    patch :p1 do
+      url "https://gist.githubusercontent.com/philacs/375303205d5f8918e700/raw/d6ded52c3a927b6558984d22efe0a5cf9e59cd8c/0005-Boost.S11n-include-missing-algorithm.patch"
+      sha1 "a37552d48e5c1c0507ee9d48fb82a3fa5e3bc9fa"
+    end
+  end
+
+  devel do
+    url "https://downloads.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.bz2"
+    sha256 "686affff989ac2488f79a97b9479efb9f2abae035b5ed4d8226de6857933fd3b"
+  
+    # Handle compile failure with boost/graph/adjacency_matrix.hpp
+    # https://github.com/Homebrew/homebrew/pull/48262
+    # https://svn.boost.org/trac/boost/ticket/11880
+    # patch derived from https://github.com/boostorg/graph/commit/1d5f43d
+    patch :DATA
+  end
 
   head 'https://github.com/boostorg/boost.git'
 
-  bottle do
-    cellar :any
-    revision 4
-    sha1 "81b8843487a6f0017fac77b4bf58bdc20f3298fa" => :mavericks
-    sha1 "40089f76eddb25ac418032fa0055b6f0b6d76847" => :mountain_lion
-    sha1 "da4fb2a221fd83f50741f757eefe4bc38b5e910c" => :lion
-  end
 
   # CMake Support resource
   depends_on "cmake" => :build
@@ -77,37 +112,6 @@ class Boost < Formula
       depends_on 'open-mpi' => 'c++11'
     else
       depends_on :mpi => [:cc, :cxx, :optional]
-    end
-  end
-
-  stable do
-    # Patches boost::atomic for LLVM 3.4 as it is used on OS X 10.9 with Xcode 5.1
-    # https://github.com/Homebrew/homebrew/issues/27396
-    # https://github.com/Homebrew/homebrew/pull/27436
-    patch :p2 do
-      url "https://github.com/boostorg/atomic/commit/6bb71fdd.diff"
-      sha1 "ca8679011d5293a7fd02cb3b97dde3515b8b2b03"
-    end
-
-    patch :p2 do
-      url "https://github.com/boostorg/atomic/commit/e4bde20f.diff"
-      sha1 "b68f5536474c9f543879698299bd4975538a89eb"
-    end
-
-    # Patch fixes upstream issue reported here (https://svn.boost.org/trac/boost/ticket/9698).
-    # Will be fixed in Boost 1.56 and can be removed once that release is available.
-    # See this issue (https://github.com/Homebrew/homebrew/issues/30592) for more details.
-
-    patch :p2 do
-      url "https://github.com/boostorg/chrono/commit/143260d.diff"
-      sha1 "2600214608e7706116831d6ffc302d099ba09950"
-    end
-
-    # Patch boost::serialization for Clang
-    # https://svn.boost.org/trac/boost/ticket/8757
-    patch :p1 do
-      url "https://gist.githubusercontent.com/philacs/375303205d5f8918e700/raw/d6ded52c3a927b6558984d22efe0a5cf9e59cd8c/0005-Boost.S11n-include-missing-algorithm.patch"
-      sha1 "a37552d48e5c1c0507ee9d48fb82a3fa5e3bc9fa"
     end
   end
 
@@ -260,3 +264,17 @@ class Boost < Formula
     s
   end
 end
+__END__
+diff -Nur boost_1_60_0/boost/graph/adjacency_matrix.hpp boost_1_60_0-patched/boost/graph/adjacency_matrix.hpp
+--- boost_1_60_0/boost/graph/adjacency_matrix.hpp       2015-10-23 05:50:19.000000000 -0700
++++ boost_1_60_0-patched/boost/graph/adjacency_matrix.hpp       2016-01-19 14:03:29.000000000 -0800
+@@ -443,7 +443,7 @@
+     // graph type. Instead, use directedS, which also provides the
+     // functionality required for a Bidirectional Graph (in_edges,
+     // in_degree, etc.).
+-    BOOST_STATIC_ASSERT(type_traits::ice_not<(is_same<Directed, bidirectionalS>::value)>::value);
++    BOOST_STATIC_ASSERT(!(is_same<Directed, bidirectionalS>::value));
+
+     typedef typename mpl::if_<is_directed,
+                                     bidirectional_tag, undirected_tag>::type
+
