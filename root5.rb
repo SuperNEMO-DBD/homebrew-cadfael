@@ -4,7 +4,7 @@ class Root5 < Formula
    stable do
      version "5.34.30"
      sha1 "28fce7f2adc775f7327ee54dcca11199f605b22c"
-     url "ftp://root.cern.ch/root/root_v#{version}.source.tar.gz"
+     url "https://root.cern.ch/download/root_v#{version}.source.tar.gz"
      mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
      patch :DATA
    end
@@ -12,7 +12,7 @@ class Root5 < Formula
    devel do
      version "5.34.34"
      sha256 "8c1faf893ed3b279f3500368b3dcd2087352020a69d3055c4d36726e7f6acd58"
-     url "ftp://root.cern.ch/root/root_v#{version}.source.tar.gz"
+     url "https://root.cern.ch/download/root_v#{version}.source.tar.gz"
      mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
    end
 
