@@ -42,12 +42,6 @@ class Gcc49 < Formula
     depends_on "glibc" => :optional
   end
 
-  #depends_on "supernemo-dbd/cadfael/gmp6"
-  #depends_on "supernemo-dbd/cadfael/libmpc1"
-  #depends_on "supernemo-dbd/cadfael/mpfr3"
-  #depends_on "supernemo-dbd/cadfael/cloog018"
-  #depends_on "supernemo-dbd/cadfael/isl012"
-
   depends_on "ecj" if build.with?("java") || build.with?("all-languages")
 
   if MacOS.version < :leopard && OS.mac?
@@ -86,6 +80,13 @@ class Gcc49 < Formula
     sha256 "97899007c4d92dfd4039ecd5f33b33f1edf6295937b4cf7131d4cc4fd8598fed"
   end
 
+  # Use https mirror rather than ftp in prerequisites as ftp is unusable
+  # inside French labs
+  patch do
+    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/gcc49-use-nonftp-mirror-prerequisites.patch"
+    sha256 "faf652fd1c8bd1179533d95a6fa9a27f6ff69f8bdd62186092c439d1e9574339"
+  end
+
   def install
     # GCC will suffer build errors if forced to use a particular linker.
     ENV.delete "LD"
@@ -119,11 +120,6 @@ class Gcc49 < Formula
       "--enable-languages=#{languages.join(",")}",
       # Make most executables versioned to avoid conflicts.
       "--program-suffix=-#{version_suffix}",
-      #"--with-gmp=#{Formula["gmp6"].opt_prefix}",
-      #"--with-mpfr=#{Formula["mpfr3"].opt_prefix}",
-      #"--with-mpc=#{Formula["libmpc1"].opt_prefix}",
-      #"--with-cloog=#{Formula["cloog018"].opt_prefix}",
-      #"--with-isl=#{Formula["isl012"].opt_prefix}",
     ]
     args += [
       "--with-system-zlib",
