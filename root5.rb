@@ -30,7 +30,7 @@ class Root5 < Formula
    def install
      # When building the head, temp patch for ROOT-8032
      if build.head? || build.devel?
-       inreplace "cmake/modules/RootBuildOptions.cmake", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|python|mathmore|asimage|gnuinstall|rpath|soversion"
+       inreplace "cmake/modules/RootBuildOptions.cmake", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|python|mathmore|asimage|gnuinstall|rpath|soversion|opengl|builtin_glew"
      end
 
      mkdir "hb-build-root" do
@@ -50,6 +50,8 @@ class Root5 < Formula
        args << "-Dasimage=ON"
        args << "-Dbuiltin_asimage=ON"
        args << "-Dbuiltin_freetype=ON"
+       args << "-Dopengl=ON"
+       args << "-Dbuiltin_glew=ON" if OS.mac?
 
        # Options
        args << "-Dcxx11=ON" if build.cxx11?
