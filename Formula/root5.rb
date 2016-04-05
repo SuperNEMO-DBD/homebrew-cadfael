@@ -25,7 +25,7 @@ class Root5 < Formula
 
    depends_on "openssl"
    depends_on "supernemo-dbd/cadfael/gsl" => :recommended
-   depends_on :python => :optional
+   depends_on :python => :recommended
 
    def install
      # When building the head, temp patch for ROOT-8032

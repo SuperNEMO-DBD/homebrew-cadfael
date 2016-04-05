@@ -7,7 +7,9 @@ class Falaise < Formula
 
   option :cxx11
   depends_on "cmake" => :build
+  depends_on "doxygen" => :build
 
+  # Bayeux dependency will pull in all additional deps of Falaise
   if build.cxx11?
     depends_on "supernemo-dbd/cadfael/bayeux" => "c++11"
   else
@@ -15,6 +17,7 @@ class Falaise < Formula
   end
 
   def install
+    ENV.cxx11 if build.cxx11?
     mkdir "falaise.build" do
       fl_cmake_args = std_cmake_args
       fl_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"

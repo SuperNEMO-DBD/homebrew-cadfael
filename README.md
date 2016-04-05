@@ -12,8 +12,28 @@ Supply the `--c++11` flag if you want packages compiled against the C++11 Standa
 # Formulae
 CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory.
 The main formula is `cadfael`, which exists as a pure dependency formulae to install the
-base set of software packages:
+needed and recommended compiler/development tools:
 
+- Linux Only
+  - binutils 
+  - GCC 4.9
+  - patchelf
+- All Platforms
+  - ninja
+
+The binutils/GCC combination is only installed if the system does not provide GCC
+4.9 or better. GCC in this tap is supplied as a versioned formulae to allow easier
+future upgrades, and the system compiler is preferred if possible to give the 
+simplest integration.
+
+Installing the falaise formula will install the core SuperNEMO software packages
+
+- Bayeux C++ Core Foundation Library
+- Falaise C++ Simulation/Reconstruction/Analysis Applications
+
+plus their upstream dependencies:
+
+- Bayeux
 - Boost
 - ROOT
 - GSL
@@ -24,27 +44,12 @@ base set of software packages:
 - Doxygen
 - Python
 
-On Linux systems, GNU GCC and binutils are also installed to support C++11/14.
-GCC is supplied as a versioned formula (plus its core dependencies) to allow 
-future upgrades in a (hopefully) seamless manner via use of `keg_only`.
-
-- Current compiler kit:
-  - GCC 4.9
-  - binutils [from upstream linuxbrew]
-- Future compiler kit:
-  - GCC 5/6
-  - Dependent on ABI changes and defaults
-
 In addition, formulae for the SuperNEMO-DBD specific software are provided:
-
-- Bayeux C++ Core Foundation Library
-- Falaise C++ Simulation/Reconstruction/Analysis Applications
-
-All C++ based Formulae versions use the C++98 standard. However, they may be
+All C++ based Formulae versions use the C++98 standard by default. However, they may be
 compiled against the C++11 standard by passing the `--c++11` flag when installing, e.g.
 
 ```
-$ brew install cadfael --c++11
+$ brew install falaise --c++11
 ```
 
 Note that this is only a convenience to permit testing against the newer
