@@ -25,12 +25,12 @@ class GCCRequirement < Requirement
       Version.new(gccVersion) >= Version.new(@version) && File.executable?(gppProgram)
     end.first
   end
- 
+
   satisfy :build_env => false do
     # NB, at present only considers PATH, ignores CC/CXX/HOMEBREW_{CC,CXX}...
     find_newest_gcc
   end
-      
+
   env do
     gcc = find_newest_gcc
     gpp = File.join(File.dirname(gcc), File.basename(gcc).sub("cc","++"))
@@ -51,6 +51,8 @@ end
 class Cadfael < Formula
   url File.dirname(File.dirname(__FILE__)), :using => :git
   version "2016.04"
+
+  keg_only "Cadfael is a requirement/dependent tracking only formula"
 
   # Install suitable minimal C/C++ toolchain on Linux, if required
   if OS.linux?
