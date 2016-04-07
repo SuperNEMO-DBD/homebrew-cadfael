@@ -17,6 +17,13 @@ class Gsl < Formula
     sha256 "73bc2f51b90d2a780e6d266d43e487b3dbd78945dd0b04b14ca5980fe28d2f53"
   end
 
+  # - Temporary resource bundle to allow use of imported targets
+  #   for GSl from Falaise/Bayeux
+  depends_on "cmake" => :build
+  resource "GSLCMakeSupport" do
+    url "https://github.com/SuperNEMO-DBD/GSLCMakeSupport.git", :using => :git
+  end
+
   option :universal
 
   def install
@@ -26,6 +33,16 @@ class Gsl < Formula
                           "--prefix=#{prefix}"
     system "make" # A GNU tool which doesn't support just make install! Shameful!
     system "make install"
+
+    # Install cmake support files
+    resources.each do |r|
+      r.stage do
+        gsl_support_args = std_cmake_args
+        gsl_support_args << "-Dgsl_VERSION=#{version}"
+        system "cmake", *gsl_support_args
+        system "make install"
+      end
+    end
 
   end
 
