@@ -4,6 +4,7 @@ Linux/Homebrew.
 
 # Quickstart
 ```
+$ brew tap supernemo-dbd/cadfael
 $ brew install cadfael falaise [--c++11]
 ```
 
