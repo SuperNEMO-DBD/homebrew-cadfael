@@ -5,36 +5,21 @@ Linux/Homebrew.
 # Quickstart
 ```
 $ brew tap supernemo-dbd/cadfael
-$ brew install cadfael falaise [--c++11]
+$ brew cadfael-bootstrap-toolchain
+$ brew install falaise [--c++11]
 ```
 
 Supply the `--c++11` flag if you want packages compiled against the C++11 Standard.
 
 # Formulae
-CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory.
-The main formula is `cadfael`, which exists as a pure dependency formulae to install the
-needed and recommended compiler/development tools:
-
-- Linux Only
-  - binutils 
-  - GCC 4.9
-  - patchelf
-- All Platforms
-  - ninja
-
-The binutils/GCC combination is only installed if the system does not provide GCC
-4.9 or better. GCC in this tap is supplied as a versioned formulae to allow easier
-future upgrades, and the system compiler is preferred if possible to give the 
-simplest integration.
-
-Installing the falaise formula will install the core SuperNEMO software packages
+CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory. Installing the ``falaise`` formula will install the core 
+SuperNEMO software packages
 
 - Bayeux C++ Core Foundation Library
 - Falaise C++ Simulation/Reconstruction/Analysis Applications
 
 plus their upstream dependencies:
 
-- Bayeux
 - Boost
 - ROOT
 - GSL
@@ -45,17 +30,17 @@ plus their upstream dependencies:
 - Doxygen
 - Python
 
-In addition, formulae for the SuperNEMO-DBD specific software are provided:
-All C++ based Formulae versions use the C++98 standard by default. However, they may be
-compiled against the C++11 standard by passing the `--c++11` flag when installing, e.g.
+All C++ based Formulae versions use the C++98 standard by default. However, 
+they may be compiled against the C++11 standard by passing the `--c++11` flag 
+when installing, e.g.
 
 ```
 $ brew install falaise --c++11
 ```
 
 Note that this is only a convenience to permit testing against the newer
-standard - C++11 compatibile code is not allowed in SuperNEMO code until version 3
-of Bayeux/Falaise.
+standard - C++11 features are not allowed in SuperNEMO code until 
+version 3 of Bayeux/Falaise.
 
 
 # Commands
@@ -84,3 +69,23 @@ viewed by passing the `--all` argument. This can be useful for resolving
 potential conflicts caused by version reverts or merges from Homebrew to
 Linuxbrew as the merge commit may not show as the one where the version changed.
 
+## ``brew-cadfael-bootstrap-toolchain.rb``
+Installs needed and recommended compiler/development tools:
+
+- Linux Only
+  - GCC 4.9
+  - patchelf
+- All Platforms
+  - python
+  - cmake
+  - ninja
+  - git-flow-avh
+
+GCC is only installed if the system does not provide GCC 4.9 or better. GCC in 
+this tap is supplied as a versioned formulae to allow easier future upgrades, 
+and the system compiler is preferred if possible to give the 
+simplest integration.
+
+This command is used instead of a formula as Homebrew doesn't directly support
+"dependency only" formulae, and we also want precise control over the 
+installation order.
