@@ -25,11 +25,12 @@ class Gcc49 < Formula
   sha1 "79dbcb09f44232822460d80b033c962c0237c6d8"
   revision 2
 
-
-  option "with-java", "Build the gcj compiler"
-  option "with-all-languages", "Enable all compilers and languages, except Ada"
   option "with-nls", "Build with native language support (localization)"
+  option "with-all-languages", "Enable all compilers and languages, except Ada"
   option "without-fortran", "Build without the gfortran compiler"
+  option "with-objc", "Build the Objective C/C++ compiler"
+  option "with-java", "Build the gcj compiler"
+
   # enabling multilib on a host that can't run 64-bit results in build failures
   if OS.mac?
     option "without-multilib", "Build without multilib support" if MacOS.prefer_64_bit?
@@ -95,14 +96,15 @@ class Gcc49 < Formula
       ENV["AS"] = ENV["AS_FOR_TARGET"] = "#{Formula["cctools"].bin}/as"
     end
 
-    # C, C++, ObjC compilers are always built
-    languages = %w[c c++ objc obj-c++]
+    # C, C++, compilers are always built
+    languages = %w[c c++]
 
     # Everything but Ada, which requires a pre-existing GCC Ada compiler
     # (gnat) to bootstrap. GCC 4.6.0 add go as a language option, but it is
     # currently only compilable on Linux.
     languages << "fortran" if build.with?("fortran") || build.with?("all-languages")
     languages << "java" if build.with?("java") || build.with?("all-languages")
+    languages += ["objc", "obj-c++"] if build.with?("objc") || build.with?("all-languages")
 
     args = []
     args << "--build=#{arch}-apple-darwin#{osmajor}" if OS.mac?
@@ -127,6 +129,10 @@ class Gcc49 < Formula
       "--enable-stage1-checking",
       "--enable-checking=release",
       "--enable-lto",
+      # Added to match linux vendor args
+      "--enable-threads=posix",
+      "--enable-__cxa_atexit",
+
       # Use 'bootstrap-debug' build configuration to force stripping of object
       # files prior to comparison during bootstrap (broken by Xcode 6.3).
       "--with-build-config=bootstrap-debug",
