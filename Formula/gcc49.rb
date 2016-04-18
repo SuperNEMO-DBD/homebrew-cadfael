@@ -20,11 +20,47 @@ class Gcc49 < Formula
   end
 
   homepage "http://gcc.gnu.org"
-  url "http://ftpmirror.gnu.org/gcc/gcc-4.9.2/gcc-4.9.2.tar.bz2"
-  mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.2/gcc-4.9.2.tar.bz2"
-  sha1 "79dbcb09f44232822460d80b033c962c0237c6d8"
-  revision 2
+  url "http://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
+  mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.3/gcc-4.9.3.tar.bz2"
+  sha256 "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+  
+  if MacOS.version >= :yosemite
+    # Fixes build with Xcode 7.
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66523
+    patch do
+      url "https://gcc.gnu.org/bugzilla/attachment.cgi?id=35773"
+      sha256 "db4966ade190fff4ed39976be8d13e84839098711713eff1d08920d37a58f5ec"
+    end
+    # Fixes assembler generation with XCode 7
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66509
+    patch do
+      url "https://gist.githubusercontent.com/tdsmith/d248e025029add31e7aa/raw/444e292786df41346a3a1cc6267bba587408a007/gcc.diff"
+      sha256 "636b65a160ccb7417cc4ffc263fc815382f8bb895e32262205cd10d65ea7804a"
+    end
+  end
 
+  # Fix config-ml.in: eval: line 160: unexpected EOF while looking for matching `''
+  # Fixed upstream.
+  patch do
+    url "https://gist.githubusercontent.com/sjackman/34fa1081982bda781862/raw/738349d49f4f094cced7cfe287cdcdfcd7207265/52fd2e1.diff"
+    sha1 "c1dc9a0669eb48a427fbd0cb6a2c209ca9cbf765"
+  end
+
+  # Use curl instead of wget for downloads: wget on linux brews libuuid
+  # which may conflict with system as the API/ABI of libuuid is unstable
+  patch do
+    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/gcc49-use-curl-prerequisites.patch"
+    sha256 "97899007c4d92dfd4039ecd5f33b33f1edf6295937b4cf7131d4cc4fd8598fed"
+  end
+
+  # Use https mirror rather than ftp in prerequisites as ftp is unusable
+  # inside French labs
+  patch do
+    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/gcc49-use-nonftp-mirror-prerequisites.patch"
+    sha256 "faf652fd1c8bd1179533d95a6fa9a27f6ff69f8bdd62186092c439d1e9574339"
+  end
+
+ 
   option "with-nls", "Build with native language support (localization)"
   option "with-all-languages", "Enable all compilers and languages, except Ada"
   option "without-fortran", "Build without the gfortran compiler"
@@ -65,27 +101,6 @@ class Gcc49 < Formula
 
   def version_suffix
     version.to_s.slice(/\d\.\d/)
-  end
-
-  # Fix config-ml.in: eval: line 160: unexpected EOF while looking for matching `''
-  # Fixed upstream.
-  patch do
-    url "https://gist.githubusercontent.com/sjackman/34fa1081982bda781862/raw/738349d49f4f094cced7cfe287cdcdfcd7207265/52fd2e1.diff"
-    sha1 "c1dc9a0669eb48a427fbd0cb6a2c209ca9cbf765"
-  end
-
-  # Use curl instead of wget for downloads: wget on linux brews libuuid
-  # which may conflict with system as the API/ABI of libuuid is unstable
-  patch do
-    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/gcc49-use-curl-prerequisites.patch"
-    sha256 "97899007c4d92dfd4039ecd5f33b33f1edf6295937b4cf7131d4cc4fd8598fed"
-  end
-
-  # Use https mirror rather than ftp in prerequisites as ftp is unusable
-  # inside French labs
-  patch do
-    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/gcc49-use-nonftp-mirror-prerequisites.patch"
-    sha256 "faf652fd1c8bd1179533d95a6fa9a27f6ff69f8bdd62186092c439d1e9574339"
   end
 
   def install
