@@ -7,18 +7,13 @@ require 'formula'
 class Gsl < Formula
   homepage 'http://www.gnu.org/software/gsl/'
   stable do
-    url 'http://ftpmirror.gnu.org/gsl/gsl-1.15.tar.gz'
-    mirror 'http://ftp.gnu.org/gnu/gsl/gsl-1.15.tar.gz'
-    sha1 'd914f84b39a5274b0a589d9b83a66f44cd17ca8e'
-  end
-
-  devel do
     url 'http://ftpmirror.gnu.org/gsl/gsl-1.16.tar.gz'
     sha256 "73bc2f51b90d2a780e6d266d43e487b3dbd78945dd0b04b14ca5980fe28d2f53"
   end
 
   # - Temporary resource bundle to allow use of imported targets
   #   for GSl from Falaise/Bayeux
+  #   Remove me when CMake is at least 3.5 and Bayeux/Falaise at least 2.1
   depends_on "cmake" => :build
   resource "GSLCMakeSupport" do
     url "https://github.com/SuperNEMO-DBD/GSLCMakeSupport.git", :using => :git
