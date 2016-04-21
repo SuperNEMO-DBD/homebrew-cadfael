@@ -43,7 +43,7 @@ class Root5 < Formula
        args << "-Dbuiltin_asimage=ON"
        args << "-Dbuiltin_freetype=ON"
        args << "-Dopengl=ON"
-       args << "-Dbuiltin_glew=ON" if OS.mac?
+       args << "-Dbuiltin_glew=ON"
 
        # Options
        args << "-Dcxx11=ON" if build.cxx11?
