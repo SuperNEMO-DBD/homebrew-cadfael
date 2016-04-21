@@ -1,19 +1,18 @@
 # Homebrew tap for SuperNEMO
 Custom Formulae and Commands for SuperNEMO's cadfaelbrew fork of
-Linux/Homebrew.
+Linux/Homebrew. Though designed for use with cadfaelbrew, it should
+be compatible with upstream linuxbrew/homebrew.
 
 # Quickstart
 ```
 $ brew tap supernemo-dbd/cadfael
 $ brew cadfael-bootstrap-toolchain
-$ brew install falaise [--c++11]
+$ brew install falaise
 ```
 
-Supply the `--c++11` flag if you want packages compiled against the C++11 Standard.
-
 # Formulae
-CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory. Installing the ``falaise`` formula will install the core 
-SuperNEMO software packages
+CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory. 
+Installing the ``falaise`` formula will install the core SuperNEMO software packages
 
 - Bayeux C++ Core Foundation Library
 - Falaise C++ Simulation/Reconstruction/Analysis Applications
@@ -30,18 +29,25 @@ plus their upstream dependencies:
 - Doxygen
 - Python
 
-All C++ based Formulae versions use the C++98 standard by default. However, 
-they may be compiled against the C++11 standard by passing the `--c++11` flag 
-when installing, e.g.
+# Note on C/C++ Standards
+Bayeux/Falaise are compiled against the C++11 standard by default to ensure
+forward/binary compatibility with current developments of plugin code.
+
+Installing Bayeux/Falaise will automatically install all their dependencies
+against the same standard. However, if you are installing other Formulae by
+hand, you will need to supply the `--c++11` flag to activate compilation of
+that Formulae against C++11, e.g.
 
 ```
-$ brew install falaise --c++11
+$ brew install boost --c++11
 ```
 
-Note that this is only a convenience to permit testing against the newer
-standard - C++11 features are not allowed in SuperNEMO code until 
-version 3 of Bayeux/Falaise.
+The options available for building a Formula can be checked using Brew's `info`
+subcommand:
 
+```
+$ brew info <formulaname>
+```
 
 # Commands
 ## `brew-versions.rb`
