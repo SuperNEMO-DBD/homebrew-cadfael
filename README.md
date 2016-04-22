@@ -43,6 +43,19 @@ versions of dependent packages.
 - [ROOT6](https://root.cern.ch)
   - TODO: Replacement for Root5
 
+## Python
+Installing Falaise will also install (via the ROOT dependency) a brewed copy of Python. This includes
+the `pip` and `setuptools` packages, so you may also install any compatible Python package from [PyPI](https://pypi.python.org/pypi) if you need this.
+
+## Other
+A wide range of packages are available through `brew`, and you can search for these via the `search` subcommand, e.g.
+
+```console
+$ brew search foo
+```
+
+If you find a package you need is not present, add a request for it in the [Issue Tracker](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues)
+
 # Note on C/C++ Standards
 Bayeux/Falaise are compiled against the C++11 standard by default to ensure
 forward/binary compatibility with current developments of plugin code.
