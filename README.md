@@ -4,6 +4,8 @@ Linux/Homebrew. Though designed for use with cadfaelbrew, it should
 be compatible with upstream linuxbrew/homebrew.
 
 # Quickstart
+If you have an existing Homebrew/Linuxbrew install, simply do
+
 ```
 $ brew tap supernemo-dbd/cadfael
 $ brew cadfael-bootstrap-toolchain
