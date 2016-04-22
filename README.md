@@ -1,7 +1,7 @@
 # Homebrew tap for SuperNEMO
-Custom Formulae and Commands for SuperNEMO's cadfaelbrew fork of
+Custom Formulae and Commands for SuperNEMO's [cadfaelbrew fork](https://github.com/SuperNEMO-DBD/cadfaelbrew) of
 Linux/Homebrew. Though designed for use with cadfaelbrew, it should
-be compatible with upstream linuxbrew/homebrew.
+work and be compatible with upstream linuxbrew/homebrew modulo version dependencies on Formulae.
 
 # Quickstart
 If you have an existing Homebrew/Linuxbrew install, simply do
@@ -13,6 +13,7 @@ $ brew install falaise
 ```
 
 # Formulae
+## Core
 CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory. 
 Installing the ``falaise`` formula will install the core SuperNEMO software packages
 
@@ -21,15 +22,26 @@ Installing the ``falaise`` formula will install the core SuperNEMO software pack
 
 plus their upstream dependencies:
 
-- Boost
-- ROOT
-- GSL
-- CAMP
-- CLHEP
-- XercesC
-- Geant4
-- Doxygen
-- Python
+- [Boost](http://www.boost.org)
+- [ROOT5](https://root.cern.ch)
+- [GSL](http://www.gnu.org/software/gsl/)
+- [CAMP](https://github.com/tegesoft/camp)
+- [CLHEP](http://proj-clhep.web.cern.ch/proj-clhep/)
+- [XercesC](http://xerces.apache.org/xerces-c/)
+- [Geant4](http://geant4.cern.ch)
+- [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
+- [Python](https://www.python.org)
+
+## Development
+Several additional Formulae are provided which are not installed by default. These are intended for
+use by Bayeux/Falaise developers to integrate new functionality or move to newer, API incompatible,
+versions of dependent packages.
+
+- [Qt5](http://doc.qt.io/qt-5/)
+- [Ponder](https://github.com/billyquith/ponder)
+  - Note: This replaces the [CAMP]() package
+- [ROOT6](https://root.cern.ch)
+  - TODO: Replacement for Root5
 
 # Note on C/C++ Standards
 Bayeux/Falaise are compiled against the C++11 standard by default to ensure
