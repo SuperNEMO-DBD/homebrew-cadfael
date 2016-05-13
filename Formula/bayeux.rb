@@ -4,7 +4,7 @@ class Bayeux < Formula
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.0.1-Source.tar.bz2"
   version "2.0.1"
   sha256 "8a1db5cc6d032a034e79560248328c1bc45b5fda700a47e6fa3bcd1096fa2909"
-  revision 4
+  revision 5
 
   patch do
     url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/bayeux-2.0.1-binreloc.patch"
@@ -18,7 +18,8 @@ class Bayeux < Formula
   depends_on "readline"
 
   needs :cxx11
-  depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu"]
+  depends_on "icu4c" => "c++11"
+  depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu4c"]
   depends_on "supernemo-dbd/cadfael/camp" => "c++11"
   depends_on "supernemo-dbd/cadfael/clhep" => "c++11"
   depends_on "supernemo-dbd/cadfael/root5" => "c++11"

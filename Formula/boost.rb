@@ -84,7 +84,7 @@ class Boost < Formula
   env :userpaths
 
   option :universal
-  option 'with-icu', 'Build regexp engine with icu support'
+  option 'with-icu4c', 'Build regexp engine with icu support'
   option 'with-single', 'Enable building single-threading variant'
   option 'with-static', 'Enable building static library variant'
   option 'with-mpi', 'Build with MPI support'
@@ -99,11 +99,11 @@ class Boost < Formula
     odie "boost: --with-python3 cannot be specified when using --with-python"
   end
 
-  if build.with? 'icu'
+  if build.with? 'icu4c'
     if build.cxx11?
-      depends_on 'icu4c' => 'c++11'
+      depends_on 'homebrew/core/icu4c' => 'c++11'
     else
-      depends_on 'icu4c'
+      depends_on 'homebrew/core/icu4c'
     end
   end
 
