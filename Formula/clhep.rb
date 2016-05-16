@@ -3,7 +3,7 @@ require "formula"
 class Clhep < Formula
   homepage "http://proj-clhep.web.cern.ch/proj-clhep/"
   url "http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-2.1.3.1.tgz"
-  sha1 "3ef0b7410d71ca25bb2f5b5ba6d928a338e30e6e"
+  sha256 "5d3e45b39a861731fe3a532bb1426353bf62b54c7b90ecf268827e50f925642b"
 
   # Patch for clang compatibility, adapted from MacPorts
   patch :DATA
