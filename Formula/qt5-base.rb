@@ -5,6 +5,13 @@ class Qt5Base < Formula
   url "http://download.qt.io/official_releases/qt/5.6/5.6.0/submodules/qtbase-opensource-src-5.6.0.tar.gz"
   sha256 "3004d5e20413edcc763d5efeebcde6785fec863d904c77c8d87885c6eeb8a70c"
 
+  # try submodules as resources
+  resource "qtsvg" do
+    url "http://download.qt.io/official_releases/qt/5.6/5.6.0/submodules/qtsvg-opensource-src-5.6.0.tar.gz"
+    sha256 "ebe2f98308def42abef36a55fa6ffe0a50a98bd096c8ce30944d1bd20b4871ab"
+  end
+
+
   keg_only "Qt5 conflicts with the more widely used Qt4"
   conflicts_with "qt5", :because => "Core homebrew ships a complete Qt5 install"
 
@@ -32,8 +39,12 @@ class Qt5Base < Formula
     system "./configure", *args
     # Cannot parellize build os OSX
     system "make"
-    ENV.j1 if OS.mac?
     system "make", "install"
+
+    resource("qtsvg").stage {
+      system "#{bin}/qmake"
+      system "make", "install"
+    }
   end
 
   def caveats; <<-EOS.undent
