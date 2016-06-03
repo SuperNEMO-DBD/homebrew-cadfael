@@ -39,6 +39,8 @@ class Bayeux < Formula
     mkdir "bayeux.build" do
       bx_cmake_args = std_cmake_args
       bx_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"
+      bx_cmake_args << "-DBAYEUX_CXX_STANDARD=11"
+      bx_cmake_args << "-DBAYEUX_COMPILER_ERROR_ON_WARNING=OFF"
       bx_cmake_args << "-DBAYEUX_WITH_DEVELOPER_TOOLS=OFF" unless build.with? "devtools"
       bx_cmake_args << "-DGSL_DIR=#{Formula["gsl"].lib}/cmake/GSL-#{Formula["gsl"].version}"
       system "cmake", "..", *bx_cmake_args
