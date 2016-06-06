@@ -1,20 +1,9 @@
 class Bayeux < Formula
   desc "Bayeux Library"
   homepage ""
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.0.1-Source.tar.bz2"
-  version "2.0.1"
-  sha256 "8a1db5cc6d032a034e79560248328c1bc45b5fda700a47e6fa3bcd1096fa2909"
-  revision 6
-
-  patch do
-    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/bayeux-2.0.1-binreloc.patch"
-    sha256 "000ceb4313ab07a500847bcb274a93f686a7e225e1f550672d8d97f5bc3fb2b2"
-  end
-
-  devel do
-    url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.1.0.tar.gz"
-    sha256 "28deba44bfff73319a117ab5b8425703d73ee4764b19bb4162661f8ecf979efc"
-  end
+  version "2.1.0"
+  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.1.0.tar.gz"
+  sha256 "28deba44bfff73319a117ab5b8425703d73ee4764b19bb4162661f8ecf979efc"
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
@@ -33,8 +22,6 @@ class Bayeux < Formula
   option "with-devtools", "Build debug tools for Bayeux developers"
 
   def install
-    # Micro patch to correct setting of argv with const char* instead of char
-    inreplace "source/bxdatatools/src/kernel.cc", "'\\0'", "\"\\0\"" unless build.devel?
     ENV.cxx11
     mkdir "bayeux.build" do
       bx_cmake_args = std_cmake_args

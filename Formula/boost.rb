@@ -27,41 +27,6 @@ end
 class Boost < Formula
   homepage 'http://www.boost.org'
   stable do
-    url 'https://downloads.sourceforge.net/project/boost/boost/1.55.0/boost_1_55_0.tar.bz2'
-    sha256 'fff00023dd79486d444c8e29922f4072e1d451fc5a4d2b6075852ead7f2b7b52'
-    #revision 2
-
-    # Patches boost::atomic for LLVM 3.4 as it is used on OS X 10.9 with Xcode 5.1
-    # https://github.com/Homebrew/homebrew/issues/27396
-    # https://github.com/Homebrew/homebrew/pull/27436
-    patch :p2 do
-      url "https://github.com/boostorg/atomic/commit/6bb71fdd.diff"
-      sha256 "eb139160a33d8ef3e810ce3e47da278563d03d7be6d0a75c109f708030a7abcb"
-    end
-
-    patch :p2 do
-      url "https://github.com/boostorg/atomic/commit/e4bde20f.diff"
-      sha256 "8c5efeea91d44b2a48fdeee9cde71e831dad78f0930e8f65b7223ba0ecdfec9b"
-    end
-
-    # Patch fixes upstream issue reported here (https://svn.boost.org/trac/boost/ticket/9698).
-    # Will be fixed in Boost 1.56 and can be removed once that release is available.
-    # See this issue (https://github.com/Homebrew/homebrew/issues/30592) for more details.
-
-    patch :p2 do
-      url "https://github.com/boostorg/chrono/commit/143260d.diff"
-      sha256 "f6f40b576725b15ddfe24497ddcd597f387dfdf674f6dd301b8dcb723593ee22"
-    end
-
-    # Patch boost::serialization for Clang
-    # https://svn.boost.org/trac/boost/ticket/8757
-    patch :p1 do
-      url "https://gist.githubusercontent.com/philacs/375303205d5f8918e700/raw/d6ded52c3a927b6558984d22efe0a5cf9e59cd8c/0005-Boost.S11n-include-missing-algorithm.patch"
-      sha256 "cb134e3982e01ba5b3d5abe51cc8343c9e24ecd34aa4d81f5e8dd4461f593cf1"
-    end
-  end
-
-  devel do
     url "https://downloads.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.bz2"
     sha256 "686affff989ac2488f79a97b9479efb9f2abae035b5ed4d8226de6857933fd3b"
   
