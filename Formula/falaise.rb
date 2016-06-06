@@ -19,7 +19,7 @@ class Falaise < Formula
       fl_cmake_args = std_cmake_args
       fl_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"
       fl_cmake_args << "-DFALAISE_CXX_STANDARD=11"
-      bx_cmake_args << "-DFALAISE_COMPILER_ERROR_ON_WARNING=OFF"
+      fl_cmake_args << "-DFALAISE_COMPILER_ERROR_ON_WARNING=OFF"
       system "cmake", "..", *fl_cmake_args
       system "make", "install"
     end
