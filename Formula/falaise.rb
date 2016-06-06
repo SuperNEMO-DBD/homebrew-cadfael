@@ -4,6 +4,9 @@ class Falaise < Formula
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-2.1.0.tar.gz"
   version "2.1.0"
   sha256 "d3daa4b7c1ce623e584b976e53f5822643803255c5a8aaa32eb3ff1b52b9d576"
+  revision 1
+
+  patch :DATA
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
@@ -29,3 +32,55 @@ class Falaise < Formula
     system "#{bin}/flsimulate", "-o", "test.brio"
   end
 end
+__END__
+diff --git a/modules/GammaTracking/CMakeLists.txt b/modules/GammaTracking/CMakeLists.txt
+index 71d1fbf..17faedf 100644
+--- a/modules/GammaTracking/CMakeLists.txt
++++ b/modules/GammaTracking/CMakeLists.txt
+@@ -60,13 +60,15 @@ add_library(Falaise_GammaTracking SHARED
+   ${FalaiseGammaTrackingPlugin_HEADERS}
+   ${FalaiseGammaTrackingPlugin_SOURCES})
+ 
+-target_link_libraries(Falaise_GammaTracking GammaTracking Falaise)
++target_link_libraries(Falaise_GammaTracking GammaTracking FalaiseModule)
+ 
+ # Apple linker requires dynamic lookup of symbols, so we
+ # add link flags on this platform
+ if(APPLE)
+   set_target_properties(Falaise_GammaTracking
+-    PROPERTIES LINK_FLAGS "-undefined dynamic_lookup"
++    PROPERTIES
++      LINK_FLAGS "-undefined dynamic_lookup"
++      INSTALL_RPATH "@loader_path"
+     )
+ endif()
+ 
+diff --git a/modules/TrackFit/CMakeLists.txt b/modules/TrackFit/CMakeLists.txt
+index 89d6b32..802c3da 100644
+--- a/modules/TrackFit/CMakeLists.txt
++++ b/modules/TrackFit/CMakeLists.txt
+@@ -68,18 +68,20 @@ add_library(Falaise_TrackFit SHARED
+   ${FalaiseTrackFitPlugin_HEADERS}
+   ${FalaiseTrackFitPlugin_SOURCES})
+ 
+-target_link_libraries(Falaise_TrackFit TrackFit Falaise)
++target_link_libraries(Falaise_TrackFit TrackFit FalaiseModule)
+ 
+ # Apple linker requires dynamic lookup of symbols, so we
+ # add link flags on this platform
+ if(APPLE)
+   set_target_properties(Falaise_TrackFit
+-    PROPERTIES LINK_FLAGS "-undefined dynamic_lookup"
++    PROPERTIES
++      LINK_FLAGS "-undefined dynamic_lookup"
++      INSTALL_RPATH "@loader_path"
+     )
+ endif()
+ 
+ # Install it:
+-install(TARGETS Falaise_TrackFit DESTINATION ${CMAKE_INSTALL_LIBDIR}/Falaise/modules)
++install(TARGETS Falaise_TrackFit DESTINATION ${CMAKE_INSTALL_LIBDIR}/${FALAISE_PLUGINLIBDIR})
+ 
+ # Test support:
+ option(FalaiseTrackFitPlugin_ENABLE_TESTING "Build unit testing system for FalaiseTrackFitPlugin" ON)
+
