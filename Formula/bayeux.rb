@@ -4,11 +4,12 @@ class Bayeux < Formula
   version "2.1.0"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.1.0.tar.gz"
   sha256 "28deba44bfff73319a117ab5b8425703d73ee4764b19bb4162661f8ecf979efc"
+  revision 1
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
 
-  depends_on "supernemo-dbd/cadfael/gsl"
+  depends_on "gsl"
   depends_on "readline"
 
   needs :cxx11
@@ -29,7 +30,6 @@ class Bayeux < Formula
       bx_cmake_args << "-DBAYEUX_CXX_STANDARD=11"
       bx_cmake_args << "-DBAYEUX_COMPILER_ERROR_ON_WARNING=OFF"
       bx_cmake_args << "-DBAYEUX_WITH_DEVELOPER_TOOLS=OFF" unless build.with? "devtools"
-      bx_cmake_args << "-DGSL_DIR=#{Formula["gsl"].lib}/cmake/GSL-#{Formula["gsl"].version}"
       system "cmake", "..", *bx_cmake_args
       system "make", "install"
     end
