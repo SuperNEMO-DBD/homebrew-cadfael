@@ -16,7 +16,7 @@ class Root5 < Formula
    option :cxx11
 
    depends_on "openssl"
-   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
+   depends_on "gsl" => :recommended
    depends_on :python => :recommended
 
    def install
