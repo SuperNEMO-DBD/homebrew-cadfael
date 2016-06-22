@@ -4,7 +4,7 @@ class Falaise < Formula
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-2.1.0.tar.gz"
   version "2.1.0"
   sha256 "d3daa4b7c1ce623e584b976e53f5822643803255c5a8aaa32eb3ff1b52b9d576"
-  revision 1
+  revision 2
 
   patch :DATA
 
@@ -84,3 +84,13 @@ index 89d6b32..802c3da 100644
  # Test support:
  option(FalaiseTrackFitPlugin_ENABLE_TESTING "Build unit testing system for FalaiseTrackFitPlugin" ON)
 
+diff --git a/modules/things2root/CMakeLists.txt b/modules/things2root/CMakeLists.txt
+index b22ff0d..7cf9d45 100644
+--- a/modules/things2root/CMakeLists.txt
++++ b/modules/things2root/CMakeLists.txt
+@@ -12,4 +12,4 @@ add_library(Things2Root SHARED Things2Root.h Things2Root.cpp)
+ target_link_libraries(Things2Root FalaiseModule)
+ 
+ # Install it
+-install(TARGETS Things2Root DESTINATION ${CMAKE_INSTALL_LIBDIR}/${Falaise_PLUGINLIBDIR})
++install(TARGETS Things2Root DESTINATION ${CMAKE_INSTALL_LIBDIR}/${FALAISE_PLUGINLIBDIR})
