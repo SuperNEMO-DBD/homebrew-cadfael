@@ -2,11 +2,19 @@ require "formula"
 
 class Clhep < Formula
   homepage "http://proj-clhep.web.cern.ch/proj-clhep/"
-  url "http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-2.1.3.1.tgz"
-  sha256 "5d3e45b39a861731fe3a532bb1426353bf62b54c7b90ecf268827e50f925642b"
 
-  # Patch for clang compatibility, adapted from MacPorts
-  patch :DATA
+  stable do
+    url "http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-2.1.3.1.tgz"
+    sha256 "5d3e45b39a861731fe3a532bb1426353bf62b54c7b90ecf268827e50f925642b"
+
+    # Patch for clang compatibility, adapted from MacPorts
+    patch :DATA
+  end
+
+  devel do
+    url "http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-2.3.1.0.tgz"
+    sha256 "66272ae3100d3aec096b1298e1e24ec25b80e4dac28332b45ec3284023592963"
+  end
 
   option :cxx11
 
