@@ -32,6 +32,7 @@ class Geant4 < Formula
 
   option :cxx11
   option "with-opengl-x11", "Build OpenGL X11 driver" if OS.linux?
+  option "with-notimeout", "Set notimeout in installing data"
 
   depends_on "cmake" => :build
 
@@ -51,6 +52,7 @@ class Geant4 < Formula
       args << "-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON"
       args << "-DGEANT4_BUILD_CXXSTD=c++11" if build.cxx11?
       args << "-DGEANT4_INSTALL_DATA=ON"
+      args << "-DGEANT4_INSTALL_DATA_TIMEOUT=86400" if build.with? "notimeout"
       args << "-DGEANT4_USE_SYSTEM_CLHEP=ON"
       args << "-DGEANT4_USE_SYSTEM_EXPAT=ON"
       #args << "-DGEANT4_USE_SYSTEM_ZLIB=ON"
