@@ -1,6 +1,6 @@
 class Geant4 < Formula
   homepage "http://geant4.cern.ch"
-  revision 3
+  revision 4
 
   stable do
     url "http://geant4.cern.ch/support/source/geant4.9.6.p04.tar.gz"
@@ -21,6 +21,10 @@ class Geant4 < Formula
     patch do
       url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-xercesc-include.patch"
       sha256 "668d78b7c24efe9065a4e1aadd5441c129a454113eae96812c77a2c8861bfa64"
+    end
+    patch do
+      url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/geant4-9.6.4-infinite-recursion.patch"
+      sha256 "7ee817311d36f0b49f7af9dd5e024c406210e58cc2868e2a49387eb04c99400e"
     end
   end
 
