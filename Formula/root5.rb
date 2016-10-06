@@ -7,6 +7,7 @@ class Root5 < Formula
      url "https://root.cern.ch/download/root_v#{version}.source.tar.gz"
      mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
    end
+   revision 1
 
    head do
      url "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
@@ -16,7 +17,7 @@ class Root5 < Formula
    option :cxx11
 
    depends_on "openssl"
-   depends_on "gsl" => :recommended
+   depends_on "homebrew/versions/gsl1" => :recommended
    depends_on :python => :recommended
 
    def install
@@ -48,7 +49,7 @@ class Root5 < Formula
        # Options
        args << "-Dcxx11=ON" if build.cxx11?
        args << "-Dpython=".concat((build.with? "python") ? "ON" : "OFF")
-       args << "-Dmathmore=".concat((build.with? "gsl") ? "ON" : "OFF")
+       args << "-Dmathmore=".concat((build.with? "gsl1") ? "ON" : "OFF")
 
        system "cmake", "../", *args
        system "make"

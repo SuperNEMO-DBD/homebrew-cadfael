@@ -4,12 +4,12 @@ class Bayeux < Formula
   version "2.1.0"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.1.0.tar.gz"
   sha256 "28deba44bfff73319a117ab5b8425703d73ee4764b19bb4162661f8ecf979efc"
-  revision 1
+  revision 2
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
 
-  depends_on "gsl"
+  depends_on "homebrew/versions/gsl1"
   depends_on "readline"
 
   needs :cxx11
