@@ -7,7 +7,7 @@ class Bayeux < Formula
   revision 2
 
   depends_on "cmake" => :build
-  depends_on "doxygen" => :build
+  depends_on "supernemo-dbd/cadfael/doxygen" => :build
 
   depends_on "homebrew/versions/gsl1"
   depends_on "readline"

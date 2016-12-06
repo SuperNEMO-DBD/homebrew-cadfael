@@ -9,7 +9,7 @@ class Falaise < Formula
   patch :DATA
 
   depends_on "cmake" => :build
-  depends_on "doxygen" => :build
+  depends_on "supernemo-dbd/cadfael/doxygen" => :build
 
   needs :cxx11
 
