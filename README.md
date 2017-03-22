@@ -14,7 +14,7 @@ $ brew install falaise
 
 # Formulae
 ## Core
-CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory. 
+CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory.
 Installing the ``falaise`` formula will install the core SuperNEMO software packages
 
 - Bayeux C++ Core Foundation Library
@@ -23,7 +23,7 @@ Installing the ``falaise`` formula will install the core SuperNEMO software pack
 plus their upstream dependencies:
 
 - [Boost](http://www.boost.org)
-- [ROOT5](https://root.cern.ch)
+- [ROOT](https://root.cern.ch)
 - [GSL](http://www.gnu.org/software/gsl/)
 - [CAMP](https://github.com/tegesoft/camp)
 - [CLHEP](http://proj-clhep.web.cern.ch/proj-clhep/)
@@ -40,8 +40,6 @@ versions of dependent packages.
 - [Qt5](http://doc.qt.io/qt-5/)
 - [Ponder](https://github.com/billyquith/ponder)
   - Note: This replaces the [CAMP]() package
-- [ROOT6](https://root.cern.ch)
-  - TODO: Replacement for Root5
 
 ## Python
 Installing Falaise will also install (via the ROOT dependency) a brewed copy of Python. This includes
@@ -114,11 +112,11 @@ Installs needed and recommended compiler/development tools:
   - ninja
   - git-flow-avh
 
-GCC is only installed if the system does not provide GCC 4.9 or better. GCC in 
-this tap is supplied as a versioned formulae to allow easier future upgrades, 
-and the system compiler is preferred if possible to give the 
+GCC is only installed if the system does not provide GCC 4.9 or better. GCC in
+this tap is supplied as a versioned formulae to allow easier future upgrades,
+and the system compiler is preferred if possible to give the
 simplest integration.
 
 This command is used instead of a formula as Homebrew doesn't directly support
-"dependency only" formulae, and we also want precise control over the 
+"dependency only" formulae, and we also want precise control over the
 installation order.
