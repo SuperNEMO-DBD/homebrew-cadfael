@@ -44,6 +44,7 @@ class Root6 < Formula
         "-Dbonjour=OFF",
         "-Dcastor=OFF",
         "-Dchirp=OFF",
+        "-Ddavix=OFF",
         "-Ddcache=OFF",
         "-Dfitsio=OFF",
         "-Dgfal=OFF",
