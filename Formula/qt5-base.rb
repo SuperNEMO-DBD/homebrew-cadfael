@@ -2,13 +2,13 @@ require "formula"
 
 class Qt5Base < Formula
   homepage "http://qt-project.org/"
-  url "http://download.qt.io/official_releases/qt/5.6/5.6.0/submodules/qtbase-opensource-src-5.6.0.tar.gz"
-  sha256 "3004d5e20413edcc763d5efeebcde6785fec863d904c77c8d87885c6eeb8a70c"
+  url "http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtbase-opensource-src-5.8.0.tar.gz"
+  sha256 "0f6ecd94abd148f1ea4ad08905308af973c6fad9e8fca7491d68dbc8fbd88872"
 
   # try submodules as resources
   resource "qtsvg" do
-    url "http://download.qt.io/official_releases/qt/5.6/5.6.0/submodules/qtsvg-opensource-src-5.6.0.tar.gz"
-    sha256 "ebe2f98308def42abef36a55fa6ffe0a50a98bd096c8ce30944d1bd20b4871ab"
+    url "http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtsvg-opensource-src-5.8.0.tar.gz"
+    sha256 "542a3a428992c34f8eb10489231608edff91e96ef69186ffa3e9c2f6257a012f"
   end
 
 
@@ -18,8 +18,6 @@ class Qt5Base < Formula
   depends_on :xcode => :build if OS.mac?
   depends_on "pkg-config" => :build
 
-  option :cxx11
-
   def install
     args = ["-prefix", prefix,
             "-opensource",
@@ -27,12 +25,6 @@ class Qt5Base < Formula
             "-release",
             "-nomake", "tests",
             "-nomake", "examples"]
-
-    if build.cxx11?
-      args << "-c++11"
-    else
-      args << "-no-c++11"
-    end
 
     args << "-qt-xcb" if OS.linux?
 
