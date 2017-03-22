@@ -1,9 +1,9 @@
 class Root6 < Formula
   homepage "http://root.cern.ch"
-  version "6.06.06"
+  version "6.08.06"
   url "http://root.cern.ch/download/root_v#{version}.source.tar.gz"
   mirror "https://fossies.org/linux/misc/root_v#{version}.source.tar.gz"
-  sha256 "0a7d702a130a260c72cb6ea754359eaee49a8c4531b31f23de0bfcafe3ce466b"
+  sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
   head "http://root.cern.ch/git/root.git"
 
   keg_only "Conflicts with ROOT5 used by production Bayeux/Falaise"
@@ -16,6 +16,8 @@ class Root6 < Formula
   depends_on :python => :recommended
   #depends_on :x11 => :recommended if OS.linux?
   #depends_on "xrootd" => [:optional, 'c++11']
+  # For LZMA
+  depends_on "xz"
 
   needs :cxx11
 

@@ -9,12 +9,12 @@ class Bayeux < Formula
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
 
-  depends_on "homebrew/versions/gsl1"
+  depends_on "gsl"
   depends_on "readline"
 
   needs :cxx11
   depends_on "icu4c" => "c++11"
-  depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu4c"]
+  depends_on "boost" => ["c++11", "with-icu4c"]
   depends_on "supernemo-dbd/cadfael/camp" => "c++11"
   depends_on "supernemo-dbd/cadfael/clhep" => "c++11"
   depends_on "supernemo-dbd/cadfael/root5" => "c++11"
