@@ -4,12 +4,22 @@ Linux/Homebrew. Though designed for use with cadfaelbrew, it should
 work and be compatible with upstream linuxbrew/homebrew modulo version dependencies on Formulae.
 
 # Quickstart
-If you have an existing Homebrew/Linuxbrew install, simply do
+If you have an existing Homebrew (macOS) install, simply do
 
 ```
 $ brew tap supernemo-dbd/cadfael
 $ brew cadfael-bootstrap-toolchain
 $ brew install falaise
+```
+
+Use this tap with an existing Linuxbrew installation is currently not supported as there may be clashes between 
+Linuxbrew's install of gcc/glibc and the CERN ROOT dependency. On Linux, it's therefore recommended to use SuperNEMO's fork of brew:
+
+```
+$ git clone https://github.com/SuperNEMO-DBD/brew.git cadfaelbrew
+$ cd cadfaelbrew
+$ ./bin/brew cadfael-bootstrap
+$ ./bin/brew install falaise
 ```
 
 # Formulae
