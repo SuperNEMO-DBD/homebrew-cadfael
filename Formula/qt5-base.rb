@@ -24,7 +24,12 @@ class Qt5Base < Formula
             "-confirm-license",
             "-release",
             "-nomake", "tests",
-            "-nomake", "examples"]
+            "-nomake", "examples",
+            "-system-zlib",
+            "-qt-libpng",
+            "-qt-libjpeg",
+            "-qt-freetype",
+            "-qt-pcre"]
 
     args << "-qt-xcb" if OS.linux?
 
