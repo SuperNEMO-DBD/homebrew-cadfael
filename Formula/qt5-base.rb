@@ -17,21 +17,40 @@ class Qt5Base < Formula
 
   depends_on :xcode => :build if OS.mac?
   depends_on "pkg-config" => :build
+  depends_on "icu4c" => ["--c++11"] if OS.linux?
 
   def install
-    args = ["-prefix", prefix,
-            "-opensource",
-            "-confirm-license",
-            "-release",
-            "-nomake", "tests",
-            "-nomake", "examples",
-            "-system-zlib",
-            "-qt-libpng",
-            "-qt-libjpeg",
-            "-qt-freetype",
-            "-qt-pcre"]
+    args = %W[
+      -verbose
+      -prefix #{prefix}
+      -release
+      -opensource -confirm-license
+      -system-zlib
+      -qt-libpng
+      -qt-libjpeg
+      -qt-freetype
+      -qt-pcre
+      -nomake tests
+      -nomake examples
+      -pkg-config
+      -c++std c++14
+    ]
 
-    args << "-qt-xcb" if OS.linux?
+    if OS.linux?
+      # Minimizes X11 dependencies
+      # See
+      # https://github.com/Linuxbrew/homebrew-core/pull/1062
+      args << "-qt-xcb"
+      # Need to use -R as qt5 seemingly ignores LDFLAGS, and doesn't
+      # use -L paths provided by pkg-config. Configure can have odd
+      # effects depending on what system provides.
+      # Qt5 is keg-only, so add its own libdir
+      args << "-R#{lib}"
+      # If we depend on anything from brew, then need the core path
+      args << "-R#{HOMEBREW_PREFIX}/lib"
+      # If we end up depending on any keg_only Formulae, add extra
+      # -R lines for each of them below here.
+    end
 
     system "./configure", *args
     # Cannot parellize build os OSX
