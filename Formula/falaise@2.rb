@@ -29,6 +29,7 @@ class FalaiseAT2 < Formula
 
   test do
     system "#{bin}/flsimulate", "-o", "test.brio"
+    system "#{bin}/flreconstruct", "-i", "test.brio", "-p", "@falaise:pipeline/snemo.demonstrator/1.0.0", "-o", "test.root"
   end
 end
 
