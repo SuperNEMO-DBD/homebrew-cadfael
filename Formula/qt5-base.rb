@@ -11,8 +11,6 @@ class Qt5Base < Formula
     sha256 "542a3a428992c34f8eb10489231608edff91e96ef69186ffa3e9c2f6257a012f"
   end
 
-
-  keg_only "Qt5 conflicts with the more widely used Qt4"
   conflicts_with "qt5", :because => "Core homebrew ships a complete Qt5 install"
 
   depends_on :xcode => :build if OS.mac?

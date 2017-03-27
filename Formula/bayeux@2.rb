@@ -1,10 +1,13 @@
-class Bayeux < Formula
+class BayeuxAT2 < Formula
   desc "Bayeux Library"
   homepage ""
-  version "2.1.0"
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.1.0.tar.gz"
-  sha256 "28deba44bfff73319a117ab5b8425703d73ee4764b19bb4162661f8ecf979efc"
-  revision 2
+  version "2.2.0"
+  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.2.0-rc1.tar.bz2"
+  sha256 "81add8494a08485f651032081520dcfddc03234b5af378d14113f4e13517251d"
+  
+  patch :DATA
+
+  keg_only "Conflicts with newer production versions"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
@@ -17,8 +20,8 @@ class Bayeux < Formula
   depends_on "boost" => ["c++11", "with-icu4c"]
   depends_on "supernemo-dbd/cadfael/camp" => "c++11"
   depends_on "supernemo-dbd/cadfael/clhep" => "c++11"
-  depends_on "supernemo-dbd/cadfael/root5" => "c++11"
   depends_on "supernemo-dbd/cadfael/geant4" => "c++11"
+  depends_on "supernemo-dbd/cadfael/root6"
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
@@ -39,3 +42,17 @@ class Bayeux < Formula
     system "false"
   end
 end
+__END__
+diff --git a/source/bxmctools/src/g4/run_action.cc b/source/bxmctools/src/g4/run_action.cc
+index 5aa80d5..11d4aad 100644
+--- a/source/bxmctools/src/g4/run_action.cc
++++ b/source/bxmctools/src/g4/run_action.cc
+@@ -422,7 +422,7 @@ namespace mctools {
+       return;
+     }
+ 
+-    void run_action::dump(ostream & a_out) const
++    void run_action::dump(std::ostream & a_out) const
+     {
+       a_out << "run_action::dump:" << std::endl;
+       a_out << "|-- Save data           : "  << _save_data_ << std::endl;

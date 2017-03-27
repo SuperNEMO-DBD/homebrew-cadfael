@@ -6,8 +6,6 @@ class Root6 < Formula
   sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
   head "http://root.cern.ch/git/root.git"
 
-  keg_only "Conflicts with ROOT5 used by production Bayeux/Falaise"
-
   depends_on "cmake" => :build
   depends_on "gsl" => :recommended
   depends_on "openssl" => :optional
@@ -18,6 +16,9 @@ class Root6 < Formula
   #depends_on "xrootd" => [:optional, 'c++11']
   # For LZMA
   depends_on "xz"
+
+  # For XML on Linux
+  depends_on "libxml2" if OS.linux?
 
   needs :cxx11
 

@@ -13,6 +13,8 @@ class Root5 < Formula
      url "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
    end
 
+   keg_only "Conflicts with production version ROOT6"
+
    depends_on "cmake" => :build
    option :cxx11
 
