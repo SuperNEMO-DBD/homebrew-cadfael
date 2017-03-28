@@ -3,7 +3,7 @@ class BayeuxAT2 < Formula
   homepage ""
   version "2.2.0"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.2.0-rc1.tar.bz2"
-  sha256 "81add8494a08485f651032081520dcfddc03234b5af378d14113f4e13517251d"
+  sha256 "c6b429131c5f5f527d3b474eb3fc05884f8c876d0d0e26d47c8b41a54de7e525"
   
   patch :DATA
 
