@@ -3,7 +3,7 @@ class Falaise < Formula
   homepage ""
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-3.0.0-rc1.tar.bz2"
   version "3.0.0"
-  sha256 "8d96486d79e013b23b59f90283848c19282afa3ffd354a75fd7d8b451c3be7c2"
+  sha256 "604982250958b5b956a275ae3435ac725c22e411a542dc848c2bb3174a153d24"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
