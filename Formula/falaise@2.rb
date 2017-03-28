@@ -3,7 +3,7 @@ class FalaiseAT2 < Formula
   homepage ""
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-2.2.0-rc1.tar.bz2"
   version "2.2.0"
-  sha256 "3716a13ab72c0ad83a13663b220beff3842c5ed7fad5aa071105ff12e635ca37"
+  sha256 "0295d341b0088845a6e6e9cb51992fc716222705d380086c9a5727578cf67e98"
 
   keg_only "Conflicts with newer production versions"
 
