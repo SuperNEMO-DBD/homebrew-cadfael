@@ -3,7 +3,7 @@ class Bayeux < Formula
   homepage ""
   version "3.0.0"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-3.0.0-rc1.tar.bz2"
-  sha256 "4fefbe5cee2cd1c70e6644059a0cad7f401bfa15b9bd9295bdacb27291167773"
+  sha256 "d8142ccf2efbecdff9e76c71d02716ff483dab8b1cf637ee0ecd4df156215836"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
