@@ -1,6 +1,6 @@
 class Falaise < Formula
-  desc "Falaise Software for SuperNEMO"
-  homepage ""
+  desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
+  homepage "https://supernemo-dbd.github.io"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-3.0.0-rc1.tar.bz2"
   version "3.0.0"
   sha256 "604982250958b5b956a275ae3435ac725c22e411a542dc848c2bb3174a153d24"
@@ -30,4 +30,3 @@ class Falaise < Formula
     system "#{bin}/flreconstruct", "-i", "test.brio", "-p", "@falaise:pipeline/snemo.demonstrator/1.0.0", "-o", "test.root"
   end
 end
-

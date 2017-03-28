@@ -2,7 +2,6 @@ class Igprof < Formula
   desc "The Ignominous Profiler"
   homepage "http://igprof.org"
   url "https://github.com/igprof/igprof/archive/v5.9.16.tar.gz"
-  version "5.9.16"
   sha256 "cc977466b310f47bbc2967a0bb6ecd49d7437089598346e3f1d8aaf9a7555d96"
 
   depends_on "cmake" => :build
@@ -22,7 +21,7 @@ class Igprof < Formula
       #include <string>
       #include <dlfcn.h>
 
-      int main (int, char **) 
+      int main (int, char **)
       {
         union { void *ptr; void (*dump)(const char *tofile); } u;
         u.ptr = dlsym(0, "igprof_dump_now");
@@ -42,7 +41,7 @@ class Igprof < Formula
         return vvvi2.size();
       }
     EOS
-    system ENV.cxx, "-o", "vvvi-build-and-copy", 
+    system ENV.cxx, "-o", "vvvi-build-and-copy",
            testpath/"vvvi-build-and-copy.cc", "-ldl", "-lpthread"
     begin
       system "#{bin}/igprof", "-mp", "-z", "-o", "ig-vvvi-build-and-copy.gz",

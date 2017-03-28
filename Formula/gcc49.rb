@@ -19,11 +19,12 @@ class Gcc49 < Formula
     `uname -r`.chomp
   end
 
+  desc "GNU Compiler Collection"
   homepage "http://gcc.gnu.org"
-  url "http://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
+  url "https://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
   mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.3/gcc-4.9.3.tar.bz2"
   sha256 "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
-  
+
   if MacOS.version >= :yosemite
     # Fixes build with Xcode 7.
     # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66523
@@ -60,7 +61,6 @@ class Gcc49 < Formula
     sha256 "faf652fd1c8bd1179533d95a6fa9a27f6ff69f8bdd62186092c439d1e9574339"
   end
 
- 
   option "with-nls", "Build with native language support (localization)"
   option "with-all-languages", "Enable all compilers and languages, except Ada"
   option "without-fortran", "Build without the gfortran compiler"
@@ -88,7 +88,6 @@ class Gcc49 < Formula
   end
 
   fails_with :gcc_4_0
-  fails_with :llvm
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
   cxxstdlib_check :skip

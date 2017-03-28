@@ -1,19 +1,17 @@
 class Root6 < Formula
+  desc "CERN C++ Data Analysis and Persistency Libraries"
   homepage "http://root.cern.ch"
+  url "http://root.cern.ch/download/root_v6.08.06.source.tar.gz"
+  mirror "https://fossies.org/linux/misc/root_v6.08.06.source.tar.gz"
   version "6.08.06"
-  url "http://root.cern.ch/download/root_v#{version}.source.tar.gz"
-  mirror "https://fossies.org/linux/misc/root_v#{version}.source.tar.gz"
   sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
   head "http://root.cern.ch/git/root.git"
 
   depends_on "cmake" => :build
   depends_on "gsl" => :recommended
   depends_on "openssl" => :optional
-  depends_on "sqlite3" => :recommended
-  #depends_on "tbb" => [:optional, 'c++11']
+  depends_on "sqlite" => :recommended
   depends_on :python => :recommended
-  #depends_on :x11 => :recommended if OS.linux?
-  #depends_on "xrootd" => [:optional, 'c++11']
   # For LZMA
   depends_on "xz"
 
@@ -37,7 +35,7 @@ class Root6 < Formula
 
     mkdir "cmake-build" do
       system "cmake", "..",
-        # Disable everything that might be ON by default... 
+        # Disable everything that might be ON by default...
         # minimal/gminimal don't allow override...
         "-Dalien=OFF",
         "-Dasimage=OFF",
@@ -82,7 +80,7 @@ class Root6 < Formula
         cmake_opt("ssl", "openssl"),
         cmake_opt("sqlite", "sqlite3"),
         cmake_opt("xrootd"),
-        cmake_opt("mathmore","gsl"),
+        cmake_opt("mathmore", "gsl"),
         cmake_opt("tbb"),
         *std_cmake_args
       system "make", "install"
@@ -90,21 +88,6 @@ class Root6 < Formula
 
     libexec.mkpath
     mv Dir["#{bin}/*.*sh"], libexec
-  end
-
-  test do
-    (testpath/"test.C").write <<-EOS.undent
-      #include <iostream>
-      void test() {
-        std::cout << "Hello, world!" << std::endl;
-      }
-    EOS
-    (testpath/"test.bash").write <<-EOS.undent
-      . #{libexec}/thisroot.sh
-      root -l -b -n -q test.C
-    EOS
-    assert_equal "\nProcessing test.C...\nHello, world!\n",
-      `/bin/bash test.bash`
   end
 
   def caveats; <<-EOS.undent
@@ -121,5 +104,20 @@ class Root6 < Formula
     For csh/tcsh users:
       source `brew --prefix root6`/libexec/thisroot.csh
     EOS
+  end
+
+  test do
+    (testpath/"test.C").write <<-EOS.undent
+      #include <iostream>
+      void test() {
+        std::cout << "Hello, world!" << std::endl;
+      }
+    EOS
+    (testpath/"test.bash").write <<-EOS.undent
+      . #{libexec}/thisroot.sh
+      root -l -b -n -q test.C
+    EOS
+    assert_equal "\nProcessing test.C...\nHello, world!\n",
+      `/bin/bash test.bash`
   end
 end
