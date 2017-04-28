@@ -2,8 +2,8 @@ class Bayeux < Formula
   desc "Bayeux Library"
   homepage ""
   version "3.0.0"
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-3.0.0-rc1.tar.bz2"
-  sha256 "d8142ccf2efbecdff9e76c71d02716ff483dab8b1cf637ee0ecd4df156215836"
+  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-3.0.0.tar.bz2"
+  sha256 "b4aa1ab505a7c36b8a1b0e07da10ecc0841df244fd1e0da2a316cf960ef7d59c"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
