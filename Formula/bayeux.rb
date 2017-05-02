@@ -13,7 +13,7 @@ class Bayeux < Formula
 
   needs :cxx11
   depends_on "icu4c" => "c++11"
-  depends_on "boost" => ["c++11", "with-icu4c"]
+  depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu4c"]
   depends_on "supernemo-dbd/cadfael/camp" => "c++11"
   depends_on "supernemo-dbd/cadfael/clhep" => "c++11"
   depends_on "supernemo-dbd/cadfael/geant4" => "c++11"

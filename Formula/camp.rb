@@ -14,9 +14,9 @@ class Camp < Formula
   depends_on "doxygen" => [:optional, :build]
 
   if build.cxx11?
-    depends_on "boost" => "c++11"
+    depends_on "supernemo-dbd/cadfael/boost" => "c++11"
   else
-    depends_on "boost"
+    depends_on "supernemo-dbd/cadfael/boost"
   end
 
   def install
