@@ -1,9 +1,9 @@
 class Falaise < Formula
   desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
   homepage "https://supernemo-dbd.github.io"
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-3.0.0-rc1.tar.bz2"
+  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-3.0.0.tar.bz2"
   version "3.0.0"
-  sha256 "604982250958b5b956a275ae3435ac725c22e411a542dc848c2bb3174a153d24"
+  sha256 "c445ba9720df5d5c7771728528d9e4af3d5523e9d31ada56e60c034ed611dc33"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
@@ -27,6 +27,6 @@ class Falaise < Formula
 
   test do
     system "#{bin}/flsimulate", "-o", "test.brio"
-    system "#{bin}/flreconstruct", "-i", "test.brio", "-p", "@falaise:pipeline/snemo.demonstrator/1.0.0", "-o", "test.root"
+    system "#{bin}/flreconstruct", "-i", "test.brio", "-p", "urn:snemo:demonstrator:reconstruction:1.0.0", "-o", "test.root"
   end
 end
