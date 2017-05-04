@@ -1,4 +1,5 @@
 class Geant4 < Formula
+  desc "C++ toolkit for simulating the passage of particles through matter"
   homepage "http://geant4.cern.ch"
   revision 4
 
@@ -50,7 +51,7 @@ class Geant4 < Formula
 
   def install
     ENV.cxx11 if build.cxx11?
-    mkdir 'geant4-build' do
+    mkdir "geant4-build" do
       args = std_cmake_args
       args << "-DCMAKE_INSTALL_LIBDIR=lib"
       args << "-DCMAKE_BUILD_WITH_INSTALL_RPATH=ON"
@@ -59,7 +60,7 @@ class Geant4 < Formula
       args << "-DGEANT4_INSTALL_DATA_TIMEOUT=86400" if build.with? "notimeout"
       args << "-DGEANT4_USE_SYSTEM_CLHEP=ON"
       args << "-DGEANT4_USE_SYSTEM_EXPAT=ON"
-      #args << "-DGEANT4_USE_SYSTEM_ZLIB=ON"
+      # args << "-DGEANT4_USE_SYSTEM_ZLIB=ON"
 
       args << "-DGEANT4_USE_GDML=ON" if build.with? "xerces-c"
       args << "-DGEANT4_USE_OPENGL_X11=ON" if build.with? "opengl-x11"

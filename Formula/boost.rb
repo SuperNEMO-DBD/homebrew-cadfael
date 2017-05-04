@@ -1,166 +1,73 @@
-require 'formula'
-
-class UniversalPython < Requirement
-  satisfy(:build_env => false) { archs_for_command("python").universal? }
-
-  def message; <<-EOS.undent
-    A universal build was requested, but Python is not a universal build
-
-    Boost compiles against the Python it finds in the path; if this Python
-    is not a universal build then linking will likely fail.
-    EOS
-  end
-end
-
-class UniversalPython3 < Requirement
-  satisfy(:build_env => false) { archs_for_command("python3").universal? }
-
-  def message; <<-EOS.undent
-    A universal build was requested, but Python 3 is not a universal build
-
-    Boost compiles against the Python 3 it finds in the path; if this Python
-    is not a universal build then linking will likely fail.
-    EOS
-  end
-end
-
 class Boost < Formula
-  homepage 'http://www.boost.org'
-  stable do
-    url "https://downloads.sourceforge.net/project/boost/boost/1.60.0/boost_1_60_0.tar.bz2"
-    sha256 "686affff989ac2488f79a97b9479efb9f2abae035b5ed4d8226de6857933fd3b"
-  
-    # Handle compile failure with boost/graph/adjacency_matrix.hpp
-    # https://github.com/Homebrew/homebrew/pull/48262
-    # https://svn.boost.org/trac/boost/ticket/11880
-    # patch derived from https://github.com/boostorg/graph/commit/1d5f43d
-    patch :DATA
+  desc "Collection of portable C++ source libraries"
+  homepage "https://www.boost.org/"
+  url "https://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.tar.bz2"
+  sha256 "beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0"
+  head "https://github.com/boostorg/boost.git"
+
+  bottle do
+    cellar :any
+    rebuild 1
+    sha256 "e5607a5dea289ee90f3da7258dbaec86301ce3d7f4c0b9f377c280edd3b25a8c" => :sierra
+    sha256 "5aa1c0ac09e0a02172410c3b150127025cebb877bd991888fd9942a94be88229" => :el_capitan
+    sha256 "dfec6aa1ab706974b3b9eae6ce20701d909f582c5fe7d250ac99a24d90997074" => :yosemite
+    sha256 "3cb0deefc084ef0c9b3a2242e99e1367c7509e1f4fb57aa81721bdc87d12ff32" => :x86_64_linux
   end
 
-  head 'https://github.com/boostorg/boost.git'
-
-
-  # CMake Support resource
-  depends_on "cmake" => :build
-  resource "BoostCMakeSupport" do
-    url "https://github.com/SuperNEMO-DBD/BoostCMakeSupport.git", :using => :git
-  end
-
-  env :userpaths
-
-  option :universal
-  option 'with-icu4c', 'Build regexp engine with icu support'
-  option 'with-single', 'Enable building single-threading variant'
-  option 'with-static', 'Enable building static library variant'
-  option 'with-mpi', 'Build with MPI support'
+  option "with-icu4c", "Build regexp engine with icu support"
+  option "without-single", "Disable building single-threading variant"
+  option "without-static", "Disable building static library variant"
   option :cxx11
 
-  depends_on :python => :optional
-  depends_on :python3 => :optional
-  depends_on UniversalPython if build.universal? and build.with? "python"
-  depends_on UniversalPython3 if build.universal? and build.with? "python3"
+  deprecated_option "with-icu" => "with-icu4c"
 
-  if build.with?("python3") && build.with?("python")
-    odie "boost: --with-python3 cannot be specified when using --with-python"
+  if build.cxx11?
+    depends_on "icu4c" => [:optional, "c++11"]
+  else
+    depends_on "icu4c" => :optional
   end
 
-  if build.with? 'icu4c'
-    if build.cxx11?
-      depends_on 'homebrew/core/icu4c' => 'c++11'
-    else
-      depends_on 'homebrew/core/icu4c'
-    end
+  unless OS.mac?
+    depends_on "bzip2"
+    depends_on "zlib"
   end
 
-  if build.with? 'mpi'
-    if build.cxx11?
-      depends_on 'open-mpi' => 'c++11'
-    else
-      depends_on :mpi => [:cc, :cxx, :optional]
-    end
-  end
-
-  fails_with :llvm do
-    build 2335
-    cause "Dropped arguments to functions when linking with boost"
-  end
+  needs :cxx11 if build.cxx11?
 
   def install
-    # https://svn.boost.org/trac/boost/ticket/8841
-    if build.with? 'mpi' and build.with? 'single'
-      raise <<-EOS.undent
-        Building MPI support for both single and multi-threaded flavors
-        is not supported.  Please use '--with-mpi' together with
-        '--without-single'.
-      EOS
-    end
+    # Reduce memory usage below 4 GB for Circle CI.
+    ENV["HOMEBREW_MAKE_JOBS"] = "6" if ENV["CIRCLECI"]
 
-    if build.cxx11? and build.with? 'mpi' and (build.with? 'python' \
-                                               or build.with? 'python3')
-      raise <<-EOS.undent
-        Building MPI support for Python using C++11 mode results in
-        failure and hence disabled.  Please don't use this combination
-        of options.
-      EOS
-    end
-
-    ENV.universal_binary if build.universal?
-
-    # Force boost to compile using the appropriate GCC version.
+    # Force boost to compile with the desired compiler
     open("user-config.jam", "a") do |file|
       if OS.mac?
         file.write "using darwin : : #{ENV.cxx} ;\n"
       else
         file.write "using gcc : : #{ENV.cxx} ;\n"
       end
-      file.write "using mpi ;\n" if build.with? 'mpi'
-
-      # Link against correct version of Python if python3 build was requested
-      if build.with? 'python3'
-        py3executable = `which python3`.strip
-        py3version = `python3 -c "import sys; print(sys.version[:3])"`.strip
-        py3prefix = `python3 -c "import sys; print(sys.prefix)"`.strip
-
-        file.write <<-EOS.undent
-          using python : #{py3version}
-                       : #{py3executable}
-                       : #{py3prefix}/include/python#{py3version}m
-                       : #{py3prefix}/lib ;
-        EOS
-      end
+      file.write "using mpi ;\n" if build.with? "mpi"
     end
 
-    # we specify libdir too because the script is apparently broken
-    bargs = ["--prefix=#{prefix}", "--libdir=#{lib}"]
+    # libdir should be set by --prefix but isn't
+    bootstrap_args = ["--prefix=#{prefix}", "--libdir=#{lib}"]
 
-    if build.with? 'icu'
-      icu4c_prefix = Formula['icu4c'].opt_prefix
-      bargs << "--with-icu=#{icu4c_prefix}"
+    if build.with? "icu4c"
+      icu4c_prefix = Formula["icu4c"].opt_prefix
+      bootstrap_args << "--with-icu=#{icu4c_prefix}"
     else
-      bargs << '--without-icu'
+      bootstrap_args << "--without-icu"
     end
 
     # Handle libraries that will not be built.
-    without_libraries = []
-
-    # The context library is implemented as x86_64 ASM, so it
-    # won't build on PPC or 32-bit builds
-    # see https://github.com/Homebrew/homebrew/issues/17646
-    if Hardware::CPU.ppc? || Hardware::CPU.is_32_bit? || build.universal?
-      without_libraries << "context"
-      # The coroutine library depends on the context library.
-      without_libraries << "coroutine"
-    end
+    without_libraries = ["python", "mpi"]
 
     # Boost.Log cannot be built using Apple GCC at the moment. Disabled
     # on such systems.
-    without_libraries << "log" if ENV.compiler == :gcc || ENV.compiler == :llvm
-    without_libraries << "python" if (build.without? 'python' \
-                                      and build.without? 'python3')
-    without_libraries << "mpi" if build.without? 'mpi'
+    without_libraries << "log" if ENV.compiler == :gcc
 
-    bargs << "--without-libraries=#{without_libraries.join(',')}"
+    bootstrap_args << "--without-libraries=#{without_libraries.join(",")}"
 
+    # layout should be synchronized with boost-python and boost-mpi
     args = ["--prefix=#{prefix}",
             "--libdir=#{lib}",
             "-d2",
@@ -181,8 +88,6 @@ class Boost < Formula
       args << "link=shared"
     end
 
-    args << "address-model=32_64" << "architecture=x86" << "pch=off" if build.universal?
-
     # Trunk starts using "clang++ -x c" to select C compiler which breaks C++11
     # handling using ENV.cxx11. Using "cxxflags" and "linkflags" still works.
     if build.cxx11?
@@ -192,23 +97,17 @@ class Boost < Formula
       end
     end
 
-    system "./bootstrap.sh", *bargs
-    system "./b2", *args
+    # Fix error: bzlib.h: No such file or directory
+    # and /usr/bin/ld: cannot find -lbz2
+    args += ["include=#{HOMEBREW_PREFIX}/include", "linkflags=-L#{HOMEBREW_PREFIX}/lib"] unless OS.mac?
 
-    # Install cmake support files
-    resources.each do |r|
-      r.stage do
-        boost_support_args = std_cmake_args
-        boost_support_args << "-Dboost_VERSION=#{version}"
-        boost_support_args << "-Dboost_SINGLE=TRUE" if build.with? "single"
-        boost_support_args << "-Dboost_STATIC=TRUE" if build.with? "static"
-        system "cmake", *boost_support_args
-      end
-    end
+    system "./bootstrap.sh", *bootstrap_args
+    system "./b2", "headers"
+    system "./b2", *args
   end
 
   def caveats
-    s = ''
+    s = ""
     # ENV.compiler doesn't exist in caveats. Check library availability
     # instead.
     if Dir["#{lib}/libboost_log*"].empty?
@@ -218,28 +117,30 @@ class Boost < Formula
       EOS
     end
 
-    if Hardware::CPU.ppc? || Hardware::CPU.is_32_bit? || build.universal?
-      s += <<-EOS.undent
-
-      Building of Boost.Context and Boost.Coroutine is disabled as they are
-      only supported on x86_64.
-      EOS
-    end
-
     s
   end
+
+  test do
+    (testpath/"test.cpp").write <<-EOS.undent
+      #include <boost/algorithm/string.hpp>
+      #include <string>
+      #include <vector>
+      #include <assert.h>
+      using namespace boost::algorithm;
+      using namespace std;
+
+      int main()
+      {
+        string str("a,b");
+        vector<string> strVec;
+        split(strVec, str, is_any_of(","));
+        assert(strVec.size()==2);
+        assert(strVec[0]=="a");
+        assert(strVec[1]=="b");
+        return 0;
+      }
+    EOS
+    system ENV.cxx, "test.cpp", "-std=c++1y", "-L#{lib}", "-lboost_system", "-o", "test"
+    system "./test"
+  end
 end
-__END__
-diff -Nur boost_1_60_0/boost/graph/adjacency_matrix.hpp boost_1_60_0-patched/boost/graph/adjacency_matrix.hpp
---- boost_1_60_0/boost/graph/adjacency_matrix.hpp       2015-10-23 05:50:19.000000000 -0700
-+++ boost_1_60_0-patched/boost/graph/adjacency_matrix.hpp       2016-01-19 14:03:29.000000000 -0800
-@@ -443,7 +443,7 @@
-     // graph type. Instead, use directedS, which also provides the
-     // functionality required for a Bidirectional Graph (in_edges,
-     // in_degree, etc.).
--    BOOST_STATIC_ASSERT(type_traits::ice_not<(is_same<Directed, bidirectionalS>::value)>::value);
-+    BOOST_STATIC_ASSERT(!(is_same<Directed, bidirectionalS>::value));
-
-     typedef typename mpl::if_<is_directed,
-                                     bidirectional_tag, undirected_tag>::type
-

@@ -1,9 +1,11 @@
-class Falaise < Formula
-  desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
-  homepage "https://supernemo-dbd.github.io"
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-3.0.0.tar.bz2"
-  version "3.0.0"
-  sha256 "2cba670ce626887270af5f6e98106c6f07c5f3214fb281af5ef7894442d544d7"
+class FalaiseAT2 < Formula
+  desc "Falaise Software for SuperNEMO"
+  homepage ""
+  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-2.2.0.tar.bz2"
+  version "2.2.0"
+  sha256 "b702ed4d1874894435fbc56df4c95573cb7c07f49526706e3c0ee8b50b8c52e1"
+
+  keg_only "Conflicts with newer production versions"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
@@ -11,7 +13,7 @@ class Falaise < Formula
   needs :cxx11
 
   # Bayeux dependency pulls in all additional deps of Falaise at present
-  depends_on "supernemo-dbd/cadfael/bayeux"
+  depends_on "supernemo-dbd/cadfael/bayeux@2"
 
   def install
     ENV.cxx11
@@ -27,6 +29,7 @@ class Falaise < Formula
 
   test do
     system "#{bin}/flsimulate", "-o", "test.brio"
-    system "#{bin}/flreconstruct", "-i", "test.brio", "-p", "urn:snemo:demonstrator:reconstruction:1.0.0", "-o", "test.root"
+    system "#{bin}/flreconstruct", "-i", "test.brio", "-p", "@falaise:pipeline/snemo.demonstrator/1.0.0", "-o", "test.root"
   end
 end
+

@@ -13,11 +13,13 @@ class Root5 < Formula
      url "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
    end
 
+   keg_only "Conflicts with production version ROOT6"
+
    depends_on "cmake" => :build
    option :cxx11
 
    depends_on "openssl"
-   depends_on "homebrew/versions/gsl1" => :recommended
+   depends_on "gsl" => :recommended
    depends_on :python => :recommended
 
    def install
@@ -49,7 +51,7 @@ class Root5 < Formula
        # Options
        args << "-Dcxx11=ON" if build.cxx11?
        args << "-Dpython=".concat((build.with? "python") ? "ON" : "OFF")
-       args << "-Dmathmore=".concat((build.with? "gsl1") ? "ON" : "OFF")
+       args << "-Dmathmore=".concat((build.with? "gsl") ? "ON" : "OFF")
 
        system "cmake", "../", *args
        system "make"

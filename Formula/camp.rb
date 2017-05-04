@@ -1,6 +1,5 @@
-require 'formula'
-
 class Camp < Formula
+  desc "Tegesoft C++ reflection library"
   homepage "https://github.com/tegesoft/camp"
   url "https://github.com/drbenmorgan/camp.git", :revision => "7564e57f7b406d1021290cf2260334d57d8df255"
   version "0.8.0"
@@ -12,7 +11,7 @@ class Camp < Formula
   # This appears to be a more robust way of defining options so that the
   # dependency is always installed
   option "with-doxygen", "Build with doxygen documentation"
-  depends_on "doxygen" => [:optional, :build] 
+  depends_on "doxygen" => [:optional, :build]
 
   if build.cxx11?
     depends_on "supernemo-dbd/cadfael/boost" => "c++11"
