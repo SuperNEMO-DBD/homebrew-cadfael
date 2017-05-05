@@ -1,30 +1,144 @@
 # Homebrew tap for SuperNEMO
 Custom Formulae and Commands for SuperNEMO's [cadfaelbrew fork](https://github.com/SuperNEMO-DBD/cadfaelbrew) of
-Linux/Homebrew. Though designed for use with cadfaelbrew, it should
-work and be compatible with upstream linuxbrew/homebrew modulo version dependencies on Formulae.
+Linux/Homebrew. Though designed for use with cadfaelbrew, it should work and be compatible with upstream Homebrew (macOS) 
+modulo version dependencies on Formulae supplied in this tap. Co-working with Linuxbrew is not yet supported.
 
 # Quickstart
-If you have an existing Homebrew (macOS) install, simply do
-
-```
-$ brew tap supernemo-dbd/cadfael
-$ brew cadfael-bootstrap-toolchain
-$ brew install falaise
-```
-
-Use this tap with an existing Linuxbrew installation is currently not supported as there may be clashes between 
-Linuxbrew's install of gcc/glibc and the CERN ROOT dependency. On Linux, it's therefore recommended to use SuperNEMO's fork of brew:
+To install brew and the needed development tools for the SuperNEMO software, simply do
 
 ```
 $ git clone https://github.com/SuperNEMO-DBD/brew.git cadfaelbrew
 $ cd cadfaelbrew
 $ ./bin/brew cadfael-bootstrap
-$ ./bin/brew install falaise
 ```
 
-# Formulae
+The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any 
+missing system packages and how to install these. This step is only done for the following systems:
+
+- RHEL/CentOS/Scientific Linux 6/7
+- Ubuntu Linux 14.04LTS/16.04LTS
+- macOS 10.10/11/12(Mavericks/El Capitan/Sierra)
+
+Running on a non-supported system will still proceed, but you may encounter issues (see [Troubleshooting](#troubleshooting)).
+As the bootstrap step may include the install of the GCC compiler, it will take
+some time to complete.
+
+Once bootstrapping is completed, the main [Falaise](https://github.com/supernemo-dbd/Falaise) software for SuperNEMO
+may be installed and tested:
+
+```
+$ ./bin/brew install falaise
+$ ./bin/brew test falaise
+```
+
+As above, this will take some time to complete due to the need to install large dependencies
+such as CERN ROOT and Geant4. Should any step fail to complete, see the [Troubleshooting Guide](#troubleshooting)
+for help.
+
+Once installed, no specific environment settings should be required, but you may wish to set
+`PATH`, `MANPATH` and `INFOPATH` so that programs and documentation can be run/read without 
+using absolute paths. For example, if you have installed `brew` in `$HOME/cadfaelbrew`, add
+
+```
+export PATH=$HOME/cadfaelbrew/bin:$PATH
+export MANPATH=$HOME/cadfaelbrew/share/man:$MANPATH
+export INFOPATH=$HOME/cadfaelbrew/share/info:$INFOPATH
+```
+
+to your `sh` profile or rc file (e.g. `.bashrc` for the Bash shell). For C-shell, use the
+`setenv` equivalents, e.g. `setenv PATH $HOME/cadfaelbrew/bin:$PATH`, in your `.(t)cshrc`
+file.
+
+Once installed, documentation on using Falaise is [available online](https://supernemo-dbd.github.io/Falaise)
+and with the offline installation. In the later case, this is installed under the `share/Falaise-3.0.0/Documentation/API/html`
+subdirectory of your `brew` installation. To view it, simply point your web browser to the `index.html` file
+under that directory.
+
+If you wish to contribute to Falaise development, information is available on the [project page](https://github.com/supernemo-dbd/Falaise).
+
+## Use with existing Home/Linuxbrew Installations
+If you have an existing Homebrew (macOS) install, this tap may be used directly if you don't have existing brewed versions 
+of Qt, Boost, CERN ROOT and Geant4. In this case, you simply need to add this tap and then follow the bootstrap/install
+proceedure:
+
+```
+$ brew tap supernemo-dbd/cadfael
+$ brew tap-pin supernemo-dbd/cadfael
+$ brew cadfael-bootstrap-toolchain
+$ brew install falaise
+$ brew test falaise
+```
+
+If you see issues in the last two steps, review the [list of Formulae supplied by this tap](#supplied-formulae) and
+remove any listed here and rerun `brew install falaise`.
+
+Use this tap with an existing Linuxbrew installation is currently not supported as there may be ABI
+incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux, 
+it's therefore recommended to use SuperNEMO's fork of brew as described at the start of this section.
+
+
+# Troubleshooting
+
+Whilst Falaise is tested on the supported platforms listed above, it cannot cover all possible
+system configurations or setups. The sections below list the most common issues, but
+if these do not solve the problem or if you are in any doubt, [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues).
+
+## Missing System Requirements
+
+Both `brew` and the `homebrew-cadfael` tap require a base set of system packages. Missing packages
+on the supported platforms will be identified by running `brew cadfael-bootstrap`, and the error
+message will give instructions on the commands needed to install whats's needed. If you do
+not have the needed permissions on your system (`root` or `sudo`), request an administrator to
+add them. All requirements are distributed and signed either by the vendor or CERN, so there should
+be no issue with adding them.
+
+On non-supported systems no checks are performed as the list of packages isn't known. The list of requirements
+for Ubuntu 16.04 is listed below and may be used as a guide to what programs, headers and libraries
+are needed:
+
+- `lsb-release`
+- `iputils-ping`
+- `build-essential`
+- `curl`
+- `file`
+- `git`
+- `ruby`
+- `m4`
+- `libbz2-dev`
+- `libcurl4-openssl-dev`
+- `libexpat1-dev`
+- `libncurses5-dev`
+- `texinfo`
+- `zlib1g-dev`
+- `libx11-dev`
+- `libxpm-dev`
+- `libxft-dev`
+- `libxext-dev`
+- `libpng12-dev`
+- `libjpeg-dev`
+- `libegl1-mesa-dev`
+- `libgl1-mesa-dev`
+- `libglu1-mesa-dev`
+- `libgles2-mesa-dev`
+
+In general, formulae will fail to configure or build should a system requirement be missing.
+We'll make every effort to support other systems, so please [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues) if you need help here. However, all work in this case will only be on a 
+best effort basis.
+
+## Formulae Fail to Install
+
+On supported platforms, installation failures may occur if you have the `PATH`
+and `LD_LIBRARY_PATH` (or `DYLD_LIBRARY_PATH` on macOS) environment variables containing
+any custom installed software other than `brew` itself. Though `brew` is quite good at building and installing
+in a pristine environment, it is best to use it within a default setup.
+
+Generally, it is `LD_LIBRARY_PATH` (or `DYLD_LIBRARY_PATH` on macOS) that cause the
+issue, so ensure these are unset.
+
+
+# Supplied Formulae
 ## Core
-CadfaelBrew prefers formulae from this tap over those in its core `Library/Formula` directory.
+Formulae from this tap are preferred over those in the `homebrew-core` tap.
 Installing the ``falaise`` formula will install the core SuperNEMO software packages
 
 - Bayeux C++ Core Foundation Library
@@ -34,20 +148,18 @@ plus their upstream dependencies:
 
 - [Boost](http://www.boost.org)
 - [ROOT](https://root.cern.ch)
-- [GSL](http://www.gnu.org/software/gsl/)
 - [CAMP](https://github.com/tegesoft/camp)
 - [CLHEP](http://proj-clhep.web.cern.ch/proj-clhep/)
 - [XercesC](http://xerces.apache.org/xerces-c/)
 - [Geant4](http://geant4.cern.ch)
 - [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
-- [Python](https://www.python.org)
+- [Qt5](http://doc.qt.io/qt-5/)
 
 ## Development
 Several additional Formulae are provided which are not installed by default. These are intended for
 use by Bayeux/Falaise developers to integrate new functionality or move to newer, API incompatible,
 versions of dependent packages.
 
-- [Qt5](http://doc.qt.io/qt-5/)
 - [Ponder](https://github.com/billyquith/ponder)
   - Note: This replaces the [CAMP]() package
 
