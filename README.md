@@ -76,6 +76,24 @@ Use this tap with an existing Linuxbrew installation is currently not supported 
 incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux, 
 it's therefore recommended to use SuperNEMO's fork of brew as described at the start of this section.
 
+# Upgrading
+
+In general, upgrading packages in `brew` should be a simple case of running
+
+```
+$ brew update
+$ brew upgrade
+```
+
+If you have an existing install of `falaise` version 2 or below (run `brew info falaise` to get this information), 
+then the following steps are needed to upgrade to version 3:
+
+```
+$ brew unlink root5
+$ brew rm falaise bayeux
+$ brew update
+$ brew upgrade
+```
 
 # Troubleshooting
 
