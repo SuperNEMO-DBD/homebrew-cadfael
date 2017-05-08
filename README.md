@@ -1,6 +1,6 @@
 # Homebrew tap for SuperNEMO
 Custom Formulae and Commands for SuperNEMO's [cadfaelbrew fork](https://github.com/SuperNEMO-DBD/cadfaelbrew) of
-Linux/Homebrew. Though designed for use with cadfaelbrew, it should work and be compatible with upstream Homebrew (macOS) 
+Linux/Homebrew. Though designed for use with cadfaelbrew, it should work and be compatible with upstream Homebrew (macOS)
 modulo version dependencies on Formulae supplied in this tap. Co-working with Linuxbrew is not yet supported.
 
 # Quickstart
@@ -12,7 +12,7 @@ $ cd cadfaelbrew
 $ ./bin/brew cadfael-bootstrap
 ```
 
-The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any 
+The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any
 missing system packages and how to install these. This step is only done for the following systems:
 
 - RHEL/CentOS/Scientific Linux 6/7
@@ -36,7 +36,7 @@ such as CERN ROOT and Geant4. Should any step fail to complete, see the [Trouble
 for help.
 
 Once installed, no specific environment settings should be required, but you may wish to set
-`PATH`, `MANPATH` and `INFOPATH` so that programs and documentation can be run/read without 
+`PATH`, `MANPATH` and `INFOPATH` so that programs and documentation can be run/read without
 using absolute paths. For example, if you have installed `brew` in `$HOME/cadfaelbrew`, add
 
 ```
@@ -57,7 +57,7 @@ under that directory.
 If you wish to contribute to Falaise development, information is available on the [project page](https://github.com/supernemo-dbd/Falaise).
 
 ## Use with existing Home/Linuxbrew Installations
-If you have an existing Homebrew (macOS) install, this tap may be used directly if you don't have existing brewed versions 
+If you have an existing Homebrew (macOS) install, this tap may be used directly if you don't have existing brewed versions
 of Qt, Boost, CERN ROOT and Geant4. In this case, you simply need to add this tap and then follow the bootstrap/install
 proceedure:
 
@@ -73,7 +73,7 @@ If you see issues in the last two steps, review the [list of Formulae supplied b
 remove any listed here and rerun `brew install falaise`.
 
 Use this tap with an existing Linuxbrew installation is currently not supported as there may be ABI
-incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux, 
+incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux,
 it's therefore recommended to use SuperNEMO's fork of brew as described at the start of this section.
 
 # Upgrading
@@ -85,7 +85,7 @@ $ brew update
 $ brew upgrade
 ```
 
-If you have an existing install of `falaise` version 2 or below (run `brew info falaise` to get this information), 
+If you have an existing install of `falaise` version 2 or below (run `brew info falaise` to get this information),
 then the following steps are needed to upgrade to version 3:
 
 ```
@@ -140,7 +140,7 @@ are needed:
 - `libgles2-mesa-dev`
 
 In general, formulae will fail to configure or build should a system requirement be missing.
-We'll make every effort to support other systems, so please [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues) if you need help here. However, all work in this case will only be on a 
+We'll make every effort to support other systems, so please [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues) if you need help here. However, all work in this case will only be on a
 best effort basis.
 
 ## Formulae Fail to Install
@@ -180,6 +180,8 @@ versions of dependent packages.
 
 - [Ponder](https://github.com/billyquith/ponder)
   - Note: This replaces the [CAMP]() package
+- [Falaise_ParticleIdentification](https://github.com/xgarrido/ParticleIdentification)
+  - Particle Identification plugin module for Falaise reconstruction/analysis
 
 ## Python
 Installing Falaise will also install (via the ROOT dependency) a brewed copy of Python. This includes
