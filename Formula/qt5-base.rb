@@ -3,12 +3,17 @@ class Qt5Base < Formula
   homepage "http://qt-project.org/"
   url "http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtbase-opensource-src-5.8.0.tar.gz"
   sha256 "0f6ecd94abd148f1ea4ad08905308af973c6fad9e8fca7491d68dbc8fbd88872"
+  revision 1
 
   keg_only "Qt5 very picky about install locations, so keep it isolated"
 
   depends_on :xcode => :build if OS.mac?
   depends_on "pkg-config" => :build
-  depends_on "icu4c" => ["c++11"] if OS.linux?
+
+  unless OS.mac?
+    depends_on "icu4c" => ["c++11"]
+    depends_on "fontconfig"
+  end
 
   conflicts_with "qt5", :because => "Core homebrew ships a complete Qt5 install"
 
@@ -40,6 +45,13 @@ class Qt5Base < Formula
       # See
       # https://github.com/Linuxbrew/homebrew-core/pull/1062
       args << "-qt-xcb"
+
+      # Ensure GUI can display fonts, fontconfig option
+      # must be used with system-freetype. Dependence on
+      # brewed fontconfig on Linux should pull both in
+      args << "-fontconfig"
+      args << "-system-freetype"
+
       # Need to use -R as qt5 seemingly ignores LDFLAGS, and doesn't
       # use -L paths provided by pkg-config. Configure can have odd
       # effects depending on what system provides.
