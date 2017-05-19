@@ -2,7 +2,6 @@ class Falaise < Formula
   desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
   homepage "https://supernemo-dbd.github.io"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Falaise-3.0.0.tar.bz2"
-  version "3.0.0"
   sha256 "2cba670ce626887270af5f6e98106c6f07c5f3214fb281af5ef7894442d544d7"
   head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
 
