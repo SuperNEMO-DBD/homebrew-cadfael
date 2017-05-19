@@ -1,6 +1,6 @@
 # Homebrew tap for SuperNEMO
 Custom Formulae and Commands for SuperNEMO's [cadfaelbrew fork](https://github.com/SuperNEMO-DBD/cadfaelbrew) of
-Linux/Homebrew. Though designed for use with cadfaelbrew, it should work and be compatible with upstream Homebrew (macOS) 
+Linux/Homebrew. Though designed for use with cadfaelbrew, it should work and be compatible with upstream Homebrew (macOS)
 modulo version dependencies on Formulae supplied in this tap. Co-working with Linuxbrew is not yet supported.
 
 # Quickstart
@@ -12,7 +12,7 @@ $ cd cadfaelbrew
 $ ./bin/brew cadfael-bootstrap
 ```
 
-The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any 
+The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any
 missing system packages and how to install these. This step is only done for the following systems:
 
 - RHEL/CentOS/Scientific Linux 6/7
@@ -36,7 +36,7 @@ such as CERN ROOT and Geant4. Should any step fail to complete, see the [Trouble
 for help.
 
 Once installed, no specific environment settings should be required, but you may wish to set
-`PATH`, `MANPATH` and `INFOPATH` so that programs and documentation can be run/read without 
+`PATH`, `MANPATH` and `INFOPATH` so that programs and documentation can be run/read without
 using absolute paths. For example, if you have installed `brew` in `$HOME/cadfaelbrew`, add
 
 ```
@@ -50,14 +50,14 @@ to your `sh` profile or rc file (e.g. `.bashrc` for the Bash shell). For C-shell
 file.
 
 Once installed, documentation on using Falaise is [available online](https://supernemo-dbd.github.io/Falaise)
-and with the offline installation. In the later case, this is installed under the `share/Falaise-3.0.0/Documentation/API/html`
+and with the offline installation. In the later case, this is installed under the `share/Falaise-<VERSION>/Documentation/API/html`
 subdirectory of your `brew` installation. To view it, simply point your web browser to the `index.html` file
 under that directory.
 
 If you wish to contribute to Falaise development, information is available on the [project page](https://github.com/supernemo-dbd/Falaise).
 
 ## Use with existing Home/Linuxbrew Installations
-If you have an existing Homebrew (macOS) install, this tap may be used directly if you don't have existing brewed versions 
+If you have an existing Homebrew (macOS) install, this tap may be used directly if you don't have existing brewed versions
 of Qt, Boost, CERN ROOT and Geant4. In this case, you simply need to add this tap and then follow the bootstrap/install
 proceedure:
 
@@ -73,7 +73,7 @@ If you see issues in the last two steps, review the [list of Formulae supplied b
 remove any listed here and rerun `brew install falaise`.
 
 Use this tap with an existing Linuxbrew installation is currently not supported as there may be ABI
-incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux, 
+incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux,
 it's therefore recommended to use SuperNEMO's fork of brew as described at the start of this section.
 
 # Upgrading
@@ -85,7 +85,7 @@ $ brew update
 $ brew upgrade
 ```
 
-If you have an existing install of `falaise` version 2 or below (run `brew info falaise` to get this information), 
+If you have an existing install of `falaise` version 2 or below (run `brew info falaise` to get this information),
 then the following steps are needed to upgrade to version 3:
 
 ```
@@ -93,6 +93,52 @@ $ brew unlink root5
 $ brew rm falaise bayeux
 $ brew update
 $ brew upgrade
+```
+
+# Development Versions
+
+The `falaise` formula supplies a `HEAD` version which allows installation from the tip of the
+current development branch so that the latest patches and updates can be used. Please note that
+whilst every effort is made to keep this branch stable, functionality and validity is not
+guaranteed. If you wish to install this version, simply do
+
+```console
+$ brew upgrade falaise --HEAD
+```
+
+To return to a stable release version, use `brew switch`:
+
+```console
+$ brew switch falaise <VERSION>
+```
+
+where `<VERSION>` is the version number you wish to use. Available installed versions may be
+queried by doing:
+
+```console
+$ brew info falaise
+```
+
+`HEAD` versions are installed into `brew's` Cellar using a "version" of `HEAD-<commithash>`,
+so you can switch to a `HEAD` version by doing
+
+```console
+$ brew switch falaise HEAD-<hash>
+```
+
+Again, `brew info falaise` will report on available `HEAD` versions. The hash can be
+cross-referenced against the [commit history of main Falaise repository](https://github.com/SuperNEMO-DBD/Falaise/commits/develop)
+to see what it contains. Updated versions of the `HEAD` may be installed by doing
+
+```console
+$ brew upgrade falaise --HEAD
+```
+
+In general, you should clean up older versions of `HEAD` installs as these
+accumulate. This can be done by running
+
+```console
+$ brew cleanup falaise
 ```
 
 # Troubleshooting
@@ -140,7 +186,7 @@ are needed:
 - `libgles2-mesa-dev`
 
 In general, formulae will fail to configure or build should a system requirement be missing.
-We'll make every effort to support other systems, so please [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues) if you need help here. However, all work in this case will only be on a 
+We'll make every effort to support other systems, so please [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues) if you need help here. However, all work in this case will only be on a
 best effort basis.
 
 ## Formulae Fail to Install
