@@ -4,17 +4,18 @@ class BayeuxAT2 < Formula
   version "2.2.0"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.2.0.tar.bz2"
   sha256 "fe03bfb6563af9aaef0da97c270863f14bd82d5427bdb4eb860edbf4ffb964b1"
+  revision 1
 
   keg_only "Conflicts with newer production versions"
 
-  depends_on "cmake" => :build
-  depends_on "supernemo-dbd/cadfael/doxygen" => :build
-
-  depends_on "gsl"
-  depends_on "readline"
-
   needs :cxx11
+
+  depends_on "cmake" => :build
+  depends_on "readline"
   depends_on "icu4c" => "c++11"
+
+  depends_on "supernemo-dbd/cadfael/gsl"
+  depends_on "supernemo-dbd/cadfael/doxygen" => :build
   depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu4c"]
   depends_on "supernemo-dbd/cadfael/camp" => "c++11"
   depends_on "supernemo-dbd/cadfael/clhep" => "c++11"

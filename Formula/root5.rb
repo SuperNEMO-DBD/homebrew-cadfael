@@ -7,7 +7,7 @@ class Root5 < Formula
      url "https://root.cern.ch/download/root_v#{version}.source.tar.gz"
      mirror "http://ftp.riken.jp/pub/ROOT/root_v#{version}.source.tar.gz"
    end
-   revision 1
+   revision 2
 
    head do
      url "https://github.com/root-mirror/root.git", :branch => "v5-34-00-patches"
@@ -19,8 +19,9 @@ class Root5 < Formula
    option :cxx11
 
    depends_on "openssl"
-   depends_on "gsl" => :recommended
    depends_on :python => :recommended
+   
+   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
 
    def install
      # When building the head, temp patch for ROOT-8032

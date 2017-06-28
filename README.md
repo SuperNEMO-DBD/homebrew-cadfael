@@ -211,13 +211,14 @@ Installing the ``falaise`` formula will install the core SuperNEMO software pack
 plus their upstream dependencies:
 
 - [Boost](http://www.boost.org)
-- [ROOT](https://root.cern.ch)
 - [CAMP](https://github.com/tegesoft/camp)
 - [CLHEP](http://proj-clhep.web.cern.ch/proj-clhep/)
-- [XercesC](http://xerces.apache.org/xerces-c/)
-- [Geant4](http://geant4.cern.ch)
 - [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
+- [GSL](http://https://www.gnu.org/software/gsl/)
+- [Geant4](http://geant4.cern.ch)
 - [Qt5](http://doc.qt.io/qt-5/)
+- [ROOT](https://root.cern.ch)
+- [XercesC](http://xerces.apache.org/xerces-c/)
 
 ## Development
 Several additional Formulae are provided which are not installed by default. These are intended for

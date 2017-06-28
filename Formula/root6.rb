@@ -6,9 +6,9 @@ class Root6 < Formula
   version "6.08.06"
   sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
   head "http://root.cern.ch/git/root.git"
+  revision 1
 
   depends_on "cmake" => :build
-  depends_on "gsl" => :recommended
   depends_on "openssl" => :optional
   depends_on "sqlite" => :recommended
   depends_on :python => :recommended
@@ -17,6 +17,8 @@ class Root6 < Formula
 
   # For XML on Linux
   depends_on "libxml2" if OS.linux?
+  
+  depends_on "supernemo-dbd/cadfael/gsl" => :recommended
 
   needs :cxx11
 
