@@ -40,6 +40,7 @@ class Geant4 < Formula
   option "with-notimeout", "Set notimeout in installing data"
 
   depends_on "cmake" => :build
+  depends_on "expat" if OS.linux?
 
   if build.cxx11?
     depends_on "supernemo-dbd/cadfael/clhep" => ["c++11"]

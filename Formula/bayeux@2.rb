@@ -3,7 +3,7 @@ class BayeuxAT2 < Formula
   homepage "https://github.com/supernemo-dbd/bayeux"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.2.0.tar.bz2"
   sha256 "fe03bfb6563af9aaef0da97c270863f14bd82d5427bdb4eb860edbf4ffb964b1"
-  revision 1
+  revision 2
 
   keg_only "Conflicts with newer production versions"
 

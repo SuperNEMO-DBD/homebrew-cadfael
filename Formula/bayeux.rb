@@ -1,9 +1,9 @@
 class Bayeux < Formula
   desc "Core C++ Framework Library for SuperNEMO Experiment"
   homepage "https://github.com/supernemo-dbd/bayeux"
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-3.0.0.tar.bz2"
-  sha256 "f0f01465ad20e51a05ca889cfdc52c12d0a2cf16d70dd6f4e04551c652ce967e"
-  revision 2
+  url "https://github.com/SuperNEMO-DBD/Bayeux/archive/Bayeux-3.0.0.tar.gz"
+  sha256 "b7fdb766f2285061fef75f410be07a68f7a828addf62bd7beeac4656aeca0643"
+  revision 3
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 

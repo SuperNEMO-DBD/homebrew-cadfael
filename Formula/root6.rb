@@ -6,7 +6,7 @@ class Root6 < Formula
   version "6.08.06"
   sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
   head "http://root.cern.ch/git/root.git"
-  revision 1
+  revision 2
 
   depends_on "cmake" => :build
   depends_on "openssl" => :optional
