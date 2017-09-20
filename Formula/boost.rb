@@ -3,37 +3,16 @@ class Boost < Formula
   homepage "https://www.boost.org/"
   url "https://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.tar.bz2"
   sha256 "beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0"
-  head "https://github.com/boostorg/boost.git"
-  revision 1
+  revision 2
 
-  bottle do
-    cellar :any
-    rebuild 1
-    sha256 "e5607a5dea289ee90f3da7258dbaec86301ce3d7f4c0b9f377c280edd3b25a8c" => :sierra
-    sha256 "5aa1c0ac09e0a02172410c3b150127025cebb877bd991888fd9942a94be88229" => :el_capitan
-    sha256 "dfec6aa1ab706974b3b9eae6ce20701d909f582c5fe7d250ac99a24d90997074" => :yosemite
-    sha256 "3cb0deefc084ef0c9b3a2242e99e1367c7509e1f4fb57aa81721bdc87d12ff32" => :x86_64_linux
-  end
+  needs :cxx11
 
-  option "with-icu4c", "Build regexp engine with icu support"
-  option "without-single", "Disable building single-threading variant"
-  option "without-static", "Disable building static library variant"
-  option :cxx11
-
-  deprecated_option "with-icu" => "with-icu4c"
-
-  if build.cxx11?
-    depends_on "icu4c" => [:optional, "c++11"]
-  else
-    depends_on "icu4c" => :optional
-  end
+  depends_on "icu4c"
 
   unless OS.mac?
     depends_on "bzip2"
     depends_on "zlib"
   end
-
-  needs :cxx11 if build.cxx11?
 
   def install
     # Reduce memory usage below 4 GB for Circle CI.
@@ -52,12 +31,8 @@ class Boost < Formula
     # libdir should be set by --prefix but isn't
     bootstrap_args = ["--prefix=#{prefix}", "--libdir=#{lib}"]
 
-    if build.with? "icu4c"
-      icu4c_prefix = Formula["icu4c"].opt_prefix
-      bootstrap_args << "--with-icu=#{icu4c_prefix}"
-    else
-      bootstrap_args << "--without-icu"
-    end
+    icu4c_prefix = Formula["icu4c"].opt_prefix
+    bootstrap_args << "--with-icu=#{icu4c_prefix}"
 
     # Handle libraries that will not be built.
     without_libraries = ["python", "mpi"]
@@ -77,25 +52,15 @@ class Boost < Formula
             "--user-config=user-config.jam",
             "install"]
 
-    if build.with? "single"
-      args << "threading=multi,single"
-    else
-      args << "threading=multi"
-    end
-
-    if build.with? "static"
-      args << "link=shared,static"
-    else
-      args << "link=shared"
-    end
+    # Only build MT shared variants
+    args << "threading=multi"
+    args << "link=shared"
 
     # Trunk starts using "clang++ -x c" to select C compiler which breaks C++11
     # handling using ENV.cxx11. Using "cxxflags" and "linkflags" still works.
-    if build.cxx11?
-      args << "cxxflags=-std=c++11"
-      if ENV.compiler == :clang
-        args << "cxxflags=-stdlib=libc++" << "linkflags=-stdlib=libc++"
-      end
+    args << "cxxflags=-std=c++11"
+    if ENV.compiler == :clang
+      args << "cxxflags=-stdlib=libc++" << "linkflags=-stdlib=libc++"
     end
 
     # Fix error: bzlib.h: No such file or directory
