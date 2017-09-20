@@ -3,24 +3,23 @@ class BayeuxAT2 < Formula
   homepage "https://github.com/supernemo-dbd/bayeux"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-2.2.0.tar.bz2"
   sha256 "fe03bfb6563af9aaef0da97c270863f14bd82d5427bdb4eb860edbf4ffb964b1"
-  revision 2
+  revision 3
 
-  keg_only "Conflicts with newer production versions"
+  keg_only "conflicts with newer production versions"
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
   needs :cxx11
 
   depends_on "cmake" => :build
-  depends_on "readline"
-  depends_on "icu4c" => "c++11"
-
-  depends_on "supernemo-dbd/cadfael/gsl"
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
-  depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu4c"]
-  depends_on "supernemo-dbd/cadfael/camp" => "c++11"
-  depends_on "supernemo-dbd/cadfael/clhep" => "c++11"
-  depends_on "supernemo-dbd/cadfael/geant4" => "c++11"
+  depends_on "readline"
+  depends_on "icu4c"
+  depends_on "supernemo-dbd/cadfael/gsl"
+  depends_on "supernemo-dbd/cadfael/boost"
+  depends_on "supernemo-dbd/cadfael/camp"
+  depends_on "supernemo-dbd/cadfael/clhep"
+  depends_on "supernemo-dbd/cadfael/geant4"
   depends_on "supernemo-dbd/cadfael/root6"
 
   def install
