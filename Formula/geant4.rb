@@ -1,7 +1,7 @@
 class Geant4 < Formula
   desc "C++ toolkit for simulating the passage of particles through matter"
   homepage "http://geant4.cern.ch"
-  revision 4
+  revision 5
 
   stable do
     url "http://geant4.cern.ch/support/source/geant4.9.6.p04.tar.gz"
