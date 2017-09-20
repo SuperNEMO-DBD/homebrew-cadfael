@@ -1,6 +1,7 @@
 class Clhep < Formula
   desc "C++ Class Library for High Energy Physics"
   homepage "http://proj-clhep.web.cern.ch/proj-clhep/"
+  revision 1
 
   stable do
     url "http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/clhep-2.1.3.1.tgz"
@@ -15,12 +16,12 @@ class Clhep < Formula
     sha256 "66272ae3100d3aec096b1298e1e24ec25b80e4dac28332b45ec3284023592963"
   end
 
-  option :cxx11
+  needs :cxx11
 
   depends_on "cmake" => :build
 
   def install
-    ENV.cxx11 if build.cxx11?
+    ENV.cxx11
     mkdir "clhep-build" do
       system "cmake", "../CLHEP", *std_cmake_args
       system "make", "install"
