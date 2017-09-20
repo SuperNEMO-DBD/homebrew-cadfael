@@ -3,7 +3,7 @@ class Bayeux < Formula
   homepage "https://github.com/supernemo-dbd/bayeux"
   url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-3.0.0.tar.bz2"
   sha256 "f0f01465ad20e51a05ca889cfdc52c12d0a2cf16d70dd6f4e04551c652ce967e"
-  revision 1
+  revision 2
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
