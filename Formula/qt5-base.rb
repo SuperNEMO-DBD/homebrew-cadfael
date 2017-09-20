@@ -3,15 +3,15 @@ class Qt5Base < Formula
   homepage "http://qt-project.org/"
   url "http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtbase-opensource-src-5.8.0.tar.gz"
   sha256 "0f6ecd94abd148f1ea4ad08905308af973c6fad9e8fca7491d68dbc8fbd88872"
-  revision 2
+  revision 3
 
-  keg_only "Qt5 very picky about install locations, so keep it isolated"
+  keg_only "qt5 is very picky about install locations, so keep it isolated"
 
   depends_on :xcode => :build if OS.mac?
   depends_on "pkg-config" => :build
 
   unless OS.mac?
-    depends_on "icu4c" => ["c++11"]
+    depends_on "icu4c"
     depends_on "fontconfig"
   end
 
