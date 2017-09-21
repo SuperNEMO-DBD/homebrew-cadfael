@@ -1,24 +1,24 @@
 class Bayeux < Formula
   desc "Core C++ Framework Library for SuperNEMO Experiment"
   homepage "https://github.com/supernemo-dbd/bayeux"
-  url "https://files.warwick.ac.uk/supernemo/files/Cadfael/distfiles/Bayeux-3.0.0.tar.bz2"
-  sha256 "f0f01465ad20e51a05ca889cfdc52c12d0a2cf16d70dd6f4e04551c652ce967e"
-  revision 2
+  url "https://github.com/SuperNEMO-DBD/Bayeux/archive/Bayeux-3.0.0.tar.gz"
+  sha256 "b7fdb766f2285061fef75f410be07a68f7a828addf62bd7beeac4656aeca0643"
+  revision 4
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
   needs :cxx11
 
   depends_on "cmake" => :build
-  depends_on "icu4c" => "c++11"
+  depends_on "icu4c"
   depends_on "readline"
 
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
   depends_on "supernemo-dbd/cadfael/gsl"
-  depends_on "supernemo-dbd/cadfael/boost" => ["c++11", "with-icu4c"]
-  depends_on "supernemo-dbd/cadfael/camp" => "c++11"
-  depends_on "supernemo-dbd/cadfael/clhep" => "c++11"
-  depends_on "supernemo-dbd/cadfael/geant4" => "c++11"
+  depends_on "supernemo-dbd/cadfael/boost"
+  depends_on "supernemo-dbd/cadfael/camp"
+  depends_on "supernemo-dbd/cadfael/clhep"
+  depends_on "supernemo-dbd/cadfael/geant4"
   depends_on "supernemo-dbd/cadfael/root6"
   depends_on "supernemo-dbd/cadfael/qt5-base"
 

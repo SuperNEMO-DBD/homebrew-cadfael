@@ -242,24 +242,24 @@ $ brew search foo
 If you find a package you need is not present, add a request for it in the [Issue Tracker](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues)
 
 # Note on C/C++ Standards
-Bayeux/Falaise are compiled against the C++11 standard by default to ensure
-forward/binary compatibility with current developments of plugin code.
+Bayeux/Falaise require the C++11 standard or better (NB: C++17 compatibility is
+not yet tested or guaranteed)
 
 Installing Bayeux/Falaise will automatically install all their dependencies
-against the same standard. However, if you are installing other Formulae by
-hand, you will need to supply the `--c++11` flag to activate compilation of
-that Formulae against C++11, e.g.
-
-```
-$ brew install boost --c++11
-```
-
-The options available for building a Formula can be checked using Brew's `info`
-subcommand:
+against the same standard. However, if you are installing other Formulae from
+the `homebrew-core` or other taps that use C++, you should ensure these are
+compiled against C++11 (or 14) to guarantee binary compatibility. In most
+cases, Formulae supply a `--c++11` flag to activate the standard. This
+may be checked by running
 
 ```
 $ brew info <formulaname>
 ```
+
+before installing. If you expect a C++ Formulae to become a core dependency of
+SuperNEMO and it does not supply a C++11/14 option, please request it be added
+to this tap by opening an Issue or Pull Request.
+
 
 # Commands
 ## `brew-versions.rb`
