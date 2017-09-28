@@ -5,7 +5,7 @@ class Root6 < Formula
   mirror "https://fossies.org/linux/misc/root_v6.08.06.source.tar.gz"
   version "6.08.06"
   sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
-  revision 3
+  revision 4
 
   head "http://root.cern.ch/git/root.git"
 
@@ -49,6 +49,7 @@ class Root6 < Formula
         "-Ddavix=OFF",
         "-Ddcache=OFF",
         "-Dfitsio=OFF",
+        "-Dfortran=OFF",
         "-Dgfal=OFF",
         "-Dglite=OFF",
         "-Dgviz=OFF",
