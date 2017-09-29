@@ -227,6 +227,8 @@ versions of dependent packages.
 
 - [Ponder](https://github.com/billyquith/ponder)
   - Note: This replaces the [CAMP]() package
+- [Falaise_ParticleIdentification](https://github.com/xgarrido/ParticleIdentification)
+  - Particle Identification plugin module for Falaise reconstruction/analysis
 
 ## Python
 Installing Falaise will also install (via the ROOT dependency) a brewed copy of Python. This includes

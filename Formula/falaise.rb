@@ -16,6 +16,11 @@ class Falaise < Formula
 
   def install
     ENV.cxx11
+    # Create a base directory for plugins that can be linked into by
+    # plugins
+    falaise_modules = HOMEBREW_PREFIX/"lib/Falaise/modules"
+    falaise_modules.mkpath
+
     mkdir "falaise.build" do
       fl_cmake_args = std_cmake_args
       fl_cmake_args << "-DCMAKE_INSTALL_LIBDIR=lib"
