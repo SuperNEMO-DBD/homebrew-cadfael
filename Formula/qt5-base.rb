@@ -1,9 +1,8 @@
 class Qt5Base < Formula
   desc "Qt5 Core Libraries"
   homepage "http://qt-project.org/"
-  url "http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtbase-opensource-src-5.8.0.tar.gz"
-  sha256 "0f6ecd94abd148f1ea4ad08905308af973c6fad9e8fca7491d68dbc8fbd88872"
-  revision 3
+  url "http://download.qt.io/official_releases/qt/5.10/5.10.0/submodules/qtbase-everywhere-src-5.10.0.tar.xz"
+  sha256 "fd5578cd320a13617c12cf2b19439386b203d6d45548e855f94e07be9829f762"
 
   keg_only "qt5 is very picky about install locations, so keep it isolated"
 
@@ -13,14 +12,16 @@ class Qt5Base < Formula
   unless OS.mac?
     depends_on "icu4c"
     depends_on "fontconfig"
+    depends_on "freetype"
+    depends_on "zlib"
   end
 
   conflicts_with "qt5", :because => "Core homebrew ships a complete Qt5 install"
 
   # try submodules as resources
   resource "qtsvg" do
-    url "http://download.qt.io/official_releases/qt/5.8/5.8.0/submodules/qtsvg-opensource-src-5.8.0.tar.gz"
-    sha256 "542a3a428992c34f8eb10489231608edff91e96ef69186ffa3e9c2f6257a012f"
+    url "http://download.qt.io/official_releases/qt/5.10/5.10.0/submodules/qtsvg-everywhere-src-5.10.0.tar.xz"
+    sha256 "4a2aa7cae70a3156846655422b9ed884d8b08b3707b95858e49c7cf9afe5e7b0"
   end
 
   def install
@@ -37,10 +38,12 @@ class Qt5Base < Formula
       -nomake tests
       -nomake examples
       -pkg-config
+      -no-avx
+      -no-avx2
       -c++std c++14
     ]
 
-    if OS.linux?
+    unless OS.mac?
       # Minimizes X11 dependencies
       # See
       # https://github.com/Linuxbrew/homebrew-core/pull/1062
