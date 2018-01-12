@@ -17,7 +17,7 @@ missing system packages and how to install these. This step is only done for the
 
 - RHEL/CentOS/Scientific Linux 6/7
 - Ubuntu Linux 14.04LTS/16.04LTS
-- macOS 10.10/11/12(Mavericks/El Capitan/Sierra)
+- macOS 10.11/12/13(El Capitan/Sierra/High Sierra)
 
 Running on a non-supported system will still proceed, but you may encounter issues (see [Troubleshooting](#troubleshooting)).
 As the bootstrap step may include the install of the GCC compiler, it will take
@@ -47,7 +47,15 @@ export INFOPATH=$HOME/cadfaelbrew/share/info:$INFOPATH
 
 to your `sh` profile or rc file (e.g. `.bashrc` for the Bash shell). For C-shell, use the
 `setenv` equivalents, e.g. `setenv PATH $HOME/cadfaelbrew/bin:$PATH`, in your `.(t)cshrc`
-file.
+file. If you require use of brew's `python` (brew only install versioned python executables)
+and ROOT's `pyroot` module, then add:
+
+```
+export PATH=$HOME/cadfaelbrew/opt/python/libexec/bin:$PATH
+export PYTHONPATH=$HOME/cadfaelbrew/lib/root${PYTHONPATH:+:$PYTHONPATH}
+```
+
+See also `brew info python` for details on install python packages through `pip`.
 
 Once installed, documentation on using Falaise is [available online](https://supernemo-dbd.github.io/Falaise)
 and with the offline installation. In the later case, this is installed under the `share/Falaise-<VERSION>/Documentation/API/html`
@@ -226,7 +234,7 @@ use by Bayeux/Falaise developers to integrate new functionality or move to newer
 versions of dependent packages.
 
 - [Ponder](https://github.com/billyquith/ponder)
-  - Note: This replaces the [CAMP]() package
+  - Note: This replaces the [CAMP](https://github.com/drbenmorgan/camp.git) package
 
 ## Python
 Installing Falaise will also install (via the ROOT dependency) a brewed copy of Python. This includes
