@@ -1,11 +1,10 @@
 class Root6 < Formula
   desc "CERN C++ Data Analysis and Persistency Libraries"
   homepage "http://root.cern.ch"
-  url "http://root.cern.ch/download/root_v6.08.06.source.tar.gz"
-  mirror "https://fossies.org/linux/misc/root_v6.08.06.source.tar.gz"
-  version "6.08.06"
-  sha256 "ea31b047ba6fc04b0b312667349eaf1498a254ccacd212144f15ffcb3f5c0592"
-  revision 4
+  url "http://root.cern.ch/download/root_v6.12.04.source.tar.gz"
+  mirror "https://fossies.org/linux/misc/root_v6.12.04.source.tar.gz"
+  version "6.12.04"
+  sha256 "f438f2ae6e25496fa81df525935fb0bf2a403855d95c40b3e0f3a3e1e861a085"
 
   head "http://root.cern.ch/git/root.git"
 
@@ -13,11 +12,12 @@ class Root6 < Formula
   depends_on "openssl" => :recommended
   depends_on "sqlite" => :recommended
   depends_on :python => :recommended
+  
   # For LZMA
   depends_on "xz"
 
   # For XML on Linux
-  depends_on "libxml2" if OS.linux?
+  depends_on "libxml2" unless OS.mac?
 
   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
 
@@ -28,6 +28,9 @@ class Root6 < Formula
   end
 
   def install
+    # Work around "error: no member named 'signbit' in the global namespace"
+    ENV.delete("SDKROOT") if DevelopmentTools.clang_build_version >= 900
+
     # brew audit doesn't like non-executables in bin
     # so we will move {thisroot,setxrd}.{c,}sh to libexec
     # (and change any references to them)
@@ -80,14 +83,24 @@ class Root6 < Formula
         "-Droofit=ON",
         "-Dgdml=ON",
         "-Dminuit2=ON",
+        # MT is on by default, use builtin
+        "-Dbuiltin_tbb=ON",
         cmake_opt("python"),
         cmake_opt("ssl", "openssl"),
         cmake_opt("sqlite", "sqlite3"),
         cmake_opt("xrootd"),
         cmake_opt("mathmore", "gsl"),
-        cmake_opt("tbb"),
         *std_cmake_args
-      system "make", "install"
+
+      # Follow upstream homebrew
+      # Work around superenv stripping out isysroot leading to errors with
+      # libsystem_symptoms.dylib (only available on >= 10.12) and
+      # libsystem_darwin.dylib (only available on >= 10.13)
+      if OS.mac? && MacOS.version < :high_sierra
+        system "xcrun", "make", "install"
+      else
+        system "make", "install"
+      end
     end
 
     libexec.mkpath
