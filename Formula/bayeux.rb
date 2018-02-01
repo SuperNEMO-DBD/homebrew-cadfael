@@ -1,9 +1,17 @@
 class Bayeux < Formula
   desc "Core C++ Framework Library for SuperNEMO Experiment"
   homepage "https://github.com/supernemo-dbd/bayeux"
-  url "https://github.com/SuperNEMO-DBD/Bayeux/archive/Bayeux-3.0.0.tar.gz"
-  sha256 "b7fdb766f2285061fef75f410be07a68f7a828addf62bd7beeac4656aeca0643"
   revision 5
+
+  stable do
+    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/Bayeux-3.0.0.tar.gz"
+    sha256 "b7fdb766f2285061fef75f410be07a68f7a828addf62bd7beeac4656aeca0643"
+  end
+
+  devel do
+    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.1.2.tar.gz"
+    sha256 "2bf6b887e654fadbb7373fbea550ec14adc8836758fb029bf56c76bb5177827d"
+  end
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
@@ -31,7 +39,15 @@ class Bayeux < Formula
       bx_cmake_args << "-DBAYEUX_COMPILER_ERROR_ON_WARNING=OFF"
       bx_cmake_args << "-DBAYEUX_WITH_QT_GUI=ON"
       bx_cmake_args << "-DBAYEUX_WITH_DEVELOPER_TOOLS=OFF" if build.without? "devtools"
+      bx_cmake_args << "-DBAYEUX_ENABLE_TESTING=ON" if build.devel?
+
       system "cmake", "..", *bx_cmake_args
+
+      if build.devel?
+        system "make"
+        system "ctest"
+      end
+
       system "make", "install"
     end
   end
