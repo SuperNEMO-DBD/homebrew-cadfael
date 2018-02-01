@@ -11,8 +11,8 @@ class Root6 < Formula
   depends_on "cmake" => :build
   depends_on "openssl" => :recommended
   depends_on "sqlite" => :recommended
-  depends_on :python => :recommended
-  
+  depends_on "python" => :recommended
+
   # For LZMA
   depends_on "xz"
 
