@@ -2,7 +2,8 @@ require "requirement"
 
 class GCCRequirement < Requirement
   fatal true
-  default_formula "supernemo-dbd/cadfael/gcc49"
+  # Homebrew removed default formula from 1.5
+  #default_formula "supernemo-dbd/cadfael/gcc49"
 
   def initialize(tags)
     @version = tags.shift if /\d+\.*\d*/ === tags.first
@@ -82,8 +83,8 @@ Homebrew.perform_preinstall_checks
 if OS.linux?
   req = GCCRequirement.new(["4.9"])
   if !req.satisfied?
-    oh1 "Installing Cadfael GCC #{req.default_formula}, this may take some time"
-    Homebrew.install_formula(Formula[req.default_formula])
+    oh1 "Installing Cadfael GCC 4.9 this may take some time"
+    Homebrew.install_formula(Formula["supernemo-dbd/cadfael/gcc49"])
   end
 end
   
