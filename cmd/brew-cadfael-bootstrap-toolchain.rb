@@ -96,7 +96,6 @@ cadfael_tools += %w[
   python@2
   ninja
   cmake
-  git-flow-avh
 ]
 
 cadfael_tools.each { |f|
