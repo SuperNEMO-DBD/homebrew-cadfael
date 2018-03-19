@@ -1,7 +1,7 @@
 class Falaise < Formula
   desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
   homepage "https://github.com/supernemo-dbd/Falaise"
-  revision 1
+  revision 2
   head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
 
   stable do
@@ -17,11 +17,10 @@ class Falaise < Formula
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
-
-  needs :cxx11
-
   # Bayeux dependency pulls in all additional deps of Falaise at present
   depends_on "supernemo-dbd/cadfael/bayeux"
+
+  needs :cxx11
 
   def install
     ENV.cxx11
