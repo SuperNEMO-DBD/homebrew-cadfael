@@ -93,7 +93,7 @@ end
 cadfael_tools = []
 cadfael_tools << "patchelf" if OS.linux?
 cadfael_tools += %w[
-  python
+  python@2
   ninja
   cmake
   git-flow-avh
