@@ -1,27 +1,22 @@
 class Bayeux < Formula
   desc "Core C++ Framework Library for SuperNEMO Experiment"
   homepage "https://github.com/supernemo-dbd/bayeux"
-  revision 5
 
   stable do
-    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/Bayeux-3.0.0.tar.gz"
-    sha256 "b7fdb766f2285061fef75f410be07a68f7a828addf62bd7beeac4656aeca0643"
-  end
-
-  devel do
     url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.1.2.tar.gz"
     sha256 "2bf6b887e654fadbb7373fbea550ec14adc8836758fb029bf56c76bb5177827d"
   end
+
+  head "https://github.com/SuperNEMO-DBD/Bayeux.git", :branch => "develop"
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
   needs :cxx11
 
   depends_on "cmake" => :build
+  depends_on "supernemo-dbd/cadfael/doxygen" => :build
   depends_on "icu4c"
   depends_on "readline"
-
-  depends_on "supernemo-dbd/cadfael/doxygen" => :build
   depends_on "supernemo-dbd/cadfael/gsl"
   depends_on "supernemo-dbd/cadfael/boost"
   depends_on "supernemo-dbd/cadfael/camp"
