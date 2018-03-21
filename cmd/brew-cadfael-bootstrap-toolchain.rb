@@ -94,7 +94,7 @@ cadfael_tools = []
 cadfael_tools << "patchelf" if OS.linux?
 cadfael_tools += %w[
   python@2
-  ninja
+  supernemo-dbd/cadfael/ninja
   cmake
 ]
 
