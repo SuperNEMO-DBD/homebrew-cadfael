@@ -19,7 +19,7 @@ class Root5 < Formula
   depends_on "cmake" => :build
 
   depends_on "openssl"
-  depends_on :python => :recommended
+  depends_on "python@2" => :recommended
   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
 
   def install
