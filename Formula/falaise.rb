@@ -1,9 +1,10 @@
 class Falaise < Formula
   desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
   homepage "https://github.com/supernemo-dbd/Falaise"
-  head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
   url "https://github.com/SuperNEMO-DBD/Falaise/archive/Falaise-3.2.0.tar.gz"
   sha256 "a84c278b8f27b75138a9604d07ffa852fc036d42b3f8080688466ff38270b7ac"
+  revision 1
+  head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
