@@ -3,7 +3,7 @@ class XercesC < Formula
   homepage "https://xerces.apache.org/xerces-c/"
   url "https://www.apache.org/dyn/closer.cgi?path=xerces/c/3/sources/xerces-c-3.1.4.tar.gz"
   sha256 "c98eedac4cf8a73b09366ad349cb3ef30640e7a3089d360d40a3dde93f66ecf6"
-  revision 3
+  revision 4
 
   needs :cxx11
 

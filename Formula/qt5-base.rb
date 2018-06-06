@@ -3,6 +3,7 @@ class Qt5Base < Formula
   homepage "http://qt-project.org/"
   url "http://download.qt.io/official_releases/qt/5.10/5.10.0/submodules/qtbase-everywhere-src-5.10.0.tar.xz"
   sha256 "fd5578cd320a13617c12cf2b19439386b203d6d45548e855f94e07be9829f762"
+  revision 1
 
   keg_only "qt5 is very picky about install locations, so keep it isolated"
 

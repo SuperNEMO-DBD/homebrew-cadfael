@@ -1,7 +1,7 @@
 class Bayeux < Formula
   desc "Core C++ Framework Library for SuperNEMO Experiment"
   homepage "https://github.com/supernemo-dbd/bayeux"
-  revision 1
+  revision 2
   head "https://github.com/SuperNEMO-DBD/Bayeux.git", :branch => "develop"
   stable do
     url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.1.2.tar.gz"
