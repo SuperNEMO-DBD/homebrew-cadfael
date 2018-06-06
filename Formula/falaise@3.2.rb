@@ -1,9 +1,10 @@
-class Falaise < Formula
+class FalaiseAT32 < Formula
   desc "Simulation, Reconstruction and Analysis Software for SuperNEMO"
   homepage "https://github.com/supernemo-dbd/Falaise"
-  url "https://github.com/SuperNEMO-DBD/Falaise/archive/Falaise-3.3.0.tar.gz"
-  sha256 "afb332511e67744f3ca109a30574bd6779f34e73c4c933599bf192356727a64d"
-  head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
+  url "https://github.com/SuperNEMO-DBD/Falaise/archive/Falaise-3.2.0.tar.gz"
+  sha256 "a84c278b8f27b75138a9604d07ffa852fc036d42b3f8080688466ff38270b7ac"
+
+  keg_only :versioned_formula
 
   depends_on "cmake" => :build
   depends_on "supernemo-dbd/cadfael/doxygen" => :build
