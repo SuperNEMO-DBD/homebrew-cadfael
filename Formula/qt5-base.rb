@@ -1,9 +1,8 @@
 class Qt5Base < Formula
   desc "Qt5 Core Libraries"
   homepage "http://qt-project.org/"
-  url "http://download.qt.io/official_releases/qt/5.10/5.10.0/submodules/qtbase-everywhere-src-5.10.0.tar.xz"
-  sha256 "fd5578cd320a13617c12cf2b19439386b203d6d45548e855f94e07be9829f762"
-  revision 1
+  url "http://download.qt.io/official_releases/qt/5.10/5.10.1/submodules/qtbase-everywhere-src-5.10.1.tar.xz"
+  sha256 "d8660e189caa5da5142d5894d328b61a4d3ee9750b76d61ad74e4eee8765a969"
 
   keg_only "qt5 is very picky about install locations, so keep it isolated"
 
@@ -21,11 +20,14 @@ class Qt5Base < Formula
 
   # try submodules as resources
   resource "qtsvg" do
-    url "http://download.qt.io/official_releases/qt/5.10/5.10.0/submodules/qtsvg-everywhere-src-5.10.0.tar.xz"
-    sha256 "4a2aa7cae70a3156846655422b9ed884d8b08b3707b95858e49c7cf9afe5e7b0"
+    url "http://download.qt.io/official_releases/qt/5.10/5.10.1/submodules/qtsvg-everywhere-src-5.10.1.tar.xz"
+    sha256 "00e00c04abcc8363cf7d94ca8b16af61840995a4af23685d49fa4ccafa1c7f5a"
   end
 
   def install
+    # Patch for https://bugreports.qt.io/browse/QTBUG-67545
+    inreplace "./src/platformsupport/fontdatabases/mac/qfontengine_coretext.mm", "return QFixed::QFixed(int(CTFontGetUnitsPerEm(ctfont)));", "return QFixed(int(CTFontGetUnitsPerEm(ctfont)));"
+
     args = %W[
       -verbose
       -prefix #{prefix}
@@ -66,8 +68,8 @@ class Qt5Base < Formula
       # If we end up depending on any keg_only Formulae, add extra
       # -R lines for each of them below here.
     end
-
     system "./configure", *args
+
     # Cannot parellize build os OSX
     system "make"
     system "make", "install"
@@ -78,14 +80,14 @@ class Qt5Base < Formula
     end
   end
 
-  def caveats; <<-EOS.undent
+  def caveats; <<~EOS
     We agreed to the Qt opensource license for you.
     If this is unacceptable you should uninstall.
     EOS
   end
 
   test do
-    (testpath/"hello.pro").write <<-EOS.undent
+    (testpath/"hello.pro").write <<~EOS
       QT       += core
       QT       -= gui
       TARGET = hello
@@ -95,7 +97,7 @@ class Qt5Base < Formula
       SOURCES += main.cpp
     EOS
 
-    (testpath/"main.cpp").write <<-EOS.undent
+    (testpath/"main.cpp").write <<~EOS
       #include <QCoreApplication>
       #include <QDebug>
 
