@@ -1,11 +1,10 @@
 class Bayeux < Formula
   desc "Core C++ Framework Library for SuperNEMO Experiment"
   homepage "https://github.com/supernemo-dbd/bayeux"
-  revision 2
   head "https://github.com/SuperNEMO-DBD/Bayeux.git", :branch => "develop"
   stable do
-    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.1.2.tar.gz"
-    sha256 "2bf6b887e654fadbb7373fbea550ec14adc8836758fb029bf56c76bb5177827d"
+    url "https://github.com/SuperNEMO-DBD/Bayeux/archive/3.3.0.tar.gz"
+    sha256 "6468251da50214e744651260770bf252f677a8f9b9f822085c38dc69d71b52a9"
   end
 
   option "with-devtools", "Build debug tools for Bayeux developers"
