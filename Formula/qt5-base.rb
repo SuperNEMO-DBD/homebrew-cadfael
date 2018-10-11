@@ -43,6 +43,8 @@ class Qt5Base < Formula
       -pkg-config
       -no-avx
       -no-avx2
+      -no-sql-mysql
+      -no-sql-psql
       -c++std c++14
     ]
 
