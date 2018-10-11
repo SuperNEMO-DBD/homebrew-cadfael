@@ -11,11 +11,12 @@ class Root6 < Formula
 
   depends_on "cmake" => :build
   depends_on "libxml2" unless OS.mac? # For XML on Linux
-  depends_on "xz" # For LZMA
   depends_on "openssl"
+  depends_on "python@2"
   depends_on "sqlite"
   depends_on "supernemo-dbd/cadfael/gsl"
-  depends_on "python@2"
+  depends_on "supernemo-dbd/cadfael/xrootd"
+  depends_on "xz" # For LZMA
 
   conflicts_with "root", :because => "SuperNEMO requires custom root build"
 
@@ -82,7 +83,7 @@ class Root6 < Formula
       -Dsqlite=ON
       -Dssl=ON
       -Dmathmore=ON
-      -Dxrootd=OFF
+      -Dxrootd=ON
     ]
 
     # Python requires a bit of finessing
