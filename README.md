@@ -1,7 +1,8 @@
 # Homebrew tap for SuperNEMO
-Custom Formulae and Commands for SuperNEMO's [cadfaelbrew fork](https://github.com/SuperNEMO-DBD/cadfaelbrew) of
-Linux/Homebrew. Though designed for use with cadfaelbrew, it should work and be compatible with upstream Homebrew (macOS)
-modulo version dependencies on Formulae supplied in this tap. Co-working with Linuxbrew is not yet supported.
+Linux/Homebrew Tap for formulae and commands for installing/managing SuperNEMO software. Whilst aiming towards being a general tap with binary bottles, it currently only use bottles on macOS for upstream Homebrew packages. All formulae on Linux need to built from source at present due to their heavy reliance on system graphics libraries (and consequent glibc conflicts).
+
+_Please note: development is currently working on migrating from use of a forked Linuxbrew to use of "pure" upstream. If you 
+want to make a new install of SuperNEMO software, [please refer to the instructions and comments in Issue #56](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues/56)._
 
 # Quickstart
 To install brew and the needed development tools for the SuperNEMO software, simply do
