@@ -6,7 +6,7 @@ class Falaise < Formula
   head "https://github.com/SuperNEMO-DBD/Falaise.git", :branch => "develop"
 
   depends_on "cmake" => :build
-  depends_on "supernemo-dbd/cadfael/doxygen" => :build
+  depends_on "doxygen" => :build
   # Bayeux dependency pulls in all additional deps of Falaise at present
   depends_on "supernemo-dbd/cadfael/bayeux"
 

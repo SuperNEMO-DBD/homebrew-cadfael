@@ -8,7 +8,7 @@ class FalaiseAT2 < Formula
   keg_only "conflicts with newer production versions"
 
   depends_on "cmake" => :build
-  depends_on "supernemo-dbd/cadfael/doxygen" => :build
+  depends_on "doxygen" => :build
 
   needs :cxx11
 

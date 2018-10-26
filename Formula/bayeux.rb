@@ -12,7 +12,7 @@ class Bayeux < Formula
   needs :cxx11
 
   depends_on "cmake" => :build
-  depends_on "supernemo-dbd/cadfael/doxygen" => :build
+  depends_on "doxygen" => :build
   depends_on "icu4c"
   depends_on "readline"
   depends_on "supernemo-dbd/cadfael/gsl"
