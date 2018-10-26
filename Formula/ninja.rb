@@ -5,7 +5,7 @@ class Ninja < Formula
   sha256 "86b8700c3d0880c2b44c2ff67ce42774aaf8c28cbf57725cb881569288c1c6f4"
   head "https://github.com/ninja-build/ninja.git"
 
-  depends_on "python@2" => :build unless OS.mac? 
+  depends_on "python@2" => :build unless OS.mac?
 
   def install
     system "python", "configure.py", "--bootstrap"
@@ -26,4 +26,3 @@ class Ninja < Formula
     system bin/"ninja", "-t", "targets"
   end
 end
-

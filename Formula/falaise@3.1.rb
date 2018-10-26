@@ -4,20 +4,20 @@ class FalaiseAT31 < Formula
   url "https://github.com/SuperNEMO-DBD/Falaise/archive/Falaise-3.1.1.tar.gz"
   sha256 "5befdf043186860dd4d8c7a07a3ebfb201999e27c8ab0b006849ef83bfc3474c"
 
-  patch do
-   # Addresses ROOT 6.12.04 generate_dictionary change
-   url "https://github.com/SuperNEMO-DBD/Falaise/pull/76.patch?full_index=1"
-   sha256 "a5deadda12c9a46008631e6e001b55aef0920884636787f4774b29a5981f24cf"
-  end
+  keg_only :versioned_formula
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
-  # Bayeux dependency pulls in all additional deps of Falaise at present
   depends_on "supernemo-dbd/cadfael/bayeux"
 
-  needs :cxx11
+  patch do
+    # Addresses ROOT 6.12.04 generate_dictionary change
+    url "https://github.com/SuperNEMO-DBD/Falaise/pull/76.patch?full_index=1"
+    sha256 "a5deadda12c9a46008631e6e001b55aef0920884636787f4774b29a5981f24cf"
+  end
+  # Bayeux dependency pulls in all additional deps of Falaise at present
 
-  keg_only :versioned_formula
+  needs :cxx11
 
   def install
     ENV.cxx11

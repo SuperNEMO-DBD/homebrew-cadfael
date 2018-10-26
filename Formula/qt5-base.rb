@@ -6,8 +6,8 @@ class Qt5Base < Formula
 
   keg_only "qt5 is very picky about install locations, so keep it isolated"
 
-  depends_on :xcode => :build if OS.mac?
   depends_on "pkg-config" => :build
+  depends_on :xcode => :build if OS.mac?
 
   unless OS.mac?
     depends_on "icu4c"
@@ -26,7 +26,9 @@ class Qt5Base < Formula
 
   def install
     # Patch for https://bugreports.qt.io/browse/QTBUG-67545
-    inreplace "./src/platformsupport/fontdatabases/mac/qfontengine_coretext.mm", "return QFixed::QFixed(int(CTFontGetUnitsPerEm(ctfont)));", "return QFixed(int(CTFontGetUnitsPerEm(ctfont)));"
+    inreplace "./src/platformsupport/fontdatabases/mac/qfontengine_coretext.mm",
+      "return QFixed::QFixed(int(CTFontGetUnitsPerEm(ctfont)));",
+      "return QFixed(int(CTFontGetUnitsPerEm(ctfont)));"
 
     args = %W[
       -verbose
@@ -85,7 +87,7 @@ class Qt5Base < Formula
   def caveats; <<~EOS
     We agreed to the Qt opensource license for you.
     If this is unacceptable you should uninstall.
-    EOS
+  EOS
   end
 
   test do
@@ -113,8 +115,8 @@ class Qt5Base < Formula
 
     system bin/"qmake", testpath/"hello.pro"
     system "make"
-    assert File.exist?("hello")
-    assert File.exist?("main.o")
+    assert_predicate testpath/"hello", :exist?
+    assert_predicate testpath/"main.o", :exist?
     system "./hello"
   end
 end
