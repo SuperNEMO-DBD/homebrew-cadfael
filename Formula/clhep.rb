@@ -16,9 +16,9 @@ class Clhep < Formula
     sha256 "66272ae3100d3aec096b1298e1e24ec25b80e4dac28332b45ec3284023592963"
   end
 
-  needs :cxx11
-
   depends_on "cmake" => :build
+
+  needs :cxx11
 
   def install
     ENV.cxx11

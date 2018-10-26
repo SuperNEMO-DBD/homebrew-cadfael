@@ -35,15 +35,14 @@ class Geant4 < Formula
     sha256 "702fb0f7a78d4bdf1e3f14508de26e4db5e2df6a21a8066a92b7e6ce21f4eb2d"
   end
 
-  needs :cxx11
+  option "with-notimeout", "Set notimeout in installing data"
 
   depends_on "cmake" => :build
   depends_on "expat" if OS.linux?
-
   depends_on "supernemo-dbd/cadfael/clhep"
   depends_on "supernemo-dbd/cadfael/xerces-c"
 
-  option "with-notimeout", "Set notimeout in installing data"
+  needs :cxx11
 
   def install
     ENV.cxx11

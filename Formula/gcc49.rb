@@ -21,7 +21,7 @@ class Gcc49 < Formula
 
   desc "GNU Compiler Collection"
   homepage "http://gcc.gnu.org"
-  url "https://ftpmirror.gnu.org/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-4.9.3/gcc-4.9.3.tar.bz2"
   mirror "ftp://gcc.gnu.org/pub/gcc/releases/gcc-4.9.3/gcc-4.9.3.tar.bz2"
   sha256 "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
 
@@ -42,6 +42,16 @@ class Gcc49 < Formula
 
   # Fix config-ml.in: eval: line 160: unexpected EOF while looking for matching `''
   # Fixed upstream.
+  option "with-nls", "Build with native language support (localization)"
+  option "with-all-languages", "Enable all compilers and languages, except Ada"
+  option "without-fortran", "Build without the gfortran compiler"
+  option "with-objc", "Build the Objective C/C++ compiler"
+  option "with-java", "Build the gcj compiler"
+
+  cxxstdlib_check :skip
+
+  fails_with :gcc_4_0
+
   patch do
     url "https://gist.githubusercontent.com/sjackman/34fa1081982bda781862/raw/738349d49f4f094cced7cfe287cdcdfcd7207265/52fd2e1.diff"
     sha256 "360dc5061909bae0096d86546e53eae971755661da386b403f836eb70fa335f1"
@@ -61,12 +71,6 @@ class Gcc49 < Formula
     sha256 "faf652fd1c8bd1179533d95a6fa9a27f6ff69f8bdd62186092c439d1e9574339"
   end
 
-  option "with-nls", "Build with native language support (localization)"
-  option "with-all-languages", "Enable all compilers and languages, except Ada"
-  option "without-fortran", "Build without the gfortran compiler"
-  option "with-objc", "Build the Objective C/C++ compiler"
-  option "with-java", "Build the gcj compiler"
-
   # enabling multilib on a host that can't run 64-bit results in build failures
   if OS.mac?
     option "without-multilib", "Build without multilib support" if MacOS.prefer_64_bit?
@@ -79,18 +83,14 @@ class Gcc49 < Formula
     depends_on "glibc" => :optional
   end
 
-  depends_on "ecj" if build.with?("java") || build.with?("all-languages")
-
   if MacOS.version < :leopard && OS.mac?
     # The as that comes with Tiger isn't capable of dealing with the
     # PPC asm that comes in libitm
     depends_on "cctools" => :build
   end
-
-  fails_with :gcc_4_0
+  depends_on "ecj" if build.with?("java") || build.with?("all-languages")
 
   # GCC bootstraps itself, so it is OK to have an incompatible C++ stdlib
-  cxxstdlib_check :skip
 
   # The bottles are built on systems with the CLT installed, and do not work
   # out of the box on Xcode-only systems due to an incorrect sysroot.
@@ -245,7 +245,6 @@ class Gcc49 < Formula
         f.file? && (f.elf? || f.extname == ".a")
       end)
     end
-
   end
 
   def add_suffix(file, suffix)
@@ -269,13 +268,13 @@ class Gcc49 < Formula
       gcc = "gcc-#{version_suffix}"
       specs = Pathname.new(`#{bin}/#{gcc} -print-libgcc-file-name`).dirname/"specs"
       ohai "Creating the GCC specs file: #{specs}"
-      raise "command failed: #{gcc} -print-libgcc-file-name" if $?.exitstatus != 0
+      raise "command failed: #{gcc} -print-libgcc-file-name" if $CHILD_STATUS.exitstatus != 0
       specs_orig = Pathname.new("#{specs}.orig")
       rm_f [specs_orig, specs]
 
       # Save a backup of the default specs file
       s = `#{bin}/#{gcc} -dumpspecs`
-      raise "command failed: #{gcc} -dumpspecs" if $?.exitstatus != 0
+      raise "command failed: #{gcc} -dumpspecs" if $CHILD_STATUS.exitstatus != 0
       specs_orig.write s
 
       # Set the library search path
@@ -302,7 +301,7 @@ class Gcc49 < Formula
         https://gcc.gnu.org/bugzilla/show_bug.cgi?id=60670
       If you need OpenMP support you may want to
         brew reinstall gcc --without-multilib
-      EOS
+    EOS
     end
   end
 

@@ -9,18 +9,18 @@ class BayeuxAT2 < Formula
 
   option "with-devtools", "Build debug tools for Bayeux developers"
 
-  needs :cxx11
-
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
-  depends_on "readline"
   depends_on "icu4c"
-  depends_on "supernemo-dbd/cadfael/gsl"
+  depends_on "readline"
   depends_on "supernemo-dbd/cadfael/boost"
   depends_on "supernemo-dbd/cadfael/camp"
   depends_on "supernemo-dbd/cadfael/clhep"
   depends_on "supernemo-dbd/cadfael/geant4"
+  depends_on "supernemo-dbd/cadfael/gsl"
   depends_on "supernemo-dbd/cadfael/root6"
+
+  needs :cxx11
 
   def install
     ENV.cxx11

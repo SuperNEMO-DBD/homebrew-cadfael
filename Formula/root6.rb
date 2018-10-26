@@ -20,6 +20,8 @@ class Root6 < Formula
 
   conflicts_with "root", :because => "SuperNEMO requires custom root build"
 
+  skip_clean "bin"
+
   needs :cxx11
 
   def install
@@ -140,7 +142,7 @@ class Root6 < Formula
       pushd $(brew --prefix root6) >/dev/null; . libexec/thisroot.sh; popd >/dev/null
     For csh/tcsh users:
       source `brew --prefix root6`/libexec/thisroot.csh
-    EOS
+  EOS
   end
 
   test do
@@ -157,7 +159,7 @@ class Root6 < Formula
     assert_equal "\nProcessing test.C...\nHello, world!\n",
                  shell_output("/bin/bash test.bash")
 
-    ENV["PYTHONPATH"] = #{lib}/"root"
+    ENV["PYTHONPATH"] = "#{lib}/root"
     system "python2", "-c", "'import ROOT'"
   end
 end

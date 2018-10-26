@@ -5,11 +5,11 @@ class Camp < Formula
   version "0.8.0"
   revision 1
 
-  needs :cxx11
-
   depends_on "cmake" => :build
   depends_on "doxygen" => [:optional, :build]
   depends_on "supernemo-dbd/cadfael/boost"
+
+  needs :cxx11
 
   def install
     ENV.cxx11

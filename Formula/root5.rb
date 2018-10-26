@@ -15,17 +15,20 @@ class Root5 < Formula
 
   keg_only "conflicts with production version ROOT6"
 
-  needs :cxx11
   depends_on "cmake" => :build
 
   depends_on "openssl"
   depends_on "python@2" => :recommended
   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
 
+  needs :cxx11
+
   def install
     # When building the head, temp patch for ROOT-8032
     if build.head? || build.devel?
-      inreplace "cmake/modules/RootBuildOptions.cmake", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink", "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|python|mathmore|asimage|gnuinstall|rpath|soversion|opengl|builtin_glew"
+      inreplace "cmake/modules/RootBuildOptions.cmake",
+        "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink",
+        "thread|cxx11|cling|builtin_llvm|builtin_ftgl|explicitlink|python|mathmore|asimage|gnuinstall|rpath|soversion|opengl|builtin_glew"
     end
 
     mkdir "hb-build-root" do
@@ -50,12 +53,30 @@ class Root5 < Formula
 
       # Options
       args << "-Dcxx11=ON" if build.cxx11?
-      args << "-Dpython=".concat((build.with? "python") ? "ON" : "OFF")
-      args << "-Dmathmore=".concat((build.with? "gsl") ? "ON" : "OFF")
+      args << "-Dpython=".concat((build.with?("python") ? "ON" : "OFF"))
+      args << "-Dmathmore=".concat((build.with?("gsl") ? "ON" : "OFF"))
 
       system "cmake", "../", *args
       system "make"
       system "make", "install"
     end
+  end
+
+  test do
+    (testpath/"test.C").write <<~EOS
+      #include <iostream>
+      void test() {
+        std::cout << "Hello, world!" << std::endl;
+      }
+    EOS
+    (testpath/"test.bash").write <<~EOS
+      . #{bin}/thisroot.sh
+      root -l -b -n -q test.C
+    EOS
+    assert_equal "\nProcessing test.C...\nHello, world!\n",
+                 shell_output("/bin/bash test.bash")
+
+    ENV["PYTHONPATH"] = "#{lib}/root"
+    system "python2", "-c", "'import ROOT'"
   end
 end

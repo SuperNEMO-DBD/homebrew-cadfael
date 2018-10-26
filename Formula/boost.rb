@@ -5,9 +5,9 @@ class Boost < Formula
   sha256 "beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0"
   revision 4
 
-  needs :cxx11
-
   depends_on "icu4c"
+
+  needs :cxx11
 
   unless OS.mac?
     depends_on "bzip2"
