@@ -16,9 +16,9 @@ $ ./bin/brew cadfael-bootstrap
 The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any
 missing system packages and how to install these. This step is only done for the following systems:
 
-- RHEL/CentOS/Scientific Linux 6/7
-- Ubuntu Linux 14.04LTS/16.04LTS
-- macOS 10.11/12/13(El Capitan/Sierra/High Sierra)
+- RHEL/CentOS/Scientific Linux 6, 7
+- Ubuntu Linux 16.04LTS, 18.04LTS (_beta support_)
+- macOS 10.12 (Sierra), 10.13 (High Sierra), _10.14 (Mojave, in development)_
 
 Running on a non-supported system will still proceed, but you may encounter issues (see [Troubleshooting](#troubleshooting)).
 As the bootstrap step may include the install of the GCC compiler, it will take
