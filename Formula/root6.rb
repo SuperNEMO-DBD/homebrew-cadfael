@@ -1,13 +1,22 @@
 class Root6 < Formula
   desc "CERN C++ Data Analysis and Persistency Libraries"
   homepage "http://root.cern.ch"
-  url "http://root.cern.ch/download/root_v6.12.04.source.tar.gz"
-  mirror "https://fossies.org/linux/misc/root_v6.12.04.source.tar.gz"
-  version "6.12.04"
-  sha256 "f438f2ae6e25496fa81df525935fb0bf2a403855d95c40b3e0f3a3e1e861a085"
   revision 1
-
   head "http://root.cern.ch/git/root.git"
+
+  stable do
+    url "https://root.cern.ch/download/root_v6.12.04.source.tar.gz"
+    mirror "https://fossies.org/linux/misc/root_v6.12.04.source.tar.gz"
+    version "6.12.04"
+    sha256 "f438f2ae6e25496fa81df525935fb0bf2a403855d95c40b3e0f3a3e1e861a085"
+  end
+
+  devel do
+    url "https://root.cern.ch/download/root_v6.14.06.source.tar.gz"
+    mirror "https://fossies.org/linux/misc/root_v6.14.06.source.tar.gz"
+    version "6.14.06"
+    sha256 "0fb943b61396f282b289e35c455a9ab60126229be1bd3f04a8f00b37c13ab432"
+  end
 
   depends_on "cmake" => :build
   depends_on "libxml2" unless OS.mac? # For XML on Linux
@@ -65,7 +74,6 @@ class Root6 < Formula
     # Now the core/builtin things we want
     args += %w[
       -Dcxx11=ON
-      -Dfail-on-missing=ON
       -Dgnuinstall=ON
       -Dexplicitlink=ON
       -Drpath=ON
@@ -87,6 +95,10 @@ class Root6 < Formula
       -Dmathmore=ON
       -Dxrootd=ON
     ]
+
+    # Only fail on missing for non-devel builds due to
+    # https://github.com/root-project/root/pull/2972
+    args += "-Dfail-on-missing=ON" unless build.devel?
 
     # Python requires a bit of finessing
     ENV.prepend_path "PATH", Formula["python@2"].opt_libexec/"bin"
