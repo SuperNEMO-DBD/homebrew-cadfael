@@ -1,18 +1,26 @@
 class Boost < Formula
   desc "Collection of portable C++ source libraries"
   homepage "https://www.boost.org/"
-  url "https://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.tar.bz2"
-  sha256 "beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0"
-  revision 4
+  revision 5
+
+  stable do
+    url "https://downloads.sourceforge.net/project/boost/boost/1.63.0/boost_1_63_0.tar.bz2"
+    sha256 "beae2529f759f6b3bf3f4969a19c2e9d6f0c503edcb2de4a61d1428519fcb3b0"
+  end
+
+  devel do
+    url "https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.bz2"
+    sha256 "7f6130bc3cf65f56a618888ce9d5ea704fa10b462be126ad053e80e553d6d8b7"
+  end
 
   depends_on "icu4c"
-
-  needs :cxx11
 
   unless OS.mac?
     depends_on "bzip2"
     depends_on "zlib"
   end
+
+  needs :cxx11
 
   def install
     # Reduce memory usage below 4 GB for Circle CI.
@@ -77,9 +85,8 @@ class Boost < Formula
     # ENV.compiler doesn't exist in caveats. Check library availability
     # instead.
     if Dir["#{lib}/libboost_log*"].empty?
-      s += <<-EOS.undent
-
-      Building of Boost.Log is disabled because it requires newer GCC or Clang.
+      s += <<~EOS
+        Building of Boost.Log is disabled because it requires newer GCC or Clang.
       EOS
     end
 
@@ -87,7 +94,7 @@ class Boost < Formula
   end
 
   test do
-    (testpath/"test.cpp").write <<-EOS.undent
+    (testpath/"test.cpp").write <<~EOS
       #include <boost/algorithm/string.hpp>
       #include <string>
       #include <vector>
@@ -106,7 +113,7 @@ class Boost < Formula
         return 0;
       }
     EOS
-    system ENV.cxx, "test.cpp", "-std=c++1y", "-L#{lib}", "-lboost_system", "-o", "test"
+    system ENV.cxx, "test.cpp", "-std=c++1y", "-L#{lib}", "-lboost_system-mt", "-o", "test"
     system "./test"
   end
 end
