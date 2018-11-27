@@ -18,7 +18,7 @@ missing system packages and how to install these. This step is only done for the
 
 - RHEL/CentOS/Scientific Linux 6, 7
 - Ubuntu Linux 16.04LTS, 18.04LTS (_beta support_)
-- macOS 10.12 (Sierra), 10.13 (High Sierra), _10.14 (Mojave, in development)_
+- macOS 10.12 (Sierra), 10.13 (High Sierra), 10.14 (Mojave) (_beta support_)
 
 Running on a non-supported system will still proceed, but you may encounter issues (see [Troubleshooting](#troubleshooting)).
 As the bootstrap step may include the install of the GCC compiler, it will take
