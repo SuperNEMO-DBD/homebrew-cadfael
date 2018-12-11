@@ -1,7 +1,7 @@
 class Root6 < Formula
   desc "CERN C++ Data Analysis and Persistency Libraries"
   homepage "http://root.cern.ch"
-  revision 1
+  revision 2
   head "http://root.cern.ch/git/root.git"
 
   stable do
@@ -38,6 +38,8 @@ class Root6 < Formula
     ENV.delete("SDKROOT") if DevelopmentTools.clang_build_version >= 900
     args = *std_cmake_args
     args << "-DCMAKE_INSTALL_ELISPDIR=#{elisp}"
+    # Avoid macOS case issues from "root/ROOT" paths
+    args << "-DCMAKE_INSTALL_INCLUDEDIR=include/root6"
 
     # Disable everything that might be ON by default
     args += %w[
@@ -98,7 +100,7 @@ class Root6 < Formula
 
     # Only fail on missing for non-devel builds due to
     # https://github.com/root-project/root/pull/2972
-    args += "-Dfail-on-missing=ON" unless build.devel?
+    args << "-Dfail-on-missing=ON" unless build.devel?
 
     # Python requires a bit of finessing
     ENV.prepend_path "PATH", Formula["python@2"].opt_libexec/"bin"
