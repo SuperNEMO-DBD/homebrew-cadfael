@@ -1,0 +1,9 @@
+tap "supernemo-dbd/cadfael", pin: true
+# Ubuntu 18 specialism for flex needed here
+brew "python@2"
+brew "cmake"
+brew "ninja"
+
+brew "bayeux"
+
+

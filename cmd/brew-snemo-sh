@@ -1,0 +1,34 @@
+#!/bin/bash
+# If we need anything more advanced than a `brew sh` wrapper,
+# use Library/Homebrew/cmd/sh.rb as a base and extend as
+# needed
+
+# Try and protect against users trying to source it or run directly
+if [ ! "${BASH_SOURCE[0]}" -ef "$0" ]
+then
+  echo "error: brew-snemo-sh should not be sourced!" && return 1
+elif [ -z ${HOMEBREW_PREFIX+x} ] &&  [ -z ${HOMEBREW_LIBRARY_PATH+x} ] 
+then
+  echo "error: brew-snemo-sh should be run as a brew subcommand!" && exit 1
+fi
+
+# Avoid autoinstall of git on older platforms
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# 1. Get system/toolchain fingerprint
+osFingerprint=`uname -s`
+shArgs="--env=std"
+
+# 3. System specialization
+if [ $osFingerprint == "Linux" ]
+then
+  # Linux is build from source
+  export HOMEBREW_BUILD_FROM_SOURCE=1
+
+  # Toolchain is gcc-7, env is std
+  shArgs="--cc=gcc-7 $shArgs"
+fi
+
+# 3. Start brew shell with appropriate args
+brew sh $shArgs
+

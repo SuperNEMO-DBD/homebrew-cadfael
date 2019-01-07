@@ -1,318 +1,378 @@
-# Homebrew tap for SuperNEMO
-Linux/Homebrew Tap for formulae and commands for installing/managing SuperNEMO software. Whilst aiming towards being a general tap with binary bottles, it currently only use bottles on macOS for upstream Homebrew packages. All formulae on Linux need to built from source at present due to their heavy reliance on system graphics libraries (and consequent glibc conflicts).
+# SuperNEMO-DBD/cadfael
 
-_Please note: development is currently working on migrating from use of a forked Linuxbrew to use of "pure" upstream. If you 
-want to make a new install of SuperNEMO software, [please refer to the instructions and comments in Issue #56](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues/56)._
+Formulae for installing the [SuperNEMO experiment's](https://supernemo.org) offline software,
+including runtime and software development kits, using the [Homebrew](https://brew.sh)/[Linuxbrew](https://linuxbrew.sh)
+package managers. The software may be installed either natively on Linux/macOS,
+or as a Singularity/Docker Image on any platform supporting Singularity/Docker.
+
+The current C++/Python Toolchain comprises GCC 7 (Linux) or Apple LLVM (macOS),
+Python 2.7, and all C++ binaries compiled against the ISO C++11 Standard. Data
+persistency uses the ROOT 6 format.
+
+# Prerequisites
+For both native and image installs, your system will require 4GB of disk
+space, plus a working network connection during installation to download
+sources and binaries. We recommend use of image installs on Linux
+systems that supply and support Singularity, and native from-source
+builds otherwise (for example on macOS laptops). Both provide an identical
+set of software, but images are easier, faster, and more reliable to both
+install and use.
+
+
+## For Native Installs
+The following Linux or macOS base systems are required
+for native installs:
+
+- CentOS/Scientific/RedHat Linux 6 and 7
+  - At a terminal prompt, run (or ask your friendly neighbourhood sysadmin to run):
+
+  ```
+  $ sudo yum install curl gcc gcc-c++ git make which libX11-devel libXext-devel libXft-devel libXpm-devel mesa-libGL-devel mesa-libGLU-devel perl-Data-Dumper perl-Thread-Queue
+  ```
+
+- Ubuntu Linux 16.04LTS, 18.04LTS
+  - At a terminal prompt, run (or ask your friendly neighbourhood sysadmin to run):
+
+  ```
+  $ sudo apt-get install ca-certificates curl file g++ git locales make uuid-runtime libx11-dev libxpm-dev libxft-dev libxext-dev libglu1-mesa-dev flex texinfo
+  ```
+
+- macOS Sierra, High Sierra, or Mojave
+  - Install [Xcode](https://developer.apple.com/xcode/) from the [App Store](https://itunes.apple.com/gb/app/xcode/id497799835?mt=12).
+
+
+Linux distributions other than the above are not officially supported
+or tested. Those derived from CentOS 7 or Ubuntu 18.04 (Debian buster/sid)
+with the above package sets (or equivalent) should provide the necessary
+base system.
+
+
+## For Image Installs
+To install images and run them in containers, either [Singularity](https://www.sylabs.io/singularity/)(Linux only)
+or [Docker](https://www.docker.com)(Linux, macOS or Windows) is required.
+For Docker on macOS or Windows, you will also require an X11 server if
+a graphical interface is needed (*Use of this is not yet documented*).
+
+If you are using a centrally managed Linux system, you may have Singularity
+installed already (for example, it is available on SuperNEMO's Tier 1 at CC-Lyon).
+Simply run
+
+```
+$ singularity --version
+2.6.1-dist
+```
+
+to see if it is available. Otherwise, installation instructions are available
+from the [Singularity Documentation](https://www.sylabs.io/guides/2.6/user-guide/index.html)
+(note that this *does* require `root/sudo` privileges, so speak to your
+friendly neighbourhood sysadmin if that isn't you).
+
+For Docker, you can similarly check availability on your system using
+
+```
+$ docker --version
+```
+
+Docker is less likely to be present on centrally managed systems as
+it requires higher permissions than Singularity. For self-managed machines,
+it can be installed following the [Docker CE Guide for your platform](https://docs.docker.com/install/).
+Though Docker is available on Linux, we recommend the use of Singularity
+on this Platform.
+
 
 # Quickstart
-To install brew and the needed development tools for the SuperNEMO software, simply do
-
+## Installing Natively
 ```
-$ git clone https://github.com/SuperNEMO-DBD/brew.git cadfaelbrew
-$ cd cadfaelbrew
-$ ./bin/brew cadfael-bootstrap
-```
-
-The `cadfael-bootstrap` command will check for system prerequisites, and inform you of any
-missing system packages and how to install these. This step is only done for the following systems:
-
-- RHEL/CentOS/Scientific Linux 6, 7
-- Ubuntu Linux 16.04LTS, 18.04LTS (_beta support_)
-- macOS 10.12 (Sierra), 10.13 (High Sierra), 10.14 (Mojave) (_beta support_)
-
-Running on a non-supported system will still proceed, but you may encounter issues (see [Troubleshooting](#troubleshooting)).
-As the bootstrap step may include the install of the GCC compiler, it will take
-some time to complete.
-
-Once bootstrapping is completed, the main [Falaise](https://github.com/supernemo-dbd/Falaise) software for SuperNEMO
-may be installed and tested:
-
-```
-$ ./bin/brew install falaise
-$ ./bin/brew test falaise
+$ git clone https://github.com/Linuxbrew/brew.git snemo-sdk
+$ eval $(./snemo-sdk/bin/brew shellenv)
+$ brew tap SuperNEMO-DBD/cadfael
+$ brew snemo-doctor
 ```
 
-As above, this will take some time to complete due to the need to install large dependencies
-such as CERN ROOT and Geant4. Should any step fail to complete, see the [Troubleshooting Guide](#troubleshooting)
-for help.
-
-Once installed, no specific environment settings should be required, but you may wish to set
-`PATH`, `MANPATH` and `INFOPATH` so that programs and documentation can be run/read without
-using absolute paths. For example, if you have installed `brew` in `$HOME/cadfaelbrew`, add
+Use of this Tap with an existing Homebrew/Linuxbrew installation is
+**not supported** because a coherent install of all packages cannot
+be guaranteed. It is likely that you will see some warnings
+from `brew snemo-doctor`. Unless this fails with hard errors about
+missing system packages, you should proceed to the next step:
 
 ```
-export PATH=$HOME/cadfaelbrew/bin:$PATH
-export MANPATH=$HOME/cadfaelbrew/share/man:$MANPATH
-export INFOPATH=$HOME/cadfaelbrew/share/info:$INFOPATH
+$ brew snemo-install-sdk
 ```
 
-to your `sh` profile or rc file (e.g. `.bashrc` for the Bash shell). For C-shell, use the
-`setenv` equivalents, e.g. `setenv PATH $HOME/cadfaelbrew/bin:$PATH`, in your `.(t)cshrc`
-file. If you require use of brew's `python` (brew only install versioned python executables)
-and ROOT's `pyroot` module, then add:
+This step will take some time to complete as a full suite of development
+tools and packages will be built from scratch. If you encounter
+any errors here [raise an Issue](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues/new)
+and **supply the requested information**.
+
+Once installation is complete, test the top level `falaise` package:
 
 ```
-export PATH=$HOME/cadfaelbrew/opt/python/libexec/bin:$PATH
-export PYTHONPATH=$HOME/cadfaelbrew/lib/root${PYTHONPATH:+:$PYTHONPATH}
-```
-
-See also `brew info python` for details on install python packages through `pip`.
-
-Once installed, documentation on using Falaise is [available online](https://supernemo-dbd.github.io/Falaise)
-and with the offline installation. In the later case, this is installed under the `share/Falaise-<VERSION>/Documentation/API/html`
-subdirectory of your `brew` installation. To view it, simply point your web browser to the `index.html` file
-under that directory.
-
-If you wish to contribute to Falaise development, information is available on the [project page](https://github.com/supernemo-dbd/Falaise).
-
-## Use with existing Home/Linuxbrew Installations
-If you have an existing Homebrew (macOS) install, this tap may be used directly if you don't have existing brewed versions
-of Qt, Boost, CERN ROOT and Geant4. In this case, you simply need to add this tap and then follow the bootstrap/install
-proceedure:
-
-```
-$ brew tap supernemo-dbd/cadfael
-$ brew tap-pin supernemo-dbd/cadfael
-$ brew cadfael-bootstrap-toolchain
-$ brew install falaise
 $ brew test falaise
+Testing supernemo-dbd/cadfael/falaise
+==> /Users/bmorgan/Software/Cadfaelbrew.git/Cellar/falaise/3.3.0/bin/flsimulate -o test.brio
+==> /Users/bmorgan/Software/Cadfaelbrew.git/Cellar/falaise/3.3.0/bin/flreconstruct -i test.brio -p urn:snemo:demonstrator:reconstruction:1.0.0 -o test.root
 ```
 
-If you see issues in the last two steps, review the [list of Formulae supplied by this tap](#supplied-formulae) and
-remove any listed here and rerun `brew install falaise`.
+This should run successfully without any error, though some warnings may be expected on Linux
+about building from source. If an error does occur, please [raise an Issue](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues/new).
 
-Use this tap with an existing Linuxbrew installation is currently not supported as there may be ABI
-incompatibilities between Linuxbrew's install of gcc/glibc/libstdc++ and the requirement for C++11 . On Linux,
-it's therefore recommended to use SuperNEMO's fork of brew as described at the start of this section.
-
-# Upgrading
-
-In general, upgrading packages in `brew` should be a simple case of running
+## Installing Images
+Using Singularity:
 
 ```
-$ brew update
-$ brew upgrade
+$ singularity pull docker://supernemo/falaise
+WARNING: pull for Docker Hub is not guaranteed to produce the
+WARNING: same image on repeated pull. Use Singularity Registry
+WARNING: (shub://) to pull exactly equivalent images.
+Docker image path: index.docker.io/supernemo/falaise:latest
+...
+WARNING: Building container as an unprivileged user. If you run this container as root
+WARNING: it may be missing some functionality.
+Building Singularity image...
+Singularity container built: ./falaise.simg
+Cleaning up...
+Done. Container is at: ./falaise.simg
+$ ls
+falaise.simg
 ```
 
-If you have an existing install of `falaise` version 2 or below (run `brew info falaise` to get this information),
-then the following steps are needed to upgrade to version 3:
+The resultant `falaise.simg` image file contains everything you need to
+run the offline software, and can be stored anywhere on your system. In the following, we assume
+it is located in the current working directory, but if not simply supply
+the full path to the image file. To cross check the image is o.k. and
+your local Singularity setup, run
 
 ```
-$ brew unlink root5
-$ brew rm falaise bayeux
-$ brew update
-$ brew upgrade
+$ singularity exec falaise.simg brew test falaise
+WARNING: Not mounting current directory: user bind control is disabled by system administrator
+WARNING: Non existent mountpoint (directory) in container: '/var/singularity/mnt/final/storage'
+error: could not lock config file /opt/supernemo/Homebrew/.git/config: Read-only file system
+Testing supernemo-dbd/cadfael/falaise
+==> /opt/supernemo/Cellar/falaise/3.3.0/bin/flsimulate -o test.brio
+==> /opt/supernemo/Cellar/falaise/3.3.0/bin/flreconstruct -i test.brio -p urn:snemo:demonstrator:reconstruction:1.0.0 -o test.root
+$
 ```
 
-# Development Versions
+The exact output you see will depend on the local Singularity configuration
+and the current production release. As long as you see the last two lines
+and no subsequent errors, things should be o.k. By default, Singularity pulls the `latest`
+image tag, which always contains the current production release.
 
-The `falaise` formula supplies a `HEAD` version which allows installation from the tip of the
-current development branch so that the latest patches and updates can be used. Please note that
-whilst every effort is made to keep this branch stable, functionality and validity is not
-guaranteed. If you wish to install this version, simply do
+
+Using Docker:
+
+```
+$ docker pull supernemo/falaise
+latest: Pulling from supernemo/falaise
+...
+Digest: sha256:cf39166b250e91becf7a0bfcaa1c28152a07afddd8acf788e7d3289f6b5544aa
+Status: Downloaded newer image for supernemo/falaise:latest
+```
+
+Docker will manage the image files for you, and their state can
+be checked at any time by running
+
+```
+$ docker images
+```
+
+As with Singularity, the `falaise` package should be tested:
+
+```
+$ docker run --rm supernemo/falaise brew test falaise
+Warning: Calling HOMEBREW_BUILD_FROM_SOURCE is deprecated! Use --build-from-source instead.
+Testing supernemo-dbd/cadfael/falaise
+==> /opt/supernemo/Cellar/falaise/3.3.0/bin/flsimulate -o test.brio
+==> /opt/supernemo/Cellar/falaise/3.3.0/bin/flreconstruct -i test.brio -p urn:snemo:demonstrator:reconstruction:1.0.0 -o test.root
+$
+```
+
+The value you see for the `sha256` digest when pulling and the versions on the test
+output will depend on the current production release. As with Singularity the `pull`
+command downloads the default `latest` tag which always points to the current production release.
+
+
+# Using the Offline Software Environment
+For both native and image installs, the primary way to use the offline
+software is to start a shell session which configures access to the
+applications and all the tools needed to develop them.
+We defer instructions on the use and development of the applications *themselves*
+to those on [the offline project page](https://github.com/supernemo-dbd/Falaise).
+Here we simply demonstrate how to start up the interactive shell session.
+
+With native installs, a new shell session configured with the applications
+and needed development tools is started using the `snemo-sh` subcommand
+of `brew`:
+
+```
+$ $HOME/snemo-sdk/bin/brew snemo-sh
+...
+falaise> flsimulate --help
+
+```
+
+Use `exit` to close the session and return to a standard environment.
+It's recommended to add an alias in your shell's configuration file to
+simplify starting up the shell session, for example
+
+``` bash
+alias snemo-session="$HOME/snemo-sdk/bin/brew snemo-sh"
+```
+
+Images may be used in a similar way, the only difference being that
+we must first run the image. For Singularity, we use the [`shell` subcommand](https://www.sylabs.io/guides/2.6/user-guide/appendix.html#shell)
+to run the image, and then start the `snemo-sh` session inside this:
+
+```
+$ singularity shell falaise.simg
+...
+Singularity: Invoking an interactive shell within container...
+
+Singularity falaise.simg:~> brew snemo-sh
+...
+falaise> flsimulate --help
+...
+falaise> exit
+Singularity falaise.simg:~> exit
+$
+```
+
+Note the use of two `exit` command here, one to exit the `snemo-sh`
+session, and one to exit the container running the image. In this sense,
+images behave much like a remote login session or virtual machine.
+Whilst the exact behaviour inside the Container will depend on how your Singularity
+install has been set up, you should at least have full read-write access to files
+on your `$HOME` and `$TMP` areas on the machine running Singularity.
+
+
+You can also directly execute programs in the image using the [`exec`
+subcommand](https://www.sylabs.io/guides/2.6/user-guide/appendix.html#exec-command),
+e.g.
+
+```
+$ singularity exec falaise.simg flsimulate --help
+...
+```
+
+Much more is possible with Singularity, with a very clear and detailed
+overview available in its [online documentation](https://www.sylabs.io/guides/2.6/user-guide/index.html).
+
+
+Docker images can be run either interactively:
+
+```
+$ docker run --rm -it supernemo/falaise
+falaise> brew snemo-sh
+...
+falaise> flsimulate --help
+...
+falaise> exit
+falaise> exit
+$
+```
+
+or just to execute a command:
+
+```
+$ docker run --rm supernemo/falaise flsimulate --help
+...
+```
+
+The most important distinction from Singularity is that you
+**do not** have access to your `$HOME` area or other filesystems
+inside the running container. Various ways are available to share
+data between the host system and container, and we defer to
+the [Docker documentation on this subject](https://docs.docker.com/storage/).
+
+
+
+# Installing Additional Packages
+If your work requires software packages not present in the installation,
+you can install them through `brew` **if** Formulae for them exist. Note
+that at present this functionality is only supported for native installs.
+Use the `search` subcommand to see if the package is available:
+
+```
+$ brew search <string>
+```
+
+If no results are returned, you can request it to be added to this tap
+[through an Issue](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues/new),
+or you can write the Formula and submit it as a Pull Request.
+
+
+If the package you need is Python-based and available through PyPi, then you
+should install it using `virtualenv` and `pip` supplied with the offline
+install's Python. Note here that `virtualenv` **can** be used inside a
+container.
+
+In both cases, please keep your Working Group Coordinators informed so
+that dependencies and requirements for deployment can be tracked. Failure
+to do so may result in delays in your work being integrated into the
+production releases.
+
+
+# Keeping the Offline Software Updated
+All offline software packages are installed using the current release
+versions approved for production work. These must be used for all simulation,
+processing, and analysis production tasks. Thus you should in general
+**only update when a new release is announced**.
+
+For native installs, updating the software is done with the `snemo-update`
+command
 
 ```console
-$ brew upgrade falaise --HEAD
+$ brew snemo-update
 ```
 
-To return to a stable release version, use `brew switch`:
+This will update the Homebrew installation itself, and then upgrade
+any packages for new versions are available.
 
-```console
-$ brew switch falaise <VERSION>
-```
-
-where `<VERSION>` is the version number you wish to use. Available installed versions may be
-queried by doing:
-
-```console
-$ brew info falaise
-```
-
-`HEAD` versions are installed into `brew's` Cellar using a "version" of `HEAD-<commithash>`,
-so you can switch to a `HEAD` version by doing
-
-```console
-$ brew switch falaise HEAD-<hash>
-```
-
-Again, `brew info falaise` will report on available `HEAD` versions. The hash can be
-cross-referenced against the [commit history of main Falaise repository](https://github.com/SuperNEMO-DBD/Falaise/commits/develop)
-to see what it contains. Updated versions of the `HEAD` may be installed by doing
-
-```console
-$ brew upgrade falaise --HEAD
-```
-
-In general, you should clean up older versions of `HEAD` installs as these
-accumulate. This can be done by running
-
-```console
-$ brew cleanup falaise
-```
-
-# Troubleshooting
-
-Whilst Falaise is tested on the supported platforms listed above, it cannot cover all possible
-system configurations or setups. The sections below list the most common issues, but
-if these do not solve the problem or if you are in any doubt, [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues).
-
-## Missing System Requirements
-
-Both `brew` and the `homebrew-cadfael` tap require a base set of system packages. Missing packages
-on the supported platforms will be identified by running `brew cadfael-bootstrap`, and the error
-message will give instructions on the commands needed to install whats's needed. If you do
-not have the needed permissions on your system (`root` or `sudo`), request an administrator to
-add them. All requirements are distributed and signed either by the vendor or CERN, so there should
-be no issue with adding them.
-
-On non-supported systems no checks are performed as the list of packages isn't known. The list of requirements
-for Ubuntu 16.04 is listed below and may be used as a guide to what programs, headers and libraries
-are needed:
-
-- `lsb-release`
-- `iputils-ping`
-- `build-essential`
-- `curl`
-- `file`
-- `git`
-- `ruby`
-- `m4`
-- `libbz2-dev`
-- `libcurl4-openssl-dev`
-- `libexpat1-dev`
-- `libncurses5-dev`
-- `texinfo`
-- `zlib1g-dev`
-- `libx11-dev`
-- `libxpm-dev`
-- `libxft-dev`
-- `libxext-dev`
-- `libpng12-dev`
-- `libjpeg-dev`
-- `libegl1-mesa-dev`
-- `libgl1-mesa-dev`
-- `libglu1-mesa-dev`
-- `libgles2-mesa-dev`
-
-In general, formulae will fail to configure or build should a system requirement be missing.
-We'll make every effort to support other systems, so please [raise an issue](https://github.com/supernemo-dbd/homebrew-cadfael/issues) if you need help here. However, all work in this case will only be on a
-best effort basis.
-
-## Formulae Fail to Install
-
-On supported platforms, installation failures may occur if you have the `PATH`
-and `LD_LIBRARY_PATH` (or `DYLD_LIBRARY_PATH` on macOS) environment variables containing
-any custom installed software other than `brew` itself. Though `brew` is quite good at building and installing
-in a pristine environment, it is best to use it within a default setup.
-
-Generally, it is `LD_LIBRARY_PATH` (or `DYLD_LIBRARY_PATH` on macOS) that cause the
-issue, so ensure these are unset.
+For images, simply follow the same procedure as documented for
+installation. For Singularity, you can either overwrite your existing
+image file or create a new one.
 
 
-# Supplied Formulae
-## Core
-Formulae from this tap are preferred over those in the `homebrew-core` tap.
-Installing the ``falaise`` formula will install the core SuperNEMO software packages
+# Extension Commands for `brew`
+The following subcommands for `brew` are available once this repository
+is tapped
 
-- Bayeux C++ Core Foundation Library
-- Falaise C++ Simulation/Reconstruction/Analysis Applications
+## `snemo-doctor`
+Runs a series of checks on the system and installation, warning if anything
+may cause issues with installing or using packages.
 
-plus their upstream dependencies:
+## `snemo-sh`
+Starts a new shell session in which the environment is configured for
+using and developing the offline software.
 
-- [Boost](http://www.boost.org)
-- [CAMP](https://github.com/tegesoft/camp)
-- [CLHEP](http://proj-clhep.web.cern.ch/proj-clhep/)
-- [Doxygen](http://www.stack.nl/~dimitri/doxygen/)
-- [GSL](http://https://www.gnu.org/software/gsl/)
-- [Geant4](http://geant4.cern.ch)
-- [Qt5](http://doc.qt.io/qt-5/)
-- [ROOT](https://root.cern.ch)
-- [XercesC](http://xerces.apache.org/xerces-c/)
+## `snemo-install-sdk`
+Installs the offline software stack from scratch into a clean Homebrew install.
+It will fail if any Formulae are already installed as it cannot guarantee a
+clean build otherwise.
 
-## Development
-Several additional Formulae are provided which are not installed by default. These are intended for
-use by Bayeux/Falaise developers to integrate new functionality or move to newer, API incompatible,
-versions of dependent packages.
+## `snemo-update`
+Updates Homebrew code and Formula definitions before upgrading any outdated
+packages to latest stable versions.
 
-- [Ponder](https://github.com/billyquith/ponder)
-  - Note: This replaces the [CAMP](https://github.com/drbenmorgan/camp.git) package
-
-## Python
-Installing Falaise will also install (via the ROOT dependency) a brewed copy of Python. This includes
-the `pip` and `setuptools` packages, so you may also install any compatible Python package from [PyPI](https://pypi.python.org/pypi) if you need this.
-
-## Other
-A wide range of packages are available through `brew`, and you can search for these via the `search` subcommand, e.g.
-
-```console
-$ brew search foo
-```
-
-If you find a package you need is not present, add a request for it in the [Issue Tracker](https://github.com/SuperNEMO-DBD/homebrew-cadfael/issues)
-
-# Note on C/C++ Standards
-Bayeux/Falaise require the C++11 standard or better (NB: C++17 compatibility is
-not yet tested or guaranteed)
-
-Installing Bayeux/Falaise will automatically install all their dependencies
-against the same standard. However, if you are installing other Formulae from
-the `homebrew-core` or other taps that use C++, you should ensure these are
-compiled against C++11 (or 14) to guarantee binary compatibility. In most
-cases, Formulae supply a `--c++11` flag to activate the standard. This
-may be checked by running
-
-```
-$ brew info <formulaname>
-```
-
-before installing. If you expect a C++ Formulae to become a core dependency of
-SuperNEMO and it does not supply a C++11/14 option, please request it be added
-to this tap by opening an Issue or Pull Request.
-
-
-# Commands
-## `brew-versions.rb`
-Cadfael-supplied implementation of the old `versions` subcommand. This
-has been removed the boneyard upstream, but we'd like to keep the
-functionality so that formula version histories can be queried. This
-is needed to reliably produce versioned snapshot releases.
-
-The command will automatically be available to `brew` once this repository
-is tapped. It is used by passing a formula name(s) to the command:
+## `snemo-formula-history`
+SuperNEMO-supplied implementation of the old `versions` subcommand.
+It is retained to help in preparing versioned snapshots.
 
 ```sh
-$ brew versions cmake
-cmake 3.2.3    2b43509 Library/Formula/cmake.rb
-cmake 3.2.2    a5392d6 Library/Formula/cmake.rb
+$ brew snemo-formula-history cmake
+cmake 3.13.3   8835fde8b77 homebrew/core Formula/cmake.rb
+cmake 3.13.2   a712c28df66 homebrew/core Formula/cmake.rb
 ...
 ```
 
 Each output line shows the formula name, version (including any revisions),
-last commit to touch the formula at this version and the Formula filepath
-(relative to `HOMEBREW_REPOSITORY`).
+last commit to touch the formula at this version, the Tap hosting the Formula,
+and the path to the Formula relative to the Tap root.
 
 A complete history of the version/commits touching the formula may be
 viewed by passing the `--all` argument. This can be useful for resolving
 potential conflicts caused by version reverts or merges from Homebrew to
 Linuxbrew as the merge commit may not show as the one where the version changed.
 
-## ``brew-cadfael-bootstrap-toolchain.rb``
-Installs needed and recommended compiler/development tools:
 
-- Linux Only
-  - GCC 4.9
-  - patchelf
-- All Platforms
-  - python
-  - cmake
-  - ninja
-  - git-flow-avh
 
-GCC is only installed if the system does not provide GCC 4.9 or better. GCC in
-this tap is supplied as a versioned formulae to allow easier future upgrades,
-and the system compiler is preferred if possible to give the
-simplest integration.
-
-This command is used instead of a formula as Homebrew doesn't directly support
-"dependency only" formulae, and we also want precise control over the
-installation order.
