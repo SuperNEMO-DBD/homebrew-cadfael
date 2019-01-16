@@ -8,6 +8,7 @@ class Xrootd < Formula
   depends_on "cmake" => :build
   depends_on "libxml2"
   depends_on "openssl"
+  depends_on "python@2"
   depends_on "readline"
 
   needs :cxx11
