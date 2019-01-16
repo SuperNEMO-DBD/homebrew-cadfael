@@ -50,8 +50,6 @@ class Gcc49 < Formula
 
   cxxstdlib_check :skip
 
-  fails_with :gcc_4_0
-
   patch do
     url "https://gist.githubusercontent.com/sjackman/34fa1081982bda781862/raw/738349d49f4f094cced7cfe287cdcdfcd7207265/52fd2e1.diff"
     sha256 "360dc5061909bae0096d86546e53eae971755661da386b403f836eb70fa335f1"
