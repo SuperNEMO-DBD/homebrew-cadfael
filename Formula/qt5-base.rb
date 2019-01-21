@@ -71,7 +71,14 @@ class Qt5Base < Formula
       args << "-R#{HOMEBREW_PREFIX}/lib"
       # If we end up depending on any keg_only Formulae, add extra
       # -R lines for each of them below here.
+
+      # Portable binaries for kernels < 3.17 cannot be created without 
+      # these flags. In particular, they are required to allow modern
+      # containers to run on older systems.
+      args << "-no-feature-renameat2"
+      args << "-no-feature-getentropy"
     end
+
     system "./configure", *args
 
     # Cannot parellize build os OSX
