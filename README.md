@@ -212,6 +212,9 @@ falaise> flsimulate --help
 ```
 
 Use `exit` to close the session and return to a standard environment.
+Whilst `snemo-sh` makes every effort to sanitize the environment, you
+may have issues if you either start it from an already complex setup,
+or if you further modify environment variables whilst in the shell.
 It's recommended to add an alias in your shell's configuration file to
 simplify starting up the shell session, for example
 
@@ -219,9 +222,9 @@ simplify starting up the shell session, for example
 alias snemo-session="$HOME/snemo-sdk/bin/brew snemo-sh"
 ```
 
-Images may be used in a similar way, the only difference being that
-we must first run the image. For Singularity, we use the [`shell` subcommand](https://www.sylabs.io/guides/2.6/user-guide/appendix.html#shell)
-to run the image, and then start the `snemo-sh` session inside this:
+Images may be used in a similar way, but starting a session is a
+two step process. For Singularity, we use the [`shell` subcommand](https://www.sylabs.io/guides/2.6/user-guide/appendix.html#shell)
+to start a bash shell in a container running the image, then start the `snemo-sh` session in this:
 
 ```
 $ singularity shell falaise.simg
@@ -237,13 +240,16 @@ Singularity falaise.simg:~> exit
 $
 ```
 
-Note the use of two `exit` command here, one to exit the `snemo-sh`
+As with native installs, be extremely careful if you have highly custom or
+complex environment settings, as these will be exported into the running
+container and may result in errors (for example, you refer to a path which does
+not exist in the image). Note the use of **two** `exit` commands here, one to exit the `snemo-sh`
 session, and one to exit the container running the image. In this sense,
 images behave much like a remote login session or virtual machine.
 Whilst the exact behaviour inside the Container will depend on how your Singularity
 install has been set up, you should at least have full read-write access to files
-on your `$HOME` and `$TMP` areas on the machine running Singularity.
-
+on your `$HOME` and `$TMP` areas on the machine running Singularity, and be able
+to start graphical programs like ROOT and `flvisualize`.
 
 You can also directly execute programs in the image using the [`exec`
 subcommand](https://www.sylabs.io/guides/2.6/user-guide/appendix.html#exec-command),
