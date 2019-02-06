@@ -20,8 +20,6 @@ class Boost < Formula
     depends_on "zlib"
   end
 
-  needs :cxx11
-
   def install
     # Reduce memory usage below 4 GB for Circle CI.
     ENV["HOMEBREW_MAKE_JOBS"] = "6" if ENV["CIRCLECI"]
