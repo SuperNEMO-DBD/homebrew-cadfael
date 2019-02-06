@@ -9,6 +9,7 @@ class Ponder < Formula
   depends_on "doxygen" => :build
 
   def install
+    ENV.cxx11
     mkdir "brew-ponder-build" do
       system "cmake", "..", *std_cmake_args
       system "make", "install"

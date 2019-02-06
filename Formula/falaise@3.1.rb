@@ -17,8 +17,6 @@ class FalaiseAT31 < Formula
   end
   # Bayeux dependency pulls in all additional deps of Falaise at present
 
-  needs :cxx11
-
   def install
     ENV.cxx11
     mkdir "falaise.build" do

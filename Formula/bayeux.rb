@@ -21,8 +21,6 @@ class Bayeux < Formula
   depends_on "supernemo-dbd/cadfael/qt5-base"
   depends_on "supernemo-dbd/cadfael/root6"
 
-  needs :cxx11
-
   def install
     ENV.cxx11
     mkdir "bayeux.build" do

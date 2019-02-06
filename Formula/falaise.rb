@@ -10,8 +10,6 @@ class Falaise < Formula
   # Bayeux dependency pulls in all additional deps of Falaise at present
   depends_on "supernemo-dbd/cadfael/bayeux"
 
-  needs :cxx11
-
   def install
     ENV.cxx11
     mkdir "falaise.build" do
