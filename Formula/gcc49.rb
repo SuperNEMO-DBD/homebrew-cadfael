@@ -157,7 +157,7 @@ class Gcc49 < Formula
       args << "--with-ecj-jar=#{Formula["ecj"].opt_share}/java/ecj.jar"
     end
 
-    if build.without?("multilib") || !MacOS.prefer_64_bit?
+    if build.without?("multilib")
       args << "--disable-multilib"
     else
       args << "--enable-multilib"
