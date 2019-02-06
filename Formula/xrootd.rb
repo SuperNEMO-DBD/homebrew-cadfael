@@ -11,8 +11,6 @@ class Xrootd < Formula
   depends_on "python@2"
   depends_on "readline"
 
-  needs :cxx11
-
   def install
     ENV.cxx11
     mkdir "build" do

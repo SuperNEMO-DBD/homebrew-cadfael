@@ -31,8 +31,6 @@ class Root6 < Formula
 
   skip_clean "bin"
 
-  needs :cxx11
-
   def install
     # Work around "error: no member named 'signbit' in the global namespace"
     ENV.delete("SDKROOT") if DevelopmentTools.clang_build_version >= 900

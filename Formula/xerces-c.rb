@@ -5,8 +5,6 @@ class XercesC < Formula
   sha256 "c98eedac4cf8a73b09366ad349cb3ef30640e7a3089d360d40a3dde93f66ecf6"
   revision 4
 
-  needs :cxx11
-
   depends_on "curl" unless OS.mac?
   depends_on "icu4c" unless OS.mac?
 

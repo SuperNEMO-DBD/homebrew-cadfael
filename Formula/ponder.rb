@@ -7,7 +7,6 @@ class Ponder < Formula
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
-  needs :cxx11
 
   def install
     mkdir "brew-ponder-build" do

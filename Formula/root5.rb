@@ -21,8 +21,6 @@ class Root5 < Formula
   depends_on "python@2" => :recommended
   depends_on "supernemo-dbd/cadfael/gsl" => :recommended
 
-  needs :cxx11
-
   def install
     # When building the head, temp patch for ROOT-8032
     if build.head? || build.devel?

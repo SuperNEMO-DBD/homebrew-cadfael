@@ -42,8 +42,6 @@ class Geant4 < Formula
   depends_on "supernemo-dbd/cadfael/clhep"
   depends_on "supernemo-dbd/cadfael/xerces-c"
 
-  needs :cxx11
-
   def install
     ENV.cxx11
     mkdir "geant4-build" do
