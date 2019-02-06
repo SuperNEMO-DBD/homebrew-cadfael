@@ -59,9 +59,7 @@ class Gcc49 < Formula
 
   # enabling multilib on a host that can't run 64-bit results in build failures
   if OS.mac?
-    option "without-multilib", "Build without multilib support" if MacOS.prefer_64_bit?
-  else
-    option "with-multilib", "Build with multilib support"
+    option "without-multilib", "Build without multilib support"
   end
 
   if OS.linux?
