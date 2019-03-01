@@ -1,0 +1,34 @@
+#!/bin/bash
+# If we need anything more advanced than a `brew update/upgrade` wrapper,
+# use Library/Homebrew/cmd/update.rb as a base and extend as
+# needed
+
+# Try and protect against users trying to source it or run directly
+if [ ! "${BASH_SOURCE[0]}" -ef "$0" ]
+then
+  echo "error: brew-snemo-update should not be sourced!" && return 1
+elif [ -z ${HOMEBREW_PREFIX+x} ] &&  [ -z ${HOMEBREW_LIBRARY_PATH+x} ] 
+then
+  echo "error: brew-snemo-update should be run as a brew subcommand!" && exit 1
+fi
+
+# Avoid autoinstall of git on older platforms
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+# 1. Get system/toolchain fingerprint
+osFingerprint=`uname -s`
+shArgs=""
+
+# 3. System specialization
+if [ $osFingerprint == "Linux" ]
+then
+  # Linux is build from source
+  export HOMEBREW_BUILD_FROM_SOURCE=1
+
+  # Toolchain is gcc-7
+  shArgs="$shArgs --cc=gcc-7"
+fi
+
+# 3. Update, then upgrade
+brew update && brew upgrade $shArgs
+

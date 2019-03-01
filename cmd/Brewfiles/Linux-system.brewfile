@@ -1,0 +1,9 @@
+tap "supernemo-dbd/cadfael", pin: true
+# Ubuntu 18 specialism for flex needed here
+brew "patchelf", args: ["cc=gcc-7", "build-from-source"]
+brew "python@2", args: ["cc=gcc-7", "build-from-source"]
+brew "cmake", args: ["cc=gcc-7", "build-from-source"]
+brew "ninja", args: ["cc=gcc-7", "build-from-source"]
+
+brew "bayeux", args: ["cc=gcc-7", "build-from-source"]
+
